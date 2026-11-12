@@ -296,6 +296,7 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       </div>
       <div class="header-actions">
         <span class="header-user" id="hu"></span>
+        <span id="role-badge" style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;color:white;display:none"></span>
         <button class="icon-btn" onclick="loadAll()" title="Atualizar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
         </button>
@@ -453,13 +454,28 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 <script>
 const API='https://raw.githubusercontent.com/marcelodidier/newbseguros-dashboard/main';
 
-// ── Credenciais (hash SHA-256) ────────────────────────────────────
+// ── Usuários e Perfis ─────────────────────────────────────────────
 const USERS = {
-  'marcelodidier27@gmail.com': '83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129',
-  'marcelo':  '83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129',
-  'nane':     '5a4b6c37f3a8e2d9c1b04e7f83a92d651e308c4f7b2a1e9d0c8f5b3a6d4e7f2a',
-  'newton':   '5a4b6c37f3a8e2d9c1b04e7f83a92d651e308c4f7b2a1e9d0c8f5b3a6d4e7f2a',
+  // Administradores
+  'marcelodidier27@gmail.com': { hash:'83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129', role:'admin',      name:'Marcelo Didier' },
+  'marcelo':                   { hash:'83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129', role:'admin',      name:'Marcelo' },
+  // Supervisores
+  'nane':                      { hash:'1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686', role:'supervisor', name:'Nane' },
+  'newton':                    { hash:'1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686', role:'supervisor', name:'Newton' },
+  // Operadores
+  'barbara':                   { hash:'1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686', role:'operador',   name:'Barbara' },
+  'joaopedro':                 { hash:'1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686', role:'operador',   name:'João Pedro' },
+  'gustavo':                   { hash:'1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686', role:'operador',   name:'Gustavo' },
 };
+
+// Permissões por nível
+const PERMS = {
+  admin:      { financeiro:true,  config:true,  whatsapp:true,  todos_resp:true,  todos_emails:true  },
+  supervisor: { financeiro:true,  config:false, whatsapp:true,  todos_resp:true,  todos_emails:true  },
+  operador:   { financeiro:false, config:false, whatsapp:false, todos_resp:false, todos_emails:false },
+};
+
+let CURRENT_USER = null; // {name, role, perms}
 
 async function sha256(str) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
@@ -476,17 +492,51 @@ async function doLogin(){
   if(!u||!p){er.textContent='Preencha email e senha';return;}
   er.textContent='';
   const hash = await sha256(p);
-  if(USERS[u] && USERS[u]===hash){
-    const name = u.includes('@') ? u.split('@')[0] : u;
-    localStorage.setItem('newb_user', name);
-    setUser(name); showApp(); loadAll();
-    setInterval(loadAll, 300000); // 5 min
+  const user = USERS[u];
+  if(user && user.hash === hash){
+    CURRENT_USER = { username: u, name: user.name, role: user.role, perms: PERMS[user.role] };
+    localStorage.setItem('newb_user', JSON.stringify(CURRENT_USER));
+    applyPermissions();
+    setUser(user.name, user.role);
+    showApp(); loadAll();
+    setInterval(loadAll, 300000);
   } else {
     er.textContent='Email ou senha inválidos';
   }
 }
-function doLogout(){localStorage.removeItem('newb_user');TK='';document.getElementById('login-screen').style.display='flex';document.getElementById('app').classList.remove('visible');}
-function setUser(u){document.getElementById('hu').textContent=u;document.getElementById('su').textContent=u;}
+
+function applyPermissions() {
+  if(!CURRENT_USER) return;
+  const p = CURRENT_USER.perms;
+  const role = CURRENT_USER.role;
+
+  // Badge de nível no header
+  const roleLabel = { admin:'Administrador', supervisor:'Supervisor', operador:'Operador' };
+  const roleColor = { admin:'var(--brand)', supervisor:'var(--success)', operador:'var(--warning)' };
+  const badge = document.getElementById('role-badge');
+  if(badge){ badge.textContent=roleLabel[role]; badge.style.background=roleColor[role]; badge.style.display='inline'; }
+
+  // WhatsApp só para admin e supervisor
+  const tabWA = document.getElementById('tab-whatsapp');
+  const snavWA = document.querySelector('.snav-item[onclick*="whatsapp"]');
+  if(!p.whatsapp){
+    if(tabWA) tabWA.style.display='none';
+    if(snavWA) snavWA.style.display='none';
+  }
+
+  // Dados financeiros (prêmio) — oculta coluna para operador
+  if(!p.financeiro){
+    document.querySelectorAll('.col-financeiro,.premio').forEach(el => el.style.display='none');
+  }
+}
+function doLogout(){localStorage.removeItem('newb_user');CURRENT_USER=null;document.getElementById('login-screen').style.display='flex';document.getElementById('app').classList.remove('visible');}
+function setUser(name, role){
+  const lbl = { admin:'👑 Admin', supervisor:'👔 Supervisor', operador:'🔧 Operador' };
+  document.getElementById('hu').textContent = name;
+  document.getElementById('su').textContent = name;
+  const badge = document.getElementById('role-badge');
+  if(badge) badge.textContent = lbl[role]||role;
+}
 function showApp(){document.getElementById('login-screen').style.display='none';document.getElementById('app').classList.add('visible');}
 
 async function ap(path){
@@ -511,9 +561,13 @@ async function loadAll(){
     ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json')
   ]);
   if(st)rStats(st);
-  if(r){_r=r.items||[];rRen(_r);rHU(_r);}
-  if(ret){_ret=ret.items||[];rRet(_ret);}
-  if(c){_c=c.items||[];rCot(_c);rHC(_c);}
+  // Operador vê só itens do próprio responsável
+  const nome = CURRENT_USER?.name;
+  const isOp = CURRENT_USER?.role === 'operador';
+  const filter = items => isOp && nome ? items.filter(i => !i.responsavel || i.responsavel.toLowerCase().includes(nome.toLowerCase())) : items;
+  if(r){_r=filter(r.items||[]);rRen(_r);rHU(_r);}
+  if(ret){_ret=filter(ret.items||[]);rRet(_ret);}
+  if(c){_c=filter(c.items||[]);rCot(_c);rHC(_c);}
   if(e){_e=e.items||[];rEmail(_e);}
   if(w){_w=w.items||[];rWA(_w);}
 }
@@ -583,7 +637,17 @@ loadAll = async function() {
 
 (async()=>{
   const saved = localStorage.getItem('newb_user');
-  if(saved){setUser(saved);showApp();loadAll();setInterval(loadAll,300000);}
+  if(saved){
+    try {
+      CURRENT_USER = JSON.parse(saved);
+      applyPermissions();
+      setUser(CURRENT_USER.name, CURRENT_USER.role);
+      showApp(); loadAll();
+      setInterval(loadAll, 300000);
+    } catch(e) {
+      localStorage.removeItem('newb_user');
+    }
+  }
 })();
 </script>
 </body>
