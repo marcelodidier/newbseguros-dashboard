@@ -505,8 +505,6 @@ function go(name,btn){
   if(btn?.classList.contains('snav-item'))btn.classList.add('active');
 }
 
-async function ap(path){try{const r=await fetch(API+path,{headers:{authorization:'Bearer '+TK}});return r.ok?r.json():null;}catch{return null;}}
-
 async function loadAll(){
   const[st,r,ret,c,e,w]=await Promise.all([
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
