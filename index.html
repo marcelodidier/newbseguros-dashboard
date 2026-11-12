@@ -224,26 +224,47 @@ body{font-family:'Alexandria',system-ui,sans-serif;background:var(--surface-2);c
 </div>
 
 <script>
-const API='https://establishing-pale-syracuse-televisions.trycloudflare.com/api';
+const API='https://raw.githubusercontent.com/marcelodidier/newbseguros-dashboard/main';
+
+// ── Credenciais (hash SHA-256) ────────────────────────────────────
+const USERS = {
+  'marcelodidier27@gmail.com': '83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129',
+  'marcelo':  '83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129',
+  'nane':     '5a4b6c37f3a8e2d9c1b04e7f83a92d651e308c4f7b2a1e9d0c8f5b3a6d4e7f2a',
+  'newton':   '5a4b6c37f3a8e2d9c1b04e7f83a92d651e308c4f7b2a1e9d0c8f5b3a6d4e7f2a',
+};
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
 let TK=localStorage.getItem('newb_token')||'';
 let _r=[],_ret=[],_c=[],_e=[],_w=[];
 const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp'};
 
 async function doLogin(){
-  const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value,er=document.getElementById('lerr');
-  if(!u||!p){er.textContent='Preencha usuário e senha';return;}
+  const u=document.getElementById('lu').value.trim().toLowerCase(),
+        p=document.getElementById('lp').value,
+        er=document.getElementById('lerr');
+  if(!u||!p){er.textContent='Preencha email e senha';return;}
   er.textContent='';
-  try{
-    const r=await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
-    const d=await r.json();
-    if(!r.ok){er.textContent=d.detail||'Usuário ou senha inválidos';return;}
-    TK=d.token;localStorage.setItem('newb_token',TK);
-    setUser(d.user);showApp();loadAll();
-  }catch{er.textContent='Erro de conexão';}
+  const hash = await sha256(p);
+  if(USERS[u] && USERS[u]===hash){
+    const name = u.includes('@') ? u.split('@')[0] : u;
+    localStorage.setItem('newb_user', name);
+    setUser(name); showApp(); loadAll();
+    setInterval(loadAll, 300000); // 5 min
+  } else {
+    er.textContent='Email ou senha inválidos';
+  }
 }
-function doLogout(){localStorage.removeItem('newb_token');TK='';document.getElementById('login-screen').style.display='flex';document.getElementById('app').classList.remove('visible');}
+function doLogout(){localStorage.removeItem('newb_user');TK='';document.getElementById('login-screen').style.display='flex';document.getElementById('app').classList.remove('visible');}
 function setUser(u){document.getElementById('hu').textContent=u;document.getElementById('su').textContent=u;}
 function showApp(){document.getElementById('login-screen').style.display='none';document.getElementById('app').classList.add('visible');}
+
+async function ap(path){
+  try{const r=await fetch(`${API}/${path}?_=${Date.now()}`);return r.ok?r.json():null;}catch{return null;}
+}
 
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin();});
 
@@ -260,13 +281,16 @@ function go(name,btn){
 async function ap(path){try{const r=await fetch(API+path,{headers:{authorization:'Bearer '+TK}});return r.ok?r.json():null;}catch{return null;}}
 
 async function loadAll(){
-  const[st,r,ret,c,e,w]=await Promise.all([ap('/stats'),ap('/renovacoes?limit=50'),ap('/retomadas?limit=50'),ap('/cotacoes?limit=50'),ap('/emails/log?limit=100&today_only=true'),ap('/whatsapp/log?limit=100')]);
+  const[st,r,ret,c,e,w]=await Promise.all([
+    ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
+    ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json')
+  ]);
   if(st)rStats(st);
-  if(r){_r=r.items;rRen(_r);rHU(_r);}
-  if(ret){_ret=ret.items;rRet(_ret);}
-  if(c){_c=c.items;rCot(_c);rHC(_c);}
-  if(e){_e=e.items;rEmail(_e);}
-  if(w){_w=w.items;rWA(_w);}
+  if(r){_r=r.items||[];rRen(_r);rHU(_r);}
+  if(ret){_ret=ret.items||[];rRet(_ret);}
+  if(c){_c=c.items||[];rCot(_c);rHC(_c);}
+  if(e){_e=e.items||[];rEmail(_e);}
+  if(w){_w=w.items||[];rWA(_w);}
 }
 
 function rStats(s){
@@ -324,12 +348,8 @@ function emp(m){return`<div class="empty"><div class="empty-icon">📭</div><p>$
 function chip(c){if(!c)return;c.closest('.filter-row')?.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');}
 
 (async()=>{
-  if(!TK){return;}
-  try{
-    const r=await fetch(`${API}/auth/me`,{headers:{authorization:'Bearer '+TK}});
-    if(r.ok){const d=await r.json();setUser(d.user);showApp();loadAll();setInterval(loadAll,60000);}
-    else{TK='';localStorage.removeItem('newb_token');}
-  }catch{}
+  const saved = localStorage.getItem('newb_user');
+  if(saved){setUser(saved);showApp();loadAll();setInterval(loadAll,300000);}
 })();
 </script>
 </body>
