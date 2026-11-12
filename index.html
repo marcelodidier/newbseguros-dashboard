@@ -553,7 +553,9 @@ async function doLogin(){
     localStorage.setItem('newb_user', JSON.stringify(CURRENT_USER));
     applyPermissions();
     setUser(user.name, user.role);
-    showApp(); loadAll();
+    showApp();
+    await loadUsers();
+    loadAll();
     setInterval(loadAll, 300000);
   } else {
     er.textContent='Email ou senha inválidos';
@@ -612,6 +614,8 @@ function go(name,btn){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name)?.classList.add('active');
   if(btn?.classList.contains('snav-item'))btn.classList.add('active');
+  // Inicialização por página
+  if(name==='usuarios') renderUserList();
 }
 
 async function loadAll(){
