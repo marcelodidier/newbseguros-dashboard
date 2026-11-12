@@ -214,6 +214,14 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
   .app-main{flex:1;overflow-y:auto;padding-bottom:20px}
   .app-header .header-sub,.app-header .header-user{display:block}
   .stats-grid{grid-template-columns:repeat(4,1fr)}
+
+  /* ── DATA TABLES (desktop only) ── */
+  .data-table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:12px;overflow:hidden;box-shadow:var(--sh-sm)}
+  .data-table th{padding:10px 16px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;background:var(--surface-2);border-bottom:1px solid var(--border);white-space:nowrap}
+  .data-table td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+  .data-table tr:last-child td{border-bottom:none}
+  .data-table tr:hover td{background:var(--surface-2)}
+  .data-table .item-actions{display:flex;gap:6px;white-space:nowrap}
 }
 </style>
 </head>
@@ -277,6 +285,11 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       </button>
     </nav>
     <div class="sidebar-footer">
+      <!-- Usuários — só admin vê -->
+      <button class="snav-item admin-only" onclick="go('usuarios',this)" id="snav-usuarios" style="margin-bottom:8px;width:100%">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="snav-label">Usuários</span>
+      </button>
       <div class="sf-user"><span id="su">—</span></div>
       <button class="sidebar-logout" onclick="doLogout()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -411,6 +424,48 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <div id="lw"></div>
       </div>
 
+      <!-- USUÁRIOS (admin only) -->
+      <div class="page" id="page-usuarios">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 style="font-size:16px;font-weight:700">👥 Gestão de Usuários</h2>
+          <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ Adicionar</button>
+        </div>
+        <div id="user-list"></div>
+      </div>
+
+      <!-- MODAL USUÁRIO -->
+      <div id="user-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px">
+        <div style="background:white;border-radius:16px;padding:28px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:20px" id="modal-title">Novo Usuário</h3>
+          <input type="hidden" id="u-idx" value="-1">
+          <div style="margin-bottom:14px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Nome completo</label>
+            <input id="u-name" type="text" placeholder="Ex: Maria Santos" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+          </div>
+          <div style="margin-bottom:14px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Usuário / Email</label>
+            <input id="u-username" type="text" placeholder="Ex: maria ou maria@empresa.com" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+          </div>
+          <div style="margin-bottom:14px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Senha <span id="pwd-hint" style="font-weight:400;text-transform:none">(deixe em branco para manter)</span></label>
+            <input id="u-pwd" type="password" placeholder="••••••••" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Nível de acesso</label>
+            <select id="u-role" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none;background:white">
+              <option value="admin">👑 Administrador</option>
+              <option value="supervisor">👔 Supervisor</option>
+              <option value="operador">🔧 Operador</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-ghost" style="flex:1" onclick="closeUserModal()">Cancelar</button>
+            <button class="btn btn-primary" style="flex:1" onclick="saveUser()">Salvar</button>
+          </div>
+          <div id="modal-err" style="color:var(--danger);font-size:12px;text-align:center;margin-top:10px"></div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -514,6 +569,10 @@ function applyPermissions() {
   const roleLabel = { admin:'Administrador', supervisor:'Supervisor', operador:'Operador' };
   const roleColor = { admin:'var(--brand)', supervisor:'var(--success)', operador:'var(--warning)' };
   const badge = document.getElementById('role-badge');
+  // Menu Usuários: só admin
+  const snUsr = document.getElementById('snav-usuarios');
+  if(snUsr) snUsr.style.display = (role === 'admin') ? 'flex' : 'none';
+
   if(badge){ badge.textContent=roleLabel[role]; badge.style.background=roleColor[role]; badge.style.display='inline'; }
 
   // WhatsApp só para admin e supervisor
@@ -583,13 +642,21 @@ function rStats(s){
 function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 function bdg(si,mi,v){const s=document.getElementById(si),m=document.getElementById(mi);if(s)s.textContent=v||'—';if(m){m.textContent=v;m.style.display=v>0?'block':'none';}}
 
+function isMobile(){ return window.innerWidth < 768; }
+
 function renCard(r){
   const dot=r.urgencia==='urgente'?'red':r.urgencia==='breve'?'yellow':'green';
   const bg=r.urgencia==='urgente'?'<span class="badge badge-danger">Urgente</span>':r.urgencia==='breve'?'<span class="badge badge-warning">Em breve</span>':'<span class="badge badge-success">Em dia</span>';
   const v=r.premio_anual?`R$ ${r.premio_anual.toLocaleString('pt-BR')}`:'—';
   return`<div class="item-card"><div class="item-card-top"><div class="priority-dot ${dot}"></div><div style="flex:1"><div class="item-name">${r.cliente_nome}</div><div class="item-meta">${r.tipo_seguro} · ${r.seguradora||'—'}</div><div class="item-meta" style="margin-top:4px">📅 ${r.vencimento} · ${v}</div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${r.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary">Contatar</button></div></div></div>`;
 }
-function rRen(d){document.getElementById('lr').innerHTML=d.length?d.map(renCard).join(''):emp('Nenhuma renovação');}
+function rRen(d){
+  if(isMobile()){
+    document.getElementById('lr').innerHTML=d.length?d.map(renCard).join(''):emp('Nenhuma renovação');
+  } else {
+    document.getElementById('lr').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Cliente</th><th>Seguro</th><th>Seguradora</th><th>Vencimento</th><th class="col-financeiro premio">Prêmio</th><th>Status</th><th>Ações</th></tr></thead><tbody>${d.map(renRow).join('')}</tbody></table>`:emp('Nenhuma renovação');
+  }
+}
 function rHU(d){document.getElementById('hu-list').innerHTML=d.filter(r=>r.urgencia==='urgente').slice(0,3).map(renCard).join('')||emp('Nenhuma urgência');}
 function fRen(v,c){chip(c);rRen(v==='all'?_r:_r.filter(r=>r.urgencia===v));}
 
@@ -597,7 +664,13 @@ function retCard(r){
   const bg={em_contato:'<span class="badge badge-info">Em contato</span>',sem_contato:'<span class="badge badge-warning">Sem resposta</span>',perdido:'<span class="badge badge-danger">Perdido</span>',recuperado:'<span class="badge badge-success">Recuperado</span>'}[r.status]||r.status;
   return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name">${r.cliente_nome}</div><div class="item-meta">${r.ultimo_seguro||'—'} · ${(r.motivo_saida||'—').replace(/_/g,' ')}</div><div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="progress"><div class="progress-fill" style="width:${r.probabilidade||0}%"></div></div><span style="font-size:12px;font-weight:700;color:var(--brand)">${r.probabilidade||0}%</span></div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${r.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost">Histórico</button><button class="btn btn-sm btn-primary">Retomar</button></div></div></div>`;
 }
-function rRet(d){document.getElementById('lret').innerHTML=d.length?d.map(retCard).join(''):emp('Nenhuma retomada');}
+function rRet(d){
+  if(isMobile()){
+    document.getElementById('lret').innerHTML=d.length?d.map(retCard).join(''):emp('Nenhuma retomada');
+  } else {
+    document.getElementById('lret').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Cliente</th><th>Último Seguro</th><th>Motivo</th><th>Probabilidade</th><th>Status</th><th>Ações</th></tr></thead><tbody>${d.map(retRow).join('')}</tbody></table>`:emp('Nenhuma retomada');
+  }
+}
 function fRet(v,c){chip(c);rRet(v==='all'?_ret:_ret.filter(r=>r.status===v));}
 
 function cotCard(c){
@@ -605,7 +678,13 @@ function cotCard(c){
   const v=c.valor_estimado?`~R$ ${c.valor_estimado.toLocaleString('pt-BR')}`:'—';
   return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name">${c.cliente_nome}</div><div class="item-meta">${c.tipo_seguro} · ${c.canal||'—'} · ${v}</div><div class="item-meta" style="margin-top:2px">📅 ${(c.criado_em||'').split(' ')[0]||'—'}</div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${c.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary" onclick="startC(${c.id})">Iniciar</button></div></div></div>`;
 }
-function rCot(d){document.getElementById('lc').innerHTML=d.length?d.map(cotCard).join(''):emp('Nenhuma cotação');}
+function rCot(d){
+  if(isMobile()){
+    document.getElementById('lc').innerHTML=d.length?d.map(cotCard).join(''):emp('Nenhuma cotação');
+  } else {
+    document.getElementById('lc').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Cliente</th><th>Tipo</th><th>Canal</th><th class="col-financeiro">Valor Est.</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody>${d.map(cotRow).join('')}</tbody></table>`:emp('Nenhuma cotação');
+  }
+}
 function rHC(d){document.getElementById('hc-list').innerHTML=d.filter(c=>c.status==='aguardando').slice(0,3).map(cotCard).join('')||emp('Sem cotações aguardando');}
 function fCot(v,c){chip(c);rCot(v==='all'?_c:_c.filter(c=>c.status===v));}
 async function startC(id){await fetch(`${API}/cotacoes/${id}?status=em_cotacao`,{method:'PATCH',headers:{authorization:'Bearer '+TK}});loadAll();}
@@ -616,11 +695,49 @@ function emailCard(e){
   const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';
   return`<div class="item-card"><div class="item-card-top"><div class="priority-dot ${dot}"></div><div style="flex:1"><div class="item-name" style="font-size:13px">${e.subject||'(sem assunto)'}</div><div class="item-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${tg}</div></div></div></div>`;
 }
-function rEmail(d){document.getElementById('le').innerHTML=d.length?d.map(emailCard).join(''):emp('Nenhum email registrado hoje');}
+function rEmail(d){
+  if(isMobile()){
+    document.getElementById('le').innerHTML=d.length?d.map(emailCard).join(''):emp('Nenhum email registrado hoje');
+  } else {
+    document.getElementById('le').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Assunto</th><th>De</th><th>Conta</th><th>Tags</th></tr></thead><tbody>${d.map(emailRow).join('')}</tbody></table>`:emp('Nenhum email registrado hoje');
+  }
+}
 function sEmail(q){if(!q){rEmail(_e);return;}const lo=q.toLowerCase();rEmail(_e.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)));}
 
 function waCard(m){return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name" style="font-size:13px">${m.sender_name||m.sender_num||'—'}</div><div class="item-meta">📱 ${m.bridge_name} · ${m.is_group?'Grupo':'DM'}</div><div class="item-meta" style="margin-top:4px;font-style:italic">"${(m.body||'').substring(0,80)}"</div></div></div></div>`;}
-function rWA(d){document.getElementById('lw').innerHTML=d.length?d.map(waCard).join(''):emp('Nenhuma mensagem registrada');}
+
+// ── Desktop table-row helpers ──────────────────────────────────────
+function renRow(r){
+  const dot=r.urgencia==='urgente'?'red':r.urgencia==='breve'?'yellow':'green';
+  const bg=r.urgencia==='urgente'?'<span class="badge badge-danger">Urgente</span>':r.urgencia==='breve'?'<span class="badge badge-warning">Em breve</span>':'<span class="badge badge-success">Em dia</span>';
+  const v=r.premio_anual?`R$ ${r.premio_anual.toLocaleString('pt-BR')}`:'—';
+  return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div><strong>${r.cliente_nome}</strong></div></td><td>${r.tipo_seguro}</td><td>${r.seguradora||'—'}</td><td>${r.vencimento}</td><td class="col-financeiro premio">${v}</td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary">Contatar</button></div></td></tr>`;
+}
+function retRow(r){
+  const bg={em_contato:'<span class="badge badge-info">Em contato</span>',sem_contato:'<span class="badge badge-warning">Sem resposta</span>',perdido:'<span class="badge badge-danger">Perdido</span>',recuperado:'<span class="badge badge-success">Recuperado</span>'}[r.status]||r.status;
+  return`<tr><td><strong>${r.cliente_nome}</strong></td><td>${r.ultimo_seguro||'—'}</td><td>${(r.motivo_saida||'—').replace(/_/g,' ')}</td><td><div style="display:flex;align-items:center;gap:8px;min-width:120px"><div class="progress"><div class="progress-fill" style="width:${r.probabilidade||0}%"></div></div><span style="font-size:12px;font-weight:700;color:var(--brand)">${r.probabilidade||0}%</span></div></td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost">Histórico</button><button class="btn btn-sm btn-primary">Retomar</button></div></td></tr>`;
+}
+function cotRow(c){
+  const bg={aguardando:'<span class="badge badge-warning">Aguardando</span>',em_cotacao:'<span class="badge badge-info">Em cotação</span>',proposta_enviada:'<span class="badge badge-info">Proposta enviada</span>',fechado:'<span class="badge badge-success">Fechado ✓</span>',perdido:'<span class="badge badge-danger">Perdido</span>'}[c.status]||c.status;
+  const v=c.valor_estimado?`~R$ ${c.valor_estimado.toLocaleString('pt-BR')}`:'—';
+  return`<tr><td><strong>${c.cliente_nome}</strong></td><td>${c.tipo_seguro}</td><td>${c.canal||'—'}</td><td class="col-financeiro">${v}</td><td>${(c.criado_em||'').split(' ')[0]||'—'}</td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary" onclick="startC(${c.id})">Iniciar</button></div></td></tr>`;
+}
+function emailRow(e){
+  const tags=JSON.parse(e.tags||'[]');
+  const tg=tags.slice(0,2).map(t=>`<span class="badge badge-neutral">${t}</span>`).join(' ');
+  const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';
+  return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div>${e.subject||'(sem assunto)'}</div></td><td>${e.from_name||e.from_addr||'—'}</td><td>${e.display||e.account}</td><td>${tg||'—'}</td></tr>`;
+}
+function waRow(m){
+  return`<tr><td><strong>${m.sender_name||m.sender_num||'—'}</strong></td><td>${m.bridge_name}</td><td>${m.is_group?'Grupo':'DM'}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><em>${(m.body||'').substring(0,80)}</em></td></tr>`;
+}
+function rWA(d){
+  if(isMobile()){
+    document.getElementById('lw').innerHTML=d.length?d.map(waCard).join(''):emp('Nenhuma mensagem registrada');
+  } else {
+    document.getElementById('lw').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Contato</th><th>Bridge</th><th>Tipo</th><th>Mensagem</th></tr></thead><tbody>${d.map(waRow).join('')}</tbody></table>`:emp('Nenhuma mensagem registrada');
+  }
+}
 function fWA(v,c){chip(c);rWA(v==='all'?_w:_w.filter(m=>m.bridge_name===v));}
 
 function emp(m){return`<div class="empty"><div class="empty-icon">📭</div><p>${m}</p></div>`;}
@@ -635,6 +752,136 @@ loadAll = async function() {
   if(bar){ bar.className = 'done'; setTimeout(()=>{ bar.className=''; }, 600); }
 };
 
+// ── Gestão de Usuários ────────────────────────────────────────────
+let _users = [];
+const GH_REPO = 'marcelodidier/newbseguros-dashboard';
+const GH_FILE = 'data/users.json';
+
+async function loadUsers() {
+  const d = await ap('data/users.json');
+  if(d && d.users) {
+    _users = d.users;
+    // Recria USERS dinâmico para login
+    _users.forEach(u => { USERS[u.username] = { hash: u.hash, role: u.role, name: u.name }; });
+  }
+  if(document.getElementById('page-usuarios').classList.contains('active')) renderUserList();
+}
+
+function renderUserList() {
+  const roleLbl = { admin:'👑 Admin', supervisor:'👔 Supervisor', operador:'🔧 Operador' };
+  const roleColor = { admin:'var(--brand)', supervisor:'var(--success)', operador:'var(--warning)' };
+  const html = _users.map((u,i) => `
+    <div style="background:white;border-radius:12px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--sh-sm);display:flex;align-items:center;gap:12px">
+      <div style="width:38px;height:38px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--brand);font-size:14px;flex-shrink:0">
+        ${(u.name||u.username).charAt(0).toUpperCase()}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:14px">${u.name||u.username}</div>
+        <div style="font-size:12px;color:var(--muted)">${u.username}</div>
+      </div>
+      <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;color:white;background:${roleColor[u.role]};white-space:nowrap">${roleLbl[u.role]||u.role}</span>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-ghost btn-sm" onclick="editUser(${i})">✏️</button>
+        ${u.username !== CURRENT_USER?.username ? `<button class="btn btn-ghost btn-sm" onclick="deleteUser(${i})" style="color:var(--danger)">🗑️</button>` : ''}
+      </div>
+    </div>`).join('') || '<div class="empty"><div class="empty-icon">👥</div><p>Nenhum usuário</p></div>';
+  document.getElementById('user-list').innerHTML = html;
+}
+
+function openUserModal(editIdx = -1) {
+  document.getElementById('u-idx').value = editIdx;
+  document.getElementById('modal-title').textContent = editIdx >= 0 ? 'Editar Usuário' : 'Novo Usuário';
+  document.getElementById('pwd-hint').style.display = editIdx >= 0 ? 'inline' : 'none';
+  document.getElementById('modal-err').textContent = '';
+  if(editIdx >= 0) {
+    const u = _users[editIdx];
+    document.getElementById('u-name').value = u.name || '';
+    document.getElementById('u-username').value = u.username || '';
+    document.getElementById('u-role').value = u.role || 'operador';
+    document.getElementById('u-pwd').value = '';
+  } else {
+    document.getElementById('u-name').value = '';
+    document.getElementById('u-username').value = '';
+    document.getElementById('u-role').value = 'operador';
+    document.getElementById('u-pwd').value = '';
+  }
+  document.getElementById('user-modal').style.display = 'flex';
+}
+
+function editUser(i) { openUserModal(i); }
+
+function closeUserModal() { document.getElementById('user-modal').style.display = 'none'; }
+
+async function saveUser() {
+  const idx   = parseInt(document.getElementById('u-idx').value);
+  const name  = document.getElementById('u-name').value.trim();
+  const uname = document.getElementById('u-username').value.trim().toLowerCase();
+  const pwd   = document.getElementById('u-pwd').value;
+  const role  = document.getElementById('u-role').value;
+  const err   = document.getElementById('modal-err');
+
+  if(!name || !uname) { err.textContent = 'Nome e usuário são obrigatórios'; return; }
+  if(idx < 0 && !pwd) { err.textContent = 'Senha obrigatória para novo usuário'; return; }
+
+  err.textContent = 'Salvando...';
+
+  let hash = idx >= 0 ? _users[idx].hash : '';
+  if(pwd) hash = await sha256(pwd);
+
+  const user = { username: uname, hash, role, name };
+
+  if(idx >= 0) {
+    _users[idx] = user;
+  } else {
+    if(_users.find(u => u.username === uname)) { err.textContent = 'Usuário já existe'; return; }
+    _users.push(user);
+  }
+
+  const ok = await saveUsersToGitHub();
+  if(ok) {
+    USERS[uname] = { hash, role, name };
+    closeUserModal();
+    renderUserList();
+  } else {
+    err.textContent = 'Erro ao salvar — verifique a conexão';
+  }
+}
+
+async function deleteUser(i) {
+  if(!confirm(`Remover ${_users[i].name}?`)) return;
+  _users.splice(i, 1);
+  const ok = await saveUsersToGitHub();
+  if(ok) renderUserList();
+}
+
+async function saveUsersToGitHub() {
+  // Token armazenado em sessionStorage (admin define uma vez)
+  let token = sessionStorage.getItem('gh_token');
+  if(!token) {
+    token = prompt('Token GitHub (para salvar usuários):\nObtém em github.com/settings/tokens');
+    if(!token) return false;
+    sessionStorage.setItem('gh_token', token);
+  }
+  try {
+    const content = JSON.stringify({ users: _users }, null, 2);
+    // Busca SHA atual
+    const getR = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    const getD = await getR.json();
+    const sha = getD.sha || '';
+    // Faz commit
+    const putR = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
+      body: JSON.stringify({ message: 'feat: atualiza usuários via dashboard', content: btoa(unescape(encodeURIComponent(content))), sha })
+    });
+    return putR.ok;
+  } catch { return false; }
+}
+
+// ── Fin Gestão de Usuários ────────────────────────────────────────
+
 (async()=>{
   const saved = localStorage.getItem('newb_user');
   if(saved){
@@ -642,7 +889,9 @@ loadAll = async function() {
       CURRENT_USER = JSON.parse(saved);
       applyPermissions();
       setUser(CURRENT_USER.name, CURRENT_USER.role);
-      showApp(); loadAll();
+      showApp();
+      await loadUsers(); // carrega users.json e atualiza lista
+      loadAll();
       setInterval(loadAll, 300000);
     } catch(e) {
       localStorage.removeItem('newb_user');
