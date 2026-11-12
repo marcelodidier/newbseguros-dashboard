@@ -1,5 +1,5 @@
 {
-  "atualizado": "12/11/2026 10:35",
+  "atualizado": "12/11/2026 10:38",
   "cotacoes": {
     "total": 25,
     "aguardando": 23,
@@ -7,9 +7,9 @@
     "fechado": 0
   },
   "renovacoes": {
-    "total": 0,
-    "urgente": 0,
-    "breve": 0
+    "total": 64,
+    "urgente": 46,
+    "breve": 6
   },
   "retomadas": {
     "total": 0,
