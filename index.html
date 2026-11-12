@@ -757,15 +757,15 @@ loadAll = async function() {
 };
 
 // ── Gestão de Usuários ────────────────────────────────────────────
-let _users = [];
 const GH_REPO = 'marcelodidier/newbseguros-dashboard';
 const GH_FILE = 'data/users.json';
+const API_BASE = 'https://folks-inches-entering-harry.trycloudflare.com/api';
 
 async function loadUsers() {
-  const d = await ap('data/users.json');
+  const d = await fetch(`${API_BASE}/users?_=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null)
+            || await ap('data/users.json');
   if(d && d.users) {
     _users = d.users;
-    // Recria USERS dinâmico para login
     _users.forEach(u => { USERS[u.username] = { hash: u.hash, role: u.role, name: u.name }; });
   }
   if(document.getElementById('page-usuarios').classList.contains('active')) renderUserList();
@@ -858,29 +858,16 @@ async function deleteUser(i) {
   if(ok) renderUserList();
 }
 
+let _users = [];
+
 async function saveUsersToGitHub() {
-  // Token armazenado em sessionStorage (admin define uma vez)
-  let token = sessionStorage.getItem('gh_token');
-  if(!token) {
-    token = prompt('Token GitHub (para salvar usuários):\nObtém em github.com/settings/tokens');
-    if(!token) return false;
-    sessionStorage.setItem('gh_token', token);
-  }
   try {
-    const content = JSON.stringify({ users: _users }, null, 2);
-    // Busca SHA atual
-    const getR = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
+    const r = await fetch(`${API_BASE}/users`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({users: _users})
     });
-    const getD = await getR.json();
-    const sha = getD.sha || '';
-    // Faz commit
-    const putR = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
-      method: 'PUT',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
-      body: JSON.stringify({ message: 'feat: atualiza usuários via dashboard', content: btoa(unescape(encodeURIComponent(content))), sha })
-    });
-    return putR.ok;
+    return r.ok;
   } catch { return false; }
 }
 
