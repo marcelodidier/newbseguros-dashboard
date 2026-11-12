@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "username": "marcelodidier27@gmail.com",
+      "hash": "83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129",
+      "role": "admin",
+      "name": "Marcelo Didier",
+      "email": "marcelodidier27@gmail.com"
+    },
+    {
+      "username": "marcelo",
+      "hash": "83e82538525b12d2721722016c6f2e4212a18520cfe60c789bcb43f1628b5129",
+      "role": "admin",
+      "name": "Marcelo",
+      "email": ""
+    },
+    {
+      "username": "barbara",
+      "hash": "1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686",
+      "role": "admin",
+      "name": "Barbara",
+      "email": "barbara@newbseguros.com.br"
+    },
+    {
+      "username": "nane",
+      "hash": "1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686",
+      "role": "supervisor",
+      "name": "Nane",
+      "email": "nane@newbseguros.com.br"
+    },
+    {
+      "username": "newton",
+      "hash": "1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686",
+      "role": "supervisor",
+      "name": "Newton",
+      "email": "newton@newbseguros.com.br"
+    },
+    {
+      "username": "joaopedro",
+      "hash": "1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686",
+      "role": "operador",
+      "name": "João Pedro",
+      "email": "suporte1@newbseguros.com.br"
+    },
+    {
+      "username": "gustavo",
+      "hash": "1b68e1ce00d747b4a558459dde1ef38dc57a32a18afedf9124b4882824b55686",
+      "role": "operador",
+      "name": "Gustavo",
+      "email": "suporte2@newbseguros.com.br"
+    }
+  ]
+}
