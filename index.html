@@ -223,6 +223,16 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
   .data-table tr:hover td{background:var(--surface-2)}
   .data-table .item-actions{display:flex;gap:6px;white-space:nowrap}
 }
+
+/* ── EMAIL LIST ── */
+.email-list{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh-sm);overflow:hidden}
+.email-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border-2);cursor:pointer;transition:background var(--ease)}
+.email-row:last-child{border-bottom:none}
+.email-row:hover{background:var(--surface-2)}
+.er-main{flex:1;min-width:0}
+.er-subject{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.er-meta{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.er-tags{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:130px}
 </style>
 </head>
 <body>
@@ -693,18 +703,14 @@ function rHC(d){document.getElementById('hc-list').innerHTML=d.filter(c=>c.statu
 function fCot(v,c){chip(c);rCot(v==='all'?_c:_c.filter(c=>c.status===v));}
 async function startC(id){await fetch(`${API}/cotacoes/${id}?status=em_cotacao`,{method:'PATCH',headers:{authorization:'Bearer '+TK}});loadAll();}
 
-function emailCard(e){
+function emailListRow(e){
   const tags=JSON.parse(e.tags||'[]');
-  const tg=tags.slice(0,2).map(t=>`<span class="badge badge-neutral">${t}</span>`).join(' ');
+  const tg=tags.slice(0,2).map(t=>`<span class="badge badge-neutral">${t}</span>`).join('');
   const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';
-  return`<div class="item-card"><div class="item-card-top"><div class="priority-dot ${dot}"></div><div style="flex:1"><div class="item-name" style="font-size:13px">${e.subject||'(sem assunto)'}</div><div class="item-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${tg}</div></div></div></div>`;
+  return`<div class="email-row"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div></div>`;
 }
 function rEmail(d){
-  if(isMobile()){
-    document.getElementById('le').innerHTML=d.length?d.map(emailCard).join(''):emp('Nenhum email registrado hoje');
-  } else {
-    document.getElementById('le').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Assunto</th><th>De</th><th>Conta</th><th>Tags</th></tr></thead><tbody>${d.map(emailRow).join('')}</tbody></table>`:emp('Nenhum email registrado hoje');
-  }
+  document.getElementById('le').innerHTML=d.length?`<div class="email-list">${d.map(emailListRow).join('')}</div>`:emp('Nenhum email registrado hoje');
 }
 function sEmail(q){if(!q){rEmail(_e);return;}const lo=q.toLowerCase();rEmail(_e.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)));}
 
