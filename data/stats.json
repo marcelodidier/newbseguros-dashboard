@@ -1,19 +1,19 @@
 {
-  "atualizado": "12/11/2026 00:21",
+  "atualizado": "12/11/2026 10:35",
   "cotacoes": {
-    "total": 6,
-    "aguardando": 3,
+    "total": 25,
+    "aguardando": 23,
     "em_cotacao": 2,
     "fechado": 0
   },
   "renovacoes": {
-    "total": 5,
-    "urgente": 2,
-    "breve": 2
+    "total": 0,
+    "urgente": 0,
+    "breve": 0
   },
   "retomadas": {
-    "total": 3,
-    "em_contato": 2
+    "total": 0,
+    "em_contato": 0
   },
   "emails": {
     "hoje": 0
