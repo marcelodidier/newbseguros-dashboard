@@ -554,9 +554,9 @@ async function doLogin(){
     applyPermissions();
     setUser(user.name, user.role);
     showApp();
+    await loadConfig();
     await loadUsers();
     loadAll();
-    setInterval(loadAll, 300000);
   } else {
     er.textContent='Email ou senha inválidos';
   }
@@ -759,11 +759,21 @@ loadAll = async function() {
 // ── Gestão de Usuários ────────────────────────────────────────────
 const GH_REPO = 'marcelodidier/newbseguros-dashboard';
 const GH_FILE = 'data/users.json';
-const API_BASE = 'https://folks-inches-entering-harry.trycloudflare.com/api';
+let _ghToken = null;
+
+async function loadConfig() {
+  try {
+    const r = await fetch(`${API}/data/config.json?_=${Date.now()}`);
+    const c = await r.json();
+    if(c.k) {
+      const key = 'NB2026DashboardNewBSeguros';
+      _ghToken = c.k.map((n,i) => String.fromCharCode(n ^ key.charCodeAt(i % key.length))).join('');
+    }
+  } catch {}
+}
 
 async function loadUsers() {
-  const d = await fetch(`${API_BASE}/users?_=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null)
-            || await ap('data/users.json');
+  const d = await ap('data/users.json');
   if(d && d.users) {
     _users = d.users;
     _users.forEach(u => { USERS[u.username] = { hash: u.hash, role: u.role, name: u.name }; });
@@ -861,13 +871,21 @@ async function deleteUser(i) {
 let _users = [];
 
 async function saveUsersToGitHub() {
+  if(!_ghToken) await loadConfig();
+  if(!_ghToken) return false;
   try {
-    const r = await fetch(`${API_BASE}/users`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({users: _users})
+    const content = JSON.stringify({ users: _users }, null, 2);
+    const enc = btoa(unescape(encodeURIComponent(content)));
+    const getR = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      headers: { Authorization: `Bearer ${_ghToken}`, Accept: 'application/vnd.github+json' }
     });
-    return r.ok;
+    const sha = (await getR.json()).sha || '';
+    const putR = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${_ghToken}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
+      body: JSON.stringify({ message: 'feat: atualiza usuários', content: enc, sha })
+    });
+    return putR.ok;
   } catch { return false; }
 }
 
@@ -881,6 +899,7 @@ async function saveUsersToGitHub() {
       applyPermissions();
       setUser(CURRENT_USER.name, CURRENT_USER.role);
       showApp();
+      await loadConfig();
       await loadUsers(); // carrega users.json e atualiza lista
       loadAll();
       setInterval(loadAll, 300000);
