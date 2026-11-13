@@ -267,6 +267,16 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .pag-size-btn.active{background:var(--brand-light);border-color:rgba(128,115,255,.4);color:var(--brand)}
 /* Date col in email row */
 .er-date{font-size:11px;color:var(--muted-2);white-space:nowrap;flex-shrink:0;text-align:right;min-width:50px}
+
+/* ── EMAIL BODY IN MODAL ── */
+.em-body-section{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.em-body-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.em-body-text{font-size:13px;color:var(--ink-2);line-height:1.65;white-space:pre-wrap;word-break:break-word;background:var(--surface-2);border-radius:8px;padding:12px 14px;max-height:320px;overflow-y:auto;border:1px solid var(--border-2);font-family:'Courier New',monospace}
+.em-attachments{margin-top:12px}
+.em-att-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface-2);border-radius:8px;border:1px solid var(--border-2);margin-bottom:6px;font-size:12px}
+.em-att-icon{font-size:18px;flex-shrink:0}
+.em-att-name{flex:1;font-weight:500;color:var(--ink-2);word-break:break-all}
+.em-att-size{color:var(--muted);white-space:nowrap;font-size:11px}
 </style>
 </head>
 <body>
@@ -530,6 +540,14 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <div class="em-row"><span class="em-label">Conta</span><span class="em-value" id="em-account">—</span></div>
         <div class="em-row"><span class="em-label">Prioridade</span><span class="em-value" id="em-priority">—</span></div>
         <div class="em-tags" id="em-tags"></div>
+        <div class="em-body-section" id="em-body-section" style="display:none">
+          <div class="em-body-label">📄 Mensagem</div>
+          <div class="em-body-text" id="em-body-text"></div>
+        </div>
+        <div class="em-attachments" id="em-attachments-section" style="display:none">
+          <div class="em-body-label" style="margin-top:12px">📎 Anexos</div>
+          <div id="em-attachments-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -873,6 +891,13 @@ function sEmail(q){
   renderEmailPage();
 }
 
+function fmtFileSize(bytes){
+  if(!bytes) return '';
+  if(bytes<1024) return bytes+'B';
+  if(bytes<1048576) return (bytes/1024).toFixed(1)+'KB';
+  return (bytes/1048576).toFixed(1)+'MB';
+}
+
 function showEmailModal(idx){
   const e=_e[idx]; if(!e)return;
   const tags=JSON.parse(e.tags||'[]');
@@ -885,6 +910,27 @@ function showEmailModal(idx){
   document.getElementById('em-account').textContent=e.email_addr||e.account;
   document.getElementById('em-priority').innerHTML=priLabel;
   document.getElementById('em-tags').innerHTML=tags.length?tags.map(t=>`<span class="badge badge-neutral">${t}</span>`).join(''):'<span style="font-size:12px;color:var(--muted)">Sem tags</span>';
+  // Corpo da mensagem
+  const bodySection=document.getElementById('em-body-section');
+  const bodyText=document.getElementById('em-body-text');
+  if(e.body){
+    bodyText.textContent=e.body;
+    bodySection.style.display='block';
+  } else {
+    bodySection.style.display='none';
+  }
+  // Anexos
+  const attSection=document.getElementById('em-attachments-section');
+  const attList=document.getElementById('em-attachments-list');
+  let attachments=[];
+  try{ attachments=JSON.parse(e.attachments||'[]'); }catch{}
+  if(attachments.length){
+    const extIcon=n=>{const ext=(n.split('.').pop()||'').toLowerCase();return{pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',ppt:'📋',pptx:'📋',jpg:'🖼️',jpeg:'🖼️',png:'🖼️',zip:'🗜️',rar:'🗜️',xml:'📋',csv:'📊'}[ext]||'📎';};
+    attList.innerHTML=attachments.map(a=>`<div class="em-att-item"><span class="em-att-icon">${extIcon(a.name)}</span><span class="em-att-name">${a.name}</span><span class="em-att-size">${fmtFileSize(a.size)}</span></div>`).join('');
+    attSection.style.display='block';
+  } else {
+    attSection.style.display='none';
+  }
   document.getElementById('email-modal').classList.add('open');
   document.body.style.overflow='hidden';
 }
