@@ -1,0 +1,377 @@
+{
+  "items": [
+    {
+      "mes": "2026-11",
+      "total": 965114.58,
+      "recebido": 1037.19,
+      "pendente": 964077.39,
+      "count": 132,
+      "premium_total": 10690170.2,
+      "pct_medio": 9.0,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 37256.78
+        },
+        {
+          "nome": "CHUBB DO BRASIL CIA. DE SEGUROS",
+          "valor": 16144.95
+        },
+        {
+          "nome": "HAPVIDA ASSISTENCIA MEDICA LTDA",
+          "valor": 16078.19
+        },
+        {
+          "nome": "GRUPO HOSPITALAR DO RIO DE JANEIRO LTDA",
+          "valor": 13512.69
+        }
+      ]
+    },
+    {
+      "mes": "2026-10",
+      "total": 1051755.18,
+      "recebido": 47107.84,
+      "pendente": 1004647.34,
+      "count": 150,
+      "premium_total": 11440246.57,
+      "pct_medio": 9.2,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "ALLIANZ SEGUROS S/A",
+          "valor": 41001.08
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 37296.4
+        },
+        {
+          "nome": "CENTRAL NACIONAL UNIMED - COOPERATIVA CENTRAL",
+          "valor": 27140.31
+        },
+        {
+          "nome": "SULAMERICA SEGURO SAÚDE S/A",
+          "valor": 17651.04
+        }
+      ]
+    },
+    {
+      "mes": "2026-09",
+      "total": 996690.98,
+      "recebido": 79527.56,
+      "pendente": 917163.42,
+      "count": 135,
+      "premium_total": 11337485.03,
+      "pct_medio": 8.8,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 37794.88
+        },
+        {
+          "nome": "CENTRAL NACIONAL UNIMED - COOPERATIVA CENTRAL",
+          "valor": 26151.8
+        },
+        {
+          "nome": "HAPVIDA ASSISTENCIA MEDICA LTDA",
+          "valor": 17774.87
+        },
+        {
+          "nome": "CHUBB DO BRASIL CIA. DE SEGUROS",
+          "valor": 16115.46
+        }
+      ]
+    },
+    {
+      "mes": "2026-08",
+      "total": 973172.3,
+      "recebido": 73974.39,
+      "pendente": 899197.91,
+      "count": 108,
+      "premium_total": 10878518.81,
+      "pct_medio": 8.9,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 37118.97
+        },
+        {
+          "nome": "CENTRAL NACIONAL UNIMED - COOPERATIVA CENTRAL",
+          "valor": 25898.15
+        },
+        {
+          "nome": "CHUBB DO BRASIL CIA. DE SEGUROS",
+          "valor": 16115.46
+        },
+        {
+          "nome": "HAPVIDA ASSISTENCIA MEDICA LTDA",
+          "valor": 15178.22
+        }
+      ]
+    },
+    {
+      "mes": "2026-07",
+      "total": 951065.43,
+      "recebido": 51119.62,
+      "pendente": 899945.81,
+      "count": 105,
+      "premium_total": 10672130.44,
+      "pct_medio": 8.9,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 37034.22
+        },
+        {
+          "nome": "CENTRAL NACIONAL UNIMED - COOPERATIVA CENTRAL",
+          "valor": 24864.34
+        },
+        {
+          "nome": "HAPVIDA ASSISTENCIA MEDICA LTDA",
+          "valor": 16105.79
+        },
+        {
+          "nome": "UNIMED SEGUROS SAUDE S.A.",
+          "valor": 4557.55
+        }
+      ]
+    },
+    {
+      "mes": "2026-06",
+      "total": 935703.33,
+      "recebido": 54301.05,
+      "pendente": 881402.28,
+      "count": 87,
+      "premium_total": 9806936.0,
+      "pct_medio": 9.5,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 36704.73
+        },
+        {
+          "nome": "CENTRAL NACIONAL UNIMED - COOPERATIVA CENTRAL",
+          "valor": 28312.57
+        },
+        {
+          "nome": "UNIMED SEGUROS SAUDE S.A.",
+          "valor": 4801.35
+        },
+        {
+          "nome": "AMIL ASSISTÊNCIA MEDICA INTERNACIONAL S.A.",
+          "valor": 3260.5
+        }
+      ]
+    },
+    {
+      "mes": "2026-05",
+      "total": 932447.07,
+      "recebido": 47789.59,
+      "pendente": 884657.48,
+      "count": 80,
+      "premium_total": 9576910.05,
+      "pct_medio": 9.7,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 36465.88
+        },
+        {
+          "nome": "CENTRAL NACIONAL UNIMED - COOPERATIVA CENTRAL",
+          "valor": 16041.42
+        },
+        {
+          "nome": "AMIL ASSISTÊNCIA MEDICA INTERNACIONAL S.A.",
+          "valor": 6321.8
+        },
+        {
+          "nome": "AIG BRASIL COMPANHIA DE SEGUROS",
+          "valor": 4835.31
+        }
+      ]
+    },
+    {
+      "mes": "2026-04",
+      "total": 1036098.0,
+      "recebido": 137825.09,
+      "pendente": 898272.91,
+      "count": 79,
+      "premium_total": 9917406.34,
+      "pct_medio": 10.4,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "ZURICH BRASIL SEGUROS S.A.",
+          "valor": 104743.19
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 35975.93
+        },
+        {
+          "nome": "AMIL ASSISTÊNCIA MEDICA INTERNACIONAL S.A.",
+          "valor": 12441.95
+        },
+        {
+          "nome": "PORTO SEGURO CIA. DE SEG. GERAIS",
+          "valor": 12428.01
+        }
+      ]
+    },
+    {
+      "mes": "2026-03",
+      "total": 920728.08,
+      "recebido": 28233.04,
+      "pendente": 892495.04,
+      "count": 65,
+      "premium_total": 9287134.22,
+      "pct_medio": 9.9,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 54124.49
+        },
+        {
+          "nome": "AIG BRASIL COMPANHIA DE SEGUROS",
+          "valor": 4835.31
+        },
+        {
+          "nome": "ALLIANZ SEGUROS S/A",
+          "valor": 1190.03
+        },
+        {
+          "nome": "PRUDENTIAL DO BRASIL SEGUROS DE VIDA S.A.",
+          "valor": 859.37
+        }
+      ]
+    },
+    {
+      "mes": "2026-02",
+      "total": 865319.23,
+      "recebido": 14924.71,
+      "pendente": 850394.52,
+      "count": 43,
+      "premium_total": 8847991.15,
+      "pct_medio": 9.8,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 856839.6
+        },
+        {
+          "nome": "AIG BRASIL COMPANHIA DE SEGUROS",
+          "valor": 4835.31
+        },
+        {
+          "nome": "SOMPO SEGUROS S. A.",
+          "valor": 1000.68
+        },
+        {
+          "nome": "TOKIO MARINE BRASIL SEGURADORA S/A",
+          "valor": 844.03
+        },
+        {
+          "nome": "PORTO SEGURO CIA. DE SEG. GERAIS",
+          "valor": 670.6
+        }
+      ]
+    },
+    {
+      "mes": "2026-01",
+      "total": 851787.67,
+      "recebido": 1982.55,
+      "pendente": 849805.12,
+      "count": 26,
+      "premium_total": 8525088.2,
+      "pct_medio": 10.0,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 844679.6
+        },
+        {
+          "nome": "AIG BRASIL COMPANHIA DE SEGUROS",
+          "valor": 4926.32
+        },
+        {
+          "nome": "SOMPO SEGUROS S. A.",
+          "valor": 835.92
+        },
+        {
+          "nome": "ALLIANZ SEGUROS S/A",
+          "valor": 572.93
+        },
+        {
+          "nome": "SEGUROS SURA S.A.",
+          "valor": 357.98
+        }
+      ]
+    },
+    {
+      "mes": "2025-12",
+      "total": 867762.09,
+      "recebido": 10580.61,
+      "pendente": 857181.48,
+      "count": 40,
+      "premium_total": 8638897.83,
+      "pct_medio": 10.0,
+      "top_seguradoras": [
+        {
+          "nome": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "valor": 844679.6
+        },
+        {
+          "nome": "AIG BRASIL COMPANHIA DE SEGUROS",
+          "valor": 10014.51
+        },
+        {
+          "nome": "TOKIO MARINE BRASIL SEGURADORA S/A",
+          "valor": 2843.6
+        },
+        {
+          "nome": "ZURICH BRASIL SEGUROS S.A.",
+          "valor": 2774.69
+        },
+        {
+          "nome": "AXA SEGUROS S.A.",
+          "valor": 2551.92
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-11-13T23:32:51Z"
+}
