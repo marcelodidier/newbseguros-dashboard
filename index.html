@@ -723,6 +723,21 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
     </main>
   </div>
 
+  <!-- FINANCEIRO MÊS MODAL -->
+  <div id="fin-mes-modal" onclick="if(event.target===this)closeFinMesModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:center;justify-content:center;padding:16px">
+    <div class="email-modal-sheet" style="max-width:900px;border-radius:16px">
+      <div class="em-header">
+        <div>
+          <div class="em-title" id="fmm-title" style="font-size:15px">—</div>
+          <div id="fmm-sub" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+        </div>
+        <button class="em-close" onclick="closeFinMesModal()">✕</button>
+      </div>
+      <div class="em-body" id="fmm-body"></div>
+    </div>
+  </div>
+  <style>#fin-mes-modal.open{display:flex;animation:fadeOverlay .2s ease}</style>
+
   <!-- ITEM DETAIL MODAL (Renovação / Retomada / Cotação) -->
   <div id="item-modal" onclick="if(event.target===this)closeItemModal()">
     <div class="email-modal-sheet">
@@ -1994,26 +2009,21 @@ function _finCard(icon,label,val,sub,color){
 }
 function rFinCards(){
   const el=document.getElementById('fin-cards');if(!el)return;
+  const now=new Date();
+  const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const comMes=_com.find(c=>c.mes===mesAtual)||{total:0,recebido:0,pendente:0,pct_medio:0,count:0};
   const ativas=_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida');
-  const totalAtivo=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const carteira=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
   const urgente=_ap.filter(a=>!a.cancelled&&a.urgency==='urgente');
-  const totalUrgente=urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
-  const atencao=_ap.filter(a=>!a.cancelled&&a.urgency==='atencao');
-  const totalAtencao=atencao.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
-  const vencidas=_ap.filter(a=>!a.cancelled&&a.urgency==='vencida');
-  const totalVencidas=vencidas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
-  const canceladas=_ap.filter(a=>a.cancelled);
   const pipeCot=_c.filter(c=>c.status==='aguardando'||c.status==='em_cotacao');
   const totalPipe=pipeCot.reduce((s,c)=>s+(Number(c.valor_estimado)||0),0);
-  const renUrgente=_r.filter(r=>r.urgencia==='urgente');
-  const totalRen=renUrgente.reduce((s,r)=>s+(Number(r.premio_anual)||0),0);
   el.innerHTML=
-    _finCard('💼','Carteira Ativa',_brl(totalAtivo),ativas.length+' apólices ativas','var(--success)')
-   +_finCard('🔴','Renovar ≤30 dias',_brl(totalUrgente),urgente.length+' apólices urgentes','var(--danger)')
-   +_finCard('🟡','Renovar 31–60 dias',_brl(totalAtencao),atencao.length+' apólices em atenção','var(--warning)')
-   +_finCard('⚠️','Vencidas',_brl(totalVencidas),vencidas.length+' apólices vencidas','var(--muted)')
-   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' em aberto','var(--brand)')
-   +_finCard('♻️','Renov. Urgentes (CRM)',_brl(totalRen),renUrgente.length+' renovações','var(--info)');
+    _finCard('💰','Comissão do Mês',_brl(comMes.total),comMes.count+' registros · '+(comMes.pct_medio||0)+'% médio','var(--brand)')
+   +_finCard('✅','Recebida',_brl(comMes.recebido),'Já liquidada pela seguradora','var(--success)')
+   +_finCard('⏳','A Receber',_brl(comMes.pendente),'Pendente de liquidação','var(--warning)')
+   +_finCard('💼','Carteira Ativa',_brl(carteira),ativas.length+' apólices (prêmio gerenciado)','var(--info)')
+   +_finCard('🔴','Renovar ≤30 dias',urgente.length+' apólices',_brl(urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0))+' em prêmio','var(--danger)')
+   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' cotações em aberto','var(--muted)');
 }
 function rFinAgenda(){
   const el=document.getElementById('fin-agenda');if(!el)return;
@@ -2026,8 +2036,11 @@ function rFinAgenda(){
     const isNow=m.mes===mesAtual;
     const pct=m.pct_medio?`${m.pct_medio}%`:'—';
     const pctReceb=m.total>0?Math.round(m.recebido/m.total*100)+'%':'0%';
-    return`<tr style="${isNow?'background:var(--brand-light);font-weight:600':''}">
-      <td>${m.mes}${isNow?' <span style="font-size:10px;color:var(--brand)">▶</span>':''}</td>
+    const temDetalhe=(m.detalhes||[]).length>0;
+    const cursor=temDetalhe?'cursor:pointer':'';
+    const hover=temDetalhe?` title="Clique para ver os ${m.count} registros"`:''
+    return`<tr style="${isNow?'background:var(--brand-light);font-weight:600':''};${cursor}" ${temDetalhe?`onclick="showFinMesModal('${m.mes}')"`:''}${hover}>
+      <td>${m.mes}${isNow?' <span style="font-size:10px;color:var(--brand)">▶</span>':''}${temDetalhe?' <span style="font-size:10px;color:var(--brand);opacity:.7">🔍</span>':''}</td>
       <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(m.total)}</td>
       <td style="text-align:right;color:var(--success)">${_brl(m.recebido)}</td>
       <td style="text-align:right;color:var(--warning)">${_brl(m.pendente)}</td>
@@ -2121,6 +2134,48 @@ function showItemModal(type, id){
 }
 function closeItemModal(){
   document.getElementById('item-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── Financeiro — Modal detalhe por mês ───────────────────────────
+function showFinMesModal(mes){
+  const m=_com.find(c=>c.mes===mes);
+  if(!m)return;
+  const det=m.detalhes||[];
+  const modal=document.getElementById('fin-mes-modal');
+  if(!modal)return;
+  document.getElementById('fmm-title').textContent='Comissões — '+mes;
+  document.getElementById('fmm-sub').textContent=
+    _brl(m.total)+' total · '+_brl(m.recebido)+' recebido · '+_brl(m.pendente)+' pendente';
+
+  const statusLbl=s=>s==='paid_off'
+    ?'<span style="color:var(--success);font-weight:700">✅ Recebido</span>'
+    :'<span style="color:var(--warning);font-weight:700">⏳ Pendente</span>';
+
+  const rows=det.sort((a,b)=>b.valor-a.valor).map(d=>`<tr>
+    <td><strong>${esc(d.cliente||'—')}</strong></td>
+    <td>${esc(d.produto||'—')}</td>
+    <td>${esc(d.insurer||'—')}</td>
+    <td style="text-align:center;font-size:12px">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
+    <td style="text-align:right;color:var(--muted-2)">${_brl(d.premium)}</td>
+    <td style="text-align:center">${d.pct||'—'}%</td>
+    <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(d.valor)}</td>
+    <td>${statusLbl(d.status)}</td>
+  </tr>`).join('');
+
+  document.getElementById('fmm-body').innerHTML=det.length
+    ?`<table class="data-table"><thead><tr>
+        <th>Cliente</th><th>Produto</th><th>Seguradora</th><th style="text-align:center">Apólice/Parc.</th>
+        <th style="text-align:right">Prêmio</th><th style="text-align:center">%</th>
+        <th style="text-align:right">Comissão</th><th>Status</th>
+      </tr></thead><tbody>${rows}</tbody></table>`
+    :emp('Detalhes não disponíveis para este mês (somente últimos 6 meses têm registros individuais)');
+
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeFinMesModal(){
+  document.getElementById('fin-mes-modal')?.classList.remove('open');
   document.body.style.overflow='';
 }
 
