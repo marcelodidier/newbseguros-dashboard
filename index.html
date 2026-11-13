@@ -309,6 +309,19 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .em-reply-status.sending{color:var(--warning);font-weight:600}
 .em-reply-status.sent{color:var(--success);font-weight:600}
 .em-reply-status.error{color:var(--danger);font-weight:600}
+
+/* ── THREAD REPLY BADGE + WEBMAIL ── */
+.er-thread-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--success-bg);color:var(--success);white-space:nowrap;flex-shrink:0}
+.em-webmail-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;background:#1a73e8;color:white;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all var(--ease);text-decoration:none}
+.em-webmail-btn:hover{background:#1557b0;transform:translateY(-1px)}
+.em-pwd-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 12px;background:var(--surface-2);border-radius:8px;border:1px solid var(--border-2)}
+.em-pwd-label{font-size:12px;color:var(--muted);flex:1}
+.em-pwd-val{font-size:13px;font-weight:600;color:var(--ink-2);font-family:monospace;letter-spacing:1px}
+.em-pwd-copy{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-family:inherit;font-weight:600;color:var(--muted);transition:all var(--ease)}
+.em-pwd-copy:hover{background:var(--brand-light);border-color:rgba(128,115,255,.4);color:var(--brand)}
+/* Config modal */
+#pwd-config-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:700;display:none;align-items:center;justify-content:center;padding:20px}
+#pwd-config-modal.open{display:flex}
 </style>
 </head>
 <body>
@@ -593,6 +606,23 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
           <div class="em-body-label" style="margin-top:12px">📎 Anexos</div>
           <div id="em-attachments-list"></div>
         </div>
+        <!-- Webmail Link -->
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2)" id="em-webmail-row">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <button class="em-webmail-btn" id="em-webmail-btn" onclick="openWebmail()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Abrir no Webmail
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="openPwdConfig()" id="em-pwd-config-btn">🔑 Senha</button>
+          </div>
+          <div class="em-pwd-row" id="em-pwd-row" style="display:none">
+            <span class="em-pwd-label" id="em-pwd-label">Usuário:</span>
+            <span class="em-pwd-val" id="em-pwd-user"></span>
+            <button class="em-pwd-copy" onclick="copyPwd('user')" id="copy-user-btn">📋</button>
+            <span class="em-pwd-copy" id="em-pwd-sep" style="color:var(--border)">|</span>
+            <button class="em-pwd-copy" onclick="copyPwd('pass')" id="copy-pass-btn">🔑 Copiar Senha</button>
+          </div>
+        </div>
         <!-- Reply Form -->
         <div class="em-reply-section" id="em-reply-section" style="display:none">
           <div class="em-reply-label">↩ Responder</div>
@@ -604,6 +634,27 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
             <span class="em-reply-status" id="em-reply-status"></span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASSWORD CONFIG MODAL -->
+  <div id="pwd-config-modal" onclick="if(event.target===this)closePwdConfig()">
+    <div style="background:white;border-radius:16px;padding:24px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">🔑 Senha do Webmail</h3>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Salva só neste navegador. Nunca vai para o servidor.</p>
+      <div style="margin-bottom:14px">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Conta</label>
+        <div id="pwd-cfg-account" style="font-size:14px;font-weight:600;color:var(--ink-2);padding:8px 12px;background:var(--surface-2);border-radius:8px"></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Senha</label>
+        <input id="pwd-cfg-input" type="password" placeholder="••••••••"
+          style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closePwdConfig()">Cancelar</button>
+        <button class="btn btn-primary" style="flex:1" onclick="savePwdConfig()">Salvar</button>
       </div>
     </div>
   </div>
@@ -887,7 +938,8 @@ function emailListRow(e,idx){
   const resolveBtn=nr||handled
     ?`<button class="er-resolve" onclick="toggleHandled(${idx},event)" title="${handled?'Reabrir':'Marcar resolvido'}">${handled?'✓':'!'}</button>`
     :'';
-  return`<div class="${rowClass}" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div><div class="er-date">${date}</div>${resolveBtn}</div>`;
+  const threadBadge=e.thread_reply?'<span class="er-thread-badge">💬 Respondido</span>':'';
+  return`<div class="${rowClass}" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div>${threadBadge}<div class="er-date">${date}</div>${resolveBtn}</div>`;
 }
 
 // ── Build account filter chips ────────────────────────────────────
@@ -1010,8 +1062,21 @@ function showEmailModal(idx){
   document.getElementById('em-to').textContent=(e.display||e.account)+(e.email_addr?` <${e.email_addr}>`:'');
   document.getElementById('em-date').textContent=dateStr;
   document.getElementById('em-account').textContent=e.email_addr||e.account;
+  _webmailAccount=e.account||''; _webmailEmail=e.email_addr||'';
+  refreshWebmailRow();
   document.getElementById('em-priority').innerHTML=priLabel;
   document.getElementById('em-tags').innerHTML=tags.length?tags.map(t=>`<span class="badge badge-neutral">${t}</span>`).join(''):'<span style="font-size:12px;color:var(--muted)">Sem tags</span>';
+  if(e.thread_reply){
+    const existing=document.getElementById('em-thread-info');
+    const el=existing||document.createElement('div');
+    el.id='em-thread-info';
+    el.style.cssText='margin-top:8px;padding:6px 12px;background:var(--success-bg);border-radius:8px;font-size:12px;color:var(--success);font-weight:600';
+    el.textContent='💬 Resposta recebida para: '+e.thread_reply_to;
+    if(!existing) document.querySelector('.em-tags').after(el);
+  } else {
+    const el=document.getElementById('em-thread-info');
+    if(el) el.remove();
+  }
   // Handled toggle button in modal
   const handled=isHandled(e);
   let resolveHtml=`<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2);display:flex;gap:10px;align-items:center">`;
@@ -1055,6 +1120,68 @@ function showEmailModal(idx){
   document.body.style.overflow='hidden';
 }
 function refreshModal(idx){showEmailModal(idx);}
+// ── Webmail auto-login ───────────────────────────────────────────
+let _webmailAccount = '';
+let _webmailEmail   = '';
+
+function getStoredPasswords(){ try{ return JSON.parse(localStorage.getItem('newb_webmail_pwds')||'{}'); }catch{ return {}; } }
+function saveStoredPasswords(obj){ localStorage.setItem('newb_webmail_pwds', JSON.stringify(obj)); }
+
+function openPwdConfig(){
+  document.getElementById('pwd-cfg-account').textContent = _webmailEmail || _webmailAccount;
+  document.getElementById('pwd-cfg-input').value = getStoredPasswords()[_webmailAccount] || '';
+  document.getElementById('pwd-config-modal').classList.add('open');
+}
+function closePwdConfig(){ document.getElementById('pwd-config-modal').classList.remove('open'); }
+function savePwdConfig(){
+  const val = document.getElementById('pwd-cfg-input').value;
+  if(!val) return;
+  const pwds = getStoredPasswords();
+  pwds[_webmailAccount] = val;
+  saveStoredPasswords(pwds);
+  closePwdConfig();
+  refreshWebmailRow();
+}
+
+function refreshWebmailRow(){
+  const pwd = getStoredPasswords()[_webmailAccount] || '';
+  const pwdRow = document.getElementById('em-pwd-row');
+  const pwdUserEl = document.getElementById('em-pwd-user');
+  const cfgBtn = document.getElementById('em-pwd-config-btn');
+  if(pwdUserEl) pwdUserEl.textContent = _webmailEmail;
+  if(pwdRow) pwdRow.style.display = 'flex';
+  if(cfgBtn) cfgBtn.textContent = pwd ? '🔑 Alterar Senha' : '🔑 Configurar Senha';
+}
+
+function openWebmail(){
+  const pwd = getStoredPasswords()[_webmailAccount] || '';
+  const user = _webmailEmail;
+  if(!pwd){
+    openPwdConfig();
+    return;
+  }
+  // Auto-login via Blob form submit (cross-origin form POST from local page)
+  const formHtml = `<!DOCTYPE html><html><body><form id="f" method="POST" action="https://webmail-seguro.com.br/">
+    <input name="_user" value="${user}">
+    <input name="_pass" value="${pwd}">
+    <input name="_task" value="login">
+    <input name="_action" value="login">
+  </form><script>document.getElementById('f').submit();<\/script></body></html>`;
+  const blob = new Blob([formHtml], {type:'text/html'});
+  const url  = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+function copyPwd(which){
+  const text = which==='user' ? _webmailEmail : (getStoredPasswords()[_webmailAccount]||'');
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById(which==='user'?'copy-user-btn':'copy-pass-btn');
+    if(btn){ const orig=btn.textContent; btn.textContent='✓ Copiado!'; setTimeout(()=>btn.textContent=orig,1500); }
+  }).catch(()=>{ alert(text); });
+}
+
 // ── Reply via GitHub queue ───────────────────────────────────────
 let _replyEmailIdx = -1;
 
