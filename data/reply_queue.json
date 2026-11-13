@@ -7,11 +7,11 @@
       "original_subject": "Agentes de IA - D0 (Barbara Araujo)",
       "original_from": "marcelodidier27@gmail.com",
       "body": "Teste de resposta pelo sistema.",
-      "status": "error",
+      "status": "pending",
       "created_at": "2026-11-13T15:24:30.237Z",
       "sent_by": "Marcelo Didier",
       "sent_at": null,
-      "error": "Error: FETCH returned no body for the requested message\n\nSuggestions:\n - Run with --log-level to enable more verbose logs",
+      "error": null,
       "sent_msg_id": ""
     },
     {
@@ -21,11 +21,11 @@
       "original_subject": "Agentes de IA - D0 (Barbara Araujo)",
       "original_from": "marcelodidier27@gmail.com",
       "body": "Resposta teste",
-      "status": "error",
+      "status": "pending",
       "created_at": "2026-11-13T15:59:52.506Z",
       "sent_by": "Marcelo Didier",
       "sent_at": null,
-      "error": "Error: FETCH returned no body for the requested message\n\nSuggestions:\n - Run with --log-level to enable more verbose logs",
+      "error": null,
       "sent_msg_id": ""
     }
   ]
