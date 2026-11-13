@@ -883,11 +883,16 @@ async function ap(path){
         {headers:{Authorization:`Bearer ${_ghToken}`,Accept:'application/vnd.github+json'}});
       if(!r.ok) throw new Error(r.status);
       const m=await r.json();
-      return JSON.parse(atob((m.content||'').replace(/\n/g,'')));
+      return JSON.parse(b64utf8((m.content||'')));
     }catch{}
   }
   // Fallback: CDN raw (pode ser cacheado)
   try{const r=await fetch(`${API}/${path}?_=${Date.now()}`);return r.ok?r.json():null;}catch{return null;}
+}
+
+// Decodifica base64 como UTF-8 (atob nativo usa Latin-1 e corrompe emojis/acentos)
+function b64utf8(b64){
+  return new TextDecoder('utf-8').decode(Uint8Array.from(atob(b64.replace(/\n/g,'')),c=>c.charCodeAt(0)));
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin();});
@@ -1018,7 +1023,7 @@ async function loadHandledRemote(){
     );
     const meta = await r.json();
     _handledSha = meta.sha || '';
-    const d = JSON.parse(atob((meta.content||'').replace(/\n/g,'')));
+    const d = JSON.parse(b64utf8((meta.content||'')));
     _handledRemote = new Set(d.handled||[]);
   } catch {}
 }
@@ -1502,7 +1507,7 @@ async function showSentReplies(){
       { headers:{ Authorization:`Bearer ${_ghToken}`, Accept:'application/vnd.github+json' } }
     );
     const meta = await r.json();
-    const queue = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+    const queue = JSON.parse(b64utf8(meta.content));
     const items = (queue.queue||[]).slice().reverse(); // newest first
     if(!items.length){
       list.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>Nenhuma resposta enviada ainda.</p></div>';
@@ -1569,7 +1574,7 @@ async function checkNewEmails(){
           { headers: { Authorization: `Bearer ${_ghToken}`, Accept: 'application/vnd.github+json' } }
         );
         const meta = await r.json();
-        const d = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+        const d = JSON.parse(b64utf8(meta.content));
         if(d.processed_at && !d.pending){
           clearInterval(_checkPolling);
           const n = d.result?.new_emails || 0;
