@@ -869,6 +869,7 @@ async function loadAll(){
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
     ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json')
   ]);
+  await loadHandledRemote();
   if(st)rStats(st);
   // Operador vê só itens do próprio responsável
   const nome = CURRENT_USER?.name;
@@ -953,11 +954,49 @@ let _emailPage=0;
 let _emailPageSize=50;
 let _emailFiltered=[];
 
-// ── Handled state (localStorage) ─────────────────────────────────
-function getHandled(){try{return new Set(JSON.parse(localStorage.getItem('newb_handled')||'[]'));}catch{return new Set();}}
+// ── Handled state (localStorage + GitHub JSON) ───────────────────
+let _handledRemote = new Set(); // loaded from data/handled.json
+let _handledSha = '';
+
+function getHandled(){
+  try{ return new Set([...JSON.parse(localStorage.getItem('newb_handled')||'[]'), ..._handledRemote]); }
+  catch{ return new Set(_handledRemote); }
+}
 function setHandled(s){localStorage.setItem('newb_handled',JSON.stringify([...s]));}
-function isHandled(e){return getHandled().has(_emailKey(e));}
+function isHandled(e){
+  if(e.resolved) return true; // marked by export (sent reply via system)
+  return getHandled().has(_emailKey(e));
+}
 function _emailKey(e){return (e.account||'')+'_'+(e.msg_id||e.id||'');}
+
+async function loadHandledRemote(){
+  try {
+    if(!_ghToken) await loadConfig();
+    const r = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/data/handled.json`,
+      { headers:{ Authorization:`Bearer ${_ghToken}`, Accept:'application/vnd.github+json' } }
+    );
+    const meta = await r.json();
+    _handledSha = meta.sha || '';
+    const d = JSON.parse(atob((meta.content||'').replace(/\n/g,'')));
+    _handledRemote = new Set(d.handled||[]);
+  } catch {}
+}
+
+async function syncHandledRemote(keys){
+  if(!_ghToken) return;
+  try {
+    const content = JSON.stringify({handled:[...keys]}, null, 2);
+    const enc = btoa(unescape(encodeURIComponent(content)));
+    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/data/handled.json`, {
+      method:'PUT',
+      headers:{ Authorization:`Bearer ${_ghToken}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+      body: JSON.stringify({ message:'handled: atualiza resolvidos', content:enc, sha:_handledSha })
+    });
+    if(r.ok){ const m=await r.json(); _handledSha=m.content?.sha||_handledSha; }
+  } catch {}
+}
+
 function toggleHandled(idx,ev){
   ev.stopPropagation();
   const e=_e[idx]; if(!e) return;
@@ -965,6 +1004,8 @@ function toggleHandled(idx,ev){
   const k=_emailKey(e);
   if(h.has(k)) h.delete(k); else h.add(k);
   setHandled(h);
+  _handledRemote = h; // optimistic update
+  syncHandledRemote(h); // async sync to GitHub
   _emailFiltered=getFilteredEmails();
   renderEmailPage();
 }
