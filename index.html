@@ -322,6 +322,15 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 /* Config modal */
 #pwd-config-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:700;display:none;align-items:center;justify-content:center;padding:20px}
 #pwd-config-modal.open{display:flex}
+
+/* ── CHECK NEW EMAILS BUTTON ── */
+.check-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink-2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all var(--ease);white-space:nowrap}
+.check-btn:hover{border-color:rgba(128,115,255,.4);color:var(--brand);background:var(--brand-light)}
+.check-btn.checking{border-color:var(--brand);color:var(--brand);background:var(--brand-light);pointer-events:none}
+.check-btn.done{border-color:var(--success);color:var(--success);background:var(--success-bg)}
+.check-btn svg{transition:transform .6s ease}
+.check-btn.checking svg{animation:spinSvg 1s linear infinite}
+@keyframes spinSvg{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -503,6 +512,13 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 
       <!-- EMAILS -->
       <div class="page" id="page-emails">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:13px;font-weight:700;color:var(--ink-2)">Caixas de Email</span>
+          <button class="check-btn" id="check-emails-btn" onclick="checkNewEmails()">
+            <svg id="check-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span id="check-btn-label">Verificar novos</span>
+          </button>
+        </div>
         <div class="filter-row" id="email-account-filters">
           <span class="filter-chip active" onclick="fEmailAccount('all',this)">Todas</span>
         </div>
@@ -1132,7 +1148,84 @@ function showEmailModal(idx){
   document.body.style.overflow='hidden';
 }
 function refreshModal(idx){showEmailModal(idx);}
-// ── Webmail auto-login ───────────────────────────────────────────
+// ── Check New Emails ─────────────────────────────────────────────
+let _checkPolling = null;
+
+async function checkNewEmails(){
+  const btn   = document.getElementById('check-emails-btn');
+  const label = document.getElementById('check-btn-label');
+  if(!btn) return;
+
+  // Which accounts to check
+  const acc = _emailAccFilter === 'all' ? ['all'] : [_emailAccFilter];
+
+  btn.className = 'check-btn checking';
+  label.textContent = 'Verificando...';
+
+  try {
+    if(!_ghToken) await loadConfig();
+    if(!_ghToken) throw new Error('Token indisponível');
+
+    // Read current check_request.json SHA
+    const metaResp = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/data/check_request.json`,
+      { headers: { Authorization: `Bearer ${_ghToken}`, Accept: 'application/vnd.github+json' } }
+    );
+    const meta = await metaResp.json();
+    const crSha = meta.sha;
+
+    // Write pending request
+    const reqData = {
+      pending: true,
+      accounts: acc,
+      requested_at: new Date().toISOString(),
+      processed_at: '',
+      result: null
+    };
+    const enc = btoa(unescape(encodeURIComponent(JSON.stringify(reqData, null, 2))));
+    await fetch(`https://api.github.com/repos/${GH_REPO}/contents/data/check_request.json`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${_ghToken}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'check: verificação sob demanda', content: enc, sha: crSha })
+    });
+
+    // Poll every 5s for up to 90s waiting for processed_at to be filled
+    let tries = 0;
+    _checkPolling = setInterval(async () => {
+      tries++;
+      try {
+        const r = await fetch(`${API}/data/check_request.json?_=${Date.now()}`);
+        const d = await r.json();
+        if(d.processed_at && !d.pending){
+          clearInterval(_checkPolling);
+          const n = d.result?.new_emails || 0;
+          btn.className = 'check-btn done';
+          label.textContent = n > 0 ? `✓ ${n} novo(s)!` : '✓ Em dia';
+          setTimeout(async () => {
+            btn.className = 'check-btn';
+            label.textContent = 'Verificar novos';
+          }, 4000);
+          // Reload email data
+          const e = await fetch(`${API}/data/emails.json?_=${Date.now()}`);
+          const ed = await e.json();
+          if(ed){ _e = ed.items||[]; rEmail(_e); }
+        }
+      } catch{}
+      if(tries >= 18){  // 90s timeout
+        clearInterval(_checkPolling);
+        btn.className = 'check-btn';
+        label.textContent = 'Verificar novos';
+      }
+    }, 5000);
+
+  } catch(err){
+    btn.className = 'check-btn';
+    label.textContent = 'Verificar novos';
+    console.error('checkNewEmails:', err);
+  }
+}
+
+// ── Webmail auto-login ───────────────────────────────────────────────────────
 let _webmailAccount = '';
 let _webmailEmail   = '';
 
