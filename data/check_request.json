@@ -5,5 +5,9 @@
   ],
   "requested_at": "2026-11-13T23:09:53.393Z",
   "processed_at": "2026-11-13T23:11:00.432461",
-  "result": null
+  "result": {
+    "new_emails": 1,
+    "errors": [],
+    "exported_at": "2026-11-13T23:11:10.258354"
+  }
 }
