@@ -428,6 +428,15 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="snav-label">WhatsApp</span>
       </button>
+      <button class="snav-item" onclick="go('apolices',this)" id="snav-apolices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span class="snav-label">Apólices</span>
+        <span class="snav-badge" id="sb-ap">—</span>
+      </button>
+      <button class="snav-item" onclick="go('clientes',this)" id="snav-clientes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="snav-label">Clientes</span>
+      </button>
     </nav>
     <div class="sidebar-footer">
       <!-- Usuários — só admin vê -->
@@ -961,7 +970,16 @@ function rRen(d){
     document.getElementById('lr').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Cliente</th><th>Seguro</th><th>Seguradora</th><th>Vencimento</th><th class="col-financeiro premio">Prêmio</th><th>Status</th><th>Ações</th></tr></thead><tbody>${d.map(renRow).join('')}</tbody></table>`:emp('Nenhuma renovação');
   }
 }
-function rHU(d){document.getElementById('hu-list').innerHTML=d.filter(r=>r.urgencia==='urgente').slice(0,3).map(renCard).join('')||emp('Nenhuma urgência');}
+function rHU(d){
+  const items=d.filter(r=>r.urgencia==='urgente').slice(0,5);
+  if(isMobile()){
+    document.getElementById('hu-list').innerHTML=items.length?items.map(renCard).join(''):emp('Nenhuma urgência');
+  } else {
+    document.getElementById('hu-list').innerHTML=items.length
+      ?`<table class="data-table"><thead><tr><th>Cliente</th><th>Seguro</th><th>Seguradora</th><th>Vencimento</th><th class="col-financeiro premio">Prêmio</th><th>Responsável</th><th>Ações</th></tr></thead><tbody>${items.map(renRow).join('')}</tbody></table>`
+      :emp('Nenhuma urgência');
+  }
+}
 function fRen(v,c){chip(c);rRen(v==='all'?_r:_r.filter(r=>r.urgencia===v));}
 
 function retCard(r){
@@ -989,7 +1007,16 @@ function rCot(d){
     document.getElementById('lc').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Cliente</th><th>Tipo</th><th>Canal</th><th class="col-financeiro">Valor Est.</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody>${d.map(cotRow).join('')}</tbody></table>`:emp('Nenhuma cotação');
   }
 }
-function rHC(d){document.getElementById('hc-list').innerHTML=d.filter(c=>c.status==='aguardando').slice(0,3).map(cotCard).join('')||emp('Sem cotações aguardando');}
+function rHC(d){
+  const items=d.filter(c=>c.status==='aguardando').slice(0,5);
+  if(isMobile()){
+    document.getElementById('hc-list').innerHTML=items.length?items.map(cotCard).join(''):emp('Sem cotações aguardando');
+  } else {
+    document.getElementById('hc-list').innerHTML=items.length
+      ?`<table class="data-table"><thead><tr><th>Cliente</th><th>Tipo</th><th>Canal</th><th class="col-financeiro">Valor Est.</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody>${items.map(cotRow).join('')}</tbody></table>`
+      :emp('Sem cotações aguardando');
+  }
+}
 function fCot(v,c){chip(c);rCot(v==='all'?_c:_c.filter(c=>c.status===v));}
 async function startC(id){await fetch(`${API}/cotacoes/${id}?status=em_cotacao`,{method:'PATCH',headers:{authorization:'Bearer '+TK}});loadAll();}
 
