@@ -1,15 +1,9 @@
 {
-  "pending": false,
+  "pending": true,
   "accounts": [
-    "all"
+    "barbara"
   ],
-  "requested_at": "2026-11-13T14:48:04.220Z",
-  "processed_at": "2026-11-13T14:49:00.339188",
-  "result": {
-    "new_emails": 23,
-    "errors": [
-      "Contato (contato@newbseguros.com.br)"
-    ],
-    "exported_at": "2026-11-13T14:50:21.733456"
-  }
+  "requested_at": "2026-11-13T14:53:54.931Z",
+  "processed_at": "",
+  "result": null
 }
