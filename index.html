@@ -172,6 +172,9 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .filter-chip{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;white-space:nowrap;transition:all var(--ease)}
 .filter-chip:hover{border-color:rgba(128,115,255,.4);color:var(--brand)}
 .filter-chip.active{background:var(--brand);color:white;border-color:var(--brand);box-shadow:0 2px 8px rgba(128,115,255,.3)}
+.chip-count{background:rgba(128,115,255,.15);color:var(--brand);font-size:10px;font-weight:700;padding:1px 5px;border-radius:9px;margin-left:4px;vertical-align:middle}
+.filter-chip.active .chip-count{background:rgba(255,255,255,.25);color:white}
+.filter-chip.chip-empty{opacity:.4}
 
 /* ── EMPTY ── */
 .empty{text-align:center;padding:48px 24px;color:var(--muted)}
@@ -1105,26 +1108,20 @@ const ALL_ACCOUNTS = [
 ];
 
 function buildEmailFilters(items){
-  // Mostra só as caixas que têm emails nos dados carregados
-  const accMap={};
-  ALL_ACCOUNTS.forEach(a=>accMap[a.account]=a.addr);
-  const seen=new Set();
-  const chips=[];
-  items.forEach(e=>{
-    if(e.account && !seen.has(e.account)){
-      seen.add(e.account);
-      chips.push({account:e.account, addr:accMap[e.account]||e.email_addr||e.account+'@newbseguros.com.br'});
-    }
-  });
-  chips.sort((a,b)=>a.account.localeCompare(b.account));
+  // Sempre mostra todas as caixas — chips fixos com contador
+  const counts={};
+  items.forEach(e=>{ if(e.account) counts[e.account]=(counts[e.account]||0)+1; });
   const row=document.getElementById('email-account-filters');
   if(!row)return;
   const allActive=_emailAccFilter==='all'?'active':'';
-  row.innerHTML=`<span class="filter-chip ${allActive}" onclick="fEmailAccount('all',this)">Todas</span>`+
-    chips.map(c=>{
+  const totalCount=items.length;
+  row.innerHTML=`<span class="filter-chip ${allActive}" onclick="fEmailAccount('all',this)">Todas${totalCount>0?` <span class="chip-count">${totalCount}</span>`:''}</span>`+
+    ALL_ACCOUNTS.map(c=>{
       const lbl=c.addr.split('@')[0];
       const active=_emailAccFilter===c.account?'active':'';
-      return`<span class="filter-chip ${active}" onclick="fEmailAccount('${c.account}',this)">${lbl}</span>`;
+      const cnt=counts[c.account]||0;
+      const dimmed=cnt===0&&_emailAccFilter!==c.account?' chip-empty':'';
+      return`<span class="filter-chip${dimmed} ${active}" onclick="fEmailAccount('${c.account}',this)">${lbl}${cnt>0?` <span class="chip-count">${cnt}</span>`:''}</span>`;
     }).join('');
 }
 
