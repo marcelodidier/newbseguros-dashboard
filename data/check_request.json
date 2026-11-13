@@ -5,5 +5,11 @@
   ],
   "requested_at": "2026-11-13T14:48:04.220Z",
   "processed_at": "2026-11-13T14:49:00.339188",
-  "result": null
+  "result": {
+    "new_emails": 23,
+    "errors": [
+      "Contato (contato@newbseguros.com.br)"
+    ],
+    "exported_at": "2026-11-13T14:50:21.733456"
+  }
 }
