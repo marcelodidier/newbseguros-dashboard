@@ -253,6 +253,20 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .em-label{font-weight:700;color:var(--muted);min-width:60px;flex-shrink:0;text-transform:uppercase;font-size:11px;letter-spacing:.05em;padding-top:1px}
 .em-value{color:var(--ink-2);flex:1;word-break:break-word;line-height:1.5}
 .em-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 4px;gap:8px;flex-wrap:wrap}
+.pag-info{font-size:12px;color:var(--muted);font-weight:500}
+.pag-controls{display:flex;align-items:center;gap:6px}
+.pag-btn{padding:6px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink-2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all var(--ease)}
+.pag-btn:hover{border-color:rgba(128,115,255,.4);color:var(--brand)}
+.pag-btn:disabled{opacity:.35;cursor:not-allowed}
+.pag-btn.active{background:var(--brand);border-color:var(--brand);color:white}
+.pag-size{display:flex;gap:4px;align-items:center}
+.pag-size-btn{padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;transition:all var(--ease)}
+.pag-size-btn.active{background:var(--brand-light);border-color:rgba(128,115,255,.4);color:var(--brand)}
+/* Date col in email row */
+.er-date{font-size:11px;color:var(--muted-2);white-space:nowrap;flex-shrink:0;text-align:right;min-width:50px}
 </style>
 </head>
 <body>
@@ -745,12 +759,28 @@ function fCot(v,c){chip(c);rCot(v==='all'?_c:_c.filter(c=>c.status===v));}
 async function startC(id){await fetch(`${API}/cotacoes/${id}?status=em_cotacao`,{method:'PATCH',headers:{authorization:'Bearer '+TK}});loadAll();}
 
 let _emailAccFilter='all';
+let _emailPage=0;
+let _emailPageSize=50;
+let _emailFiltered=[];
+
+function fmtEmailDate(str){
+  if(!str) return '—';
+  try{
+    const d=new Date(str);
+    const now=new Date();
+    const diff=now-d;
+    if(diff<86400000){return d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+    if(diff<604800000){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}
+    return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'});
+  }catch{return '—';}
+}
 
 function emailListRow(e,idx){
   const tags=JSON.parse(e.tags||'[]');
-  const tg=tags.slice(0,2).map(t=>`<span class="badge badge-neutral">${t}</span>`).join('');
+  const tg=tags.slice(0,1).map(t=>`<span class="badge badge-neutral">${t}</span>`).join('');
   const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';
-  return`<div class="email-row" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div></div>`;
+  const date=fmtEmailDate(e.date_str||e.logged_at);
+  return`<div class="email-row" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div><div class="er-date">${date}</div></div>`;
 }
 
 function buildEmailFilters(items){
@@ -771,30 +801,76 @@ function buildEmailFilters(items){
 function getFilteredEmails(){
   let items=_e;
   if(_emailAccFilter!=='all') items=items.filter(e=>e.account===_emailAccFilter);
+  const q=document.querySelector('#page-emails .search-bar input')?.value||'';
+  if(q){const lo=q.toLowerCase();items=items.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)||(e.from_addr||'').toLowerCase().includes(lo));}
   return items;
+}
+
+function renderEmailPage(){
+  const items=_emailFiltered;
+  const total=items.length;
+  const start=_emailPage*_emailPageSize;
+  const end=Math.min(start+_emailPageSize,total);
+  const page=items.slice(start,end);
+  const totalPages=Math.max(1,Math.ceil(total/_emailPageSize));
+
+  const listHtml=page.length
+    ?`<div class="email-list">${page.map(e=>emailListRow(e,_e.indexOf(e))).join('')}</div>`
+    :emp('Nenhum email encontrado');
+
+  const prevDis=_emailPage===0?'disabled':'';
+  const nextDis=_emailPage>=totalPages-1?'disabled':'';
+
+  const pagHtml=`<div class="pagination">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="pag-size">
+        <button class="pag-size-btn${_emailPageSize===50?' active':''}" onclick="setEmailPageSize(50)">50</button>
+        <button class="pag-size-btn${_emailPageSize===100?' active':''}" onclick="setEmailPageSize(100)">100</button>
+        <button class="pag-size-btn${_emailPageSize===200?' active':''}" onclick="setEmailPageSize(200)">200</button>
+      </div>
+      <span class="pag-info">por pág.</span>
+    </div>
+    <div class="pag-controls">
+      <span class="pag-info">${start+1}–${end} de ${total}</span>
+      <button class="pag-btn" onclick="emailGoPage(${_emailPage-1})" ${prevDis}>‹</button>
+      <button class="pag-btn" onclick="emailGoPage(${_emailPage+1})" ${nextDis}>›</button>
+    </div>
+  </div>`;
+
+  document.getElementById('le').innerHTML=listHtml+pagHtml;
 }
 
 function rEmail(d){
   buildEmailFilters(_e);
-  const filtered=_emailAccFilter==='all'?d:d.filter(e=>e.account===_emailAccFilter);
-  document.getElementById('le').innerHTML=filtered.length
-    ?`<div class="email-list">${filtered.map((e,i)=>emailListRow(e,_e.indexOf(e))).join('')}</div>`
-    :emp('Nenhum email encontrado');
+  _emailFiltered=getFilteredEmails();
+  renderEmailPage();
+}
+
+function emailGoPage(p){
+  const totalPages=Math.max(1,Math.ceil(_emailFiltered.length/_emailPageSize));
+  _emailPage=Math.max(0,Math.min(p,totalPages-1));
+  renderEmailPage();
+  document.getElementById('page-emails').scrollIntoView({behavior:'smooth'});
+}
+
+function setEmailPageSize(n){
+  _emailPageSize=n;
+  _emailPage=0;
+  renderEmailPage();
 }
 
 function fEmailAccount(v,c){
   _emailAccFilter=v;
   chip(c);
-  const q=document.querySelector('#page-emails .search-bar input')?.value||'';
-  sEmail(q);
+  _emailPage=0;
+  _emailFiltered=getFilteredEmails();
+  renderEmailPage();
 }
 
 function sEmail(q){
-  let items=getFilteredEmails();
-  if(q){const lo=q.toLowerCase();items=items.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)||(e.from_addr||'').toLowerCase().includes(lo));}
-  document.getElementById('le').innerHTML=items.length
-    ?`<div class="email-list">${items.map((e,i)=>emailListRow(e,_e.indexOf(e))).join('')}</div>`
-    :emp('Nenhum email encontrado');
+  _emailPage=0;
+  _emailFiltered=getFilteredEmails();
+  renderEmailPage();
 }
 
 function showEmailModal(idx){
