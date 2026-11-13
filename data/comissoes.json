@@ -123,19 +123,6 @@
           "pendente": 0.3
         },
         {
-          "id": "1692",
-          "insurer": "SOMPO SEGUROS S. A.",
-          "cliente": "ALMEIDA COMERCIO DE ALIMENTOS LTDA",
-          "produto": "EMPRESARIAL",
-          "policy_number": "",
-          "parcela": 5,
-          "premium": 2393.95,
-          "valor": 86.18,
-          "pct": 3.6,
-          "status": "pendent",
-          "pendente": 86.18
-        },
-        {
           "id": "1698",
           "insurer": "SOMPO SEGUROS S. A.",
           "cliente": "ALMEIDA COMERCIO DE ALIMENTOS LTDA",
@@ -147,6 +134,19 @@
           "pct": 14.4,
           "status": "pendent",
           "pendente": 344.73
+        },
+        {
+          "id": "1692",
+          "insurer": "SOMPO SEGUROS S. A.",
+          "cliente": "ALMEIDA COMERCIO DE ALIMENTOS LTDA",
+          "produto": "EMPRESARIAL",
+          "policy_number": "",
+          "parcela": 5,
+          "premium": 2393.95,
+          "valor": 86.18,
+          "pct": 3.6,
+          "status": "pendent",
+          "pendente": 86.18
         },
         {
           "id": "2312",
@@ -591,19 +591,6 @@
           "pendente": 6000.0
         },
         {
-          "id": "1802",
-          "insurer": "SEGUROS SURA S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "AUTOMOVEL",
-          "policy_number": "20030437",
-          "parcela": 3,
-          "premium": 1025.52,
-          "valor": 51.28,
-          "pct": 5.0,
-          "status": "pendent",
-          "pendente": 51.28
-        },
-        {
           "id": "1805",
           "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
@@ -617,17 +604,17 @@
           "pendente": 205.1
         },
         {
-          "id": "2754",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "id": "1802",
+          "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015339",
-          "parcela": 14,
-          "premium": 2063699.01,
-          "valor": 330191.84,
-          "pct": 16.0,
+          "produto": "AUTOMOVEL",
+          "policy_number": "20030437",
+          "parcela": 3,
+          "premium": 1025.52,
+          "valor": 51.28,
+          "pct": 5.0,
           "status": "pendent",
-          "pendente": 330191.84
+          "pendente": 51.28
         },
         {
           "id": "2694",
@@ -669,17 +656,17 @@
           "pendente": 330191.84
         },
         {
-          "id": "1005",
-          "insurer": "SEGUROS SURA S.A.",
+          "id": "2754",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "AUTOMOVEL",
-          "policy_number": "20030437",
-          "parcela": 9,
-          "premium": 72858.55,
-          "valor": 14571.71,
-          "pct": 20.0,
+          "produto": "RCTR-C",
+          "policy_number": "1005400015339",
+          "parcela": 14,
+          "premium": 2063699.01,
+          "valor": 330191.84,
+          "pct": 16.0,
           "status": "pendent",
-          "pendente": 14571.71
+          "pendente": 330191.84
         },
         {
           "id": "995",
@@ -693,6 +680,19 @@
           "pct": 5.0,
           "status": "pendent",
           "pendente": 3642.93
+        },
+        {
+          "id": "1005",
+          "insurer": "SEGUROS SURA S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "AUTOMOVEL",
+          "policy_number": "20030437",
+          "parcela": 9,
+          "premium": 72858.55,
+          "valor": 14571.71,
+          "pct": 20.0,
+          "status": "pendent",
+          "pendente": 14571.71
         },
         {
           "id": "1830",
@@ -1085,6 +1085,19 @@
           "pendente": 424.74
         },
         {
+          "id": "796",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
+          "produto": "RC DC",
+          "policy_number": "1005500008528",
+          "parcela": 10,
+          "premium": 1000.0,
+          "valor": 40.0,
+          "pct": 4.0,
+          "status": "pendent",
+          "pendente": 40.0
+        },
+        {
           "id": "888",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
@@ -1098,17 +1111,17 @@
           "pendente": 40.0
         },
         {
-          "id": "796",
+          "id": "2875",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008528",
-          "parcela": 10,
-          "premium": 1000.0,
-          "valor": 40.0,
-          "pct": 4.0,
+          "produto": "RCTR-C",
+          "policy_number": "1005400015341",
+          "parcela": 15,
+          "premium": 24000.0,
+          "valor": 3840.0,
+          "pct": 16.0,
           "status": "pendent",
-          "pendente": 40.0
+          "pendente": 3840.0
         },
         {
           "id": "2775",
@@ -1142,19 +1155,6 @@
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
           "produto": "RC DC",
           "policy_number": "1005500008327",
-          "parcela": 15,
-          "premium": 24000.0,
-          "valor": 3840.0,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 3840.0
-        },
-        {
-          "id": "2875",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015341",
           "parcela": 15,
           "premium": 24000.0,
           "valor": 3840.0,
@@ -1241,32 +1241,6 @@
           "pendente": 40.0
         },
         {
-          "id": "2915",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008326",
-          "parcela": 15,
-          "premium": 24000.0,
-          "valor": 3840.0,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 3840.0
-        },
-        {
-          "id": "2895",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015340",
-          "parcela": 15,
-          "premium": 24000.0,
-          "valor": 3840.0,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 3840.0
-        },
-        {
           "id": "2815",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
@@ -1293,17 +1267,30 @@
           "pendente": 960.0
         },
         {
-          "id": "2043",
-          "insurer": "SEGUROS SURA S.A.",
-          "cliente": "PINTO DE ALMEIDA ENGENHARIA S/A",
-          "produto": "EMPRESARIAL",
-          "policy_number": "156310",
-          "parcela": 2,
-          "premium": 264.53,
-          "valor": 26.45,
-          "pct": 10.0,
+          "id": "2915",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
+          "produto": "RC DC",
+          "policy_number": "1005500008326",
+          "parcela": 15,
+          "premium": 24000.0,
+          "valor": 3840.0,
+          "pct": 16.0,
           "status": "pendent",
-          "pendente": 26.45
+          "pendente": 3840.0
+        },
+        {
+          "id": "2895",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015340",
+          "parcela": 15,
+          "premium": 24000.0,
+          "valor": 3840.0,
+          "pct": 16.0,
+          "status": "pendent",
+          "pendente": 3840.0
         },
         {
           "id": "2138",
@@ -1317,6 +1304,19 @@
           "pct": 40.0,
           "status": "pendent",
           "pendente": 78.96
+        },
+        {
+          "id": "2043",
+          "insurer": "SEGUROS SURA S.A.",
+          "cliente": "PINTO DE ALMEIDA ENGENHARIA S/A",
+          "produto": "EMPRESARIAL",
+          "policy_number": "156310",
+          "parcela": 2,
+          "premium": 264.53,
+          "valor": 26.45,
+          "pct": 10.0,
+          "status": "pendent",
+          "pendente": 26.45
         },
         {
           "id": "1867",
@@ -1540,6 +1540,45 @@
           "pendente": 104.42
         },
         {
+          "id": "2220",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411204",
+          "parcela": 6,
+          "premium": 148.78,
+          "valor": 14.88,
+          "pct": 10.0,
+          "status": "pendent",
+          "pendente": 14.88
+        },
+        {
+          "id": "2236",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411208.2",
+          "parcela": 6,
+          "premium": 75.12,
+          "valor": 7.51,
+          "pct": 10.0,
+          "status": "pendent",
+          "pendente": 7.51
+        },
+        {
+          "id": "2224",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411206",
+          "parcela": 6,
+          "premium": 71.22,
+          "valor": 7.12,
+          "pct": 10.0,
+          "status": "pendent",
+          "pendente": 7.12
+        },
+        {
           "id": "2228",
           "insurer": "ZURICH BRASIL SEGUROS S.A.",
           "cliente": "THATHI NOVABRASIL LTDA",
@@ -1590,45 +1629,6 @@
           "pct": 10.0,
           "status": "pendent",
           "pendente": 12.39
-        },
-        {
-          "id": "2220",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411204",
-          "parcela": 6,
-          "premium": 148.78,
-          "valor": 14.88,
-          "pct": 10.0,
-          "status": "pendent",
-          "pendente": 14.88
-        },
-        {
-          "id": "2236",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411208.2",
-          "parcela": 6,
-          "premium": 75.12,
-          "valor": 7.51,
-          "pct": 10.0,
-          "status": "pendent",
-          "pendente": 7.51
-        },
-        {
-          "id": "2224",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411206",
-          "parcela": 6,
-          "premium": 71.22,
-          "valor": 7.12,
-          "pct": 10.0,
-          "status": "pendent",
-          "pendente": 7.12
         },
         {
           "id": "2240",
@@ -2275,12 +2275,12 @@
           "pendente": 61.8
         },
         {
-          "id": "3018",
+          "id": "3019",
           "insurer": "PORTO SEGURO CIA. DE SEG. GERAIS",
           "cliente": "CRISTIANA VASCONCELLOS ROSA DE ARAUJO",
           "produto": "AUTOMOVEL",
           "policy_number": "0531 34 10225368",
-          "parcela": 1,
+          "parcela": 2,
           "premium": 195.66,
           "valor": 19.57,
           "pct": 10.0,
@@ -2288,12 +2288,12 @@
           "pendente": 19.57
         },
         {
-          "id": "3019",
+          "id": "3018",
           "insurer": "PORTO SEGURO CIA. DE SEG. GERAIS",
           "cliente": "CRISTIANA VASCONCELLOS ROSA DE ARAUJO",
           "produto": "AUTOMOVEL",
           "policy_number": "0531 34 10225368",
-          "parcela": 2,
+          "parcela": 1,
           "premium": 195.66,
           "valor": 19.57,
           "pct": 10.0,
@@ -2444,11 +2444,11 @@
           "pendente": 48.05
         },
         {
-          "id": "743",
+          "id": "863",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015565",
+          "produto": "RC DC",
+          "policy_number": "1005500008529",
           "parcela": 9,
           "premium": 150000.0,
           "valor": 6000.0,
@@ -2457,11 +2457,11 @@
           "pendente": 6000.0
         },
         {
-          "id": "863",
+          "id": "743",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008529",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015565",
           "parcela": 9,
           "premium": 150000.0,
           "valor": 6000.0,
@@ -2494,19 +2494,6 @@
           "pct": 20.0,
           "status": "pendent",
           "pendente": 205.1
-        },
-        {
-          "id": "2713",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008325",
-          "parcela": 13,
-          "premium": 2063699.01,
-          "valor": 330191.84,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 330191.84
         },
         {
           "id": "2753",
@@ -2548,17 +2535,17 @@
           "pendente": 82547.96
         },
         {
-          "id": "2089",
-          "insurer": "SOMPO SEGUROS S. A.",
+          "id": "2713",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RC-V",
-          "policy_number": "5910002187",
-          "parcela": 9,
-          "premium": 7426.61,
-          "valor": 267.36,
-          "pct": 3.6,
+          "produto": "RC DC",
+          "policy_number": "1005500008325",
+          "parcela": 13,
+          "premium": 2063699.01,
+          "valor": 330191.84,
+          "pct": 16.0,
           "status": "pendent",
-          "pendente": 267.36
+          "pendente": 330191.84
         },
         {
           "id": "2090",
@@ -2574,17 +2561,17 @@
           "pendente": 1069.43
         },
         {
-          "id": "994",
-          "insurer": "SEGUROS SURA S.A.",
+          "id": "2089",
+          "insurer": "SOMPO SEGUROS S. A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "AUTOMOVEL",
-          "policy_number": "20030437",
-          "parcela": 8,
-          "premium": 72858.55,
-          "valor": 3642.93,
-          "pct": 5.0,
-          "status": "paid_off",
-          "pendente": 182.16
+          "produto": "RC-V",
+          "policy_number": "5910002187",
+          "parcela": 9,
+          "premium": 7426.61,
+          "valor": 267.36,
+          "pct": 3.6,
+          "status": "pendent",
+          "pendente": 267.36
         },
         {
           "id": "1004",
@@ -2600,17 +2587,17 @@
           "pendente": 14571.71
         },
         {
-          "id": "1584",
+          "id": "994",
           "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
           "produto": "AUTOMOVEL",
           "policy_number": "20030437",
-          "parcela": 4,
-          "premium": 352.88,
-          "valor": 70.58,
-          "pct": 20.0,
-          "status": "pendent",
-          "pendente": 70.58
+          "parcela": 8,
+          "premium": 72858.55,
+          "valor": 3642.93,
+          "pct": 5.0,
+          "status": "paid_off",
+          "pendente": 182.16
         },
         {
           "id": "1580",
@@ -2626,17 +2613,17 @@
           "pendente": 0.0
         },
         {
-          "id": "1829",
-          "insurer": "CHUBB DO BRASIL CIA. DE SEGUROS",
+          "id": "1584",
+          "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RISCOS NOMEADOS E OPERACIONAL",
-          "policy_number": "",
-          "parcela": 3,
-          "premium": 106901.64,
-          "valor": 3207.05,
-          "pct": 3.0,
+          "produto": "AUTOMOVEL",
+          "policy_number": "20030437",
+          "parcela": 4,
+          "premium": 352.88,
+          "valor": 70.58,
+          "pct": 20.0,
           "status": "pendent",
-          "pendente": 3207.05
+          "pendente": 70.58
         },
         {
           "id": "1836",
@@ -2650,6 +2637,19 @@
           "pct": 12.0,
           "status": "paid_off",
           "pendente": 0.01
+        },
+        {
+          "id": "1829",
+          "insurer": "CHUBB DO BRASIL CIA. DE SEGUROS",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "RISCOS NOMEADOS E OPERACIONAL",
+          "policy_number": "",
+          "parcela": 3,
+          "premium": 106901.64,
+          "valor": 3207.05,
+          "pct": 3.0,
+          "status": "pendent",
+          "pendente": 3207.05
         },
         {
           "id": "1025",
@@ -2676,19 +2676,6 @@
           "pct": 5.0,
           "status": "paid_off",
           "pendente": 0.01
-        },
-        {
-          "id": "2077",
-          "insurer": "SEGUROS SURA S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "AUTOMOVEL",
-          "policy_number": "20030437",
-          "parcela": 1,
-          "premium": 901.85,
-          "valor": 45.09,
-          "pct": 5.0,
-          "status": "paid_off",
-          "pendente": 0.0
         },
         {
           "id": "2078",
@@ -2728,6 +2715,19 @@
           "pct": 20.0,
           "status": "pendent",
           "pendente": -189.52
+        },
+        {
+          "id": "2077",
+          "insurer": "SEGUROS SURA S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "AUTOMOVEL",
+          "policy_number": "20030437",
+          "parcela": 1,
+          "premium": 901.85,
+          "valor": 45.09,
+          "pct": 5.0,
+          "status": "paid_off",
+          "pendente": 0.0
         },
         {
           "id": "2300",
@@ -3068,11 +3068,11 @@
           "pendente": 424.74
         },
         {
-          "id": "795",
+          "id": "887",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008528",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015564",
           "parcela": 9,
           "premium": 1000.0,
           "valor": 40.0,
@@ -3081,11 +3081,11 @@
           "pendente": 40.0
         },
         {
-          "id": "887",
+          "id": "795",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015564",
+          "produto": "RC DC",
+          "policy_number": "1005500008528",
           "parcela": 9,
           "premium": 1000.0,
           "valor": 40.0,
@@ -3224,32 +3224,6 @@
           "pendente": 40.0
         },
         {
-          "id": "2814",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008326",
-          "parcela": 14,
-          "premium": 24000.0,
-          "valor": 960.0,
-          "pct": 4.0,
-          "status": "pendent",
-          "pendente": 960.0
-        },
-        {
-          "id": "2834",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015340",
-          "parcela": 14,
-          "premium": 24000.0,
-          "valor": 960.0,
-          "pct": 4.0,
-          "status": "pendent",
-          "pendente": 960.0
-        },
-        {
           "id": "2914",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
@@ -3276,17 +3250,30 @@
           "pendente": 3840.0
         },
         {
-          "id": "2137",
-          "insurer": "SEGUROS SURA S.A.",
-          "cliente": "PINTO DE ALMEIDA ENGENHARIA S/A",
-          "produto": "EMPRESARIAL",
-          "policy_number": "156254",
-          "parcela": 1,
-          "premium": 197.4,
-          "valor": 78.96,
-          "pct": 40.0,
-          "status": "paid_off",
-          "pendente": 13.22
+          "id": "2814",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
+          "produto": "RC DC",
+          "policy_number": "1005500008326",
+          "parcela": 14,
+          "premium": 24000.0,
+          "valor": 960.0,
+          "pct": 4.0,
+          "status": "pendent",
+          "pendente": 960.0
+        },
+        {
+          "id": "2834",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015340",
+          "parcela": 14,
+          "premium": 24000.0,
+          "valor": 960.0,
+          "pct": 4.0,
+          "status": "pendent",
+          "pendente": 960.0
         },
         {
           "id": "2042",
@@ -3300,6 +3287,19 @@
           "pct": 10.0,
           "status": "paid_off",
           "pendente": 1.32
+        },
+        {
+          "id": "2137",
+          "insurer": "SEGUROS SURA S.A.",
+          "cliente": "PINTO DE ALMEIDA ENGENHARIA S/A",
+          "produto": "EMPRESARIAL",
+          "policy_number": "156254",
+          "parcela": 1,
+          "premium": 197.4,
+          "valor": 78.96,
+          "pct": 40.0,
+          "status": "paid_off",
+          "pendente": 13.22
         },
         {
           "id": "1866",
@@ -3536,32 +3536,6 @@
           "pendente": 61.96
         },
         {
-          "id": "2199",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411201",
-          "parcela": 2,
-          "premium": 619.59,
-          "valor": 61.96,
-          "pct": 10.0,
-          "status": "pendent",
-          "pendente": 61.96
-        },
-        {
-          "id": "2231",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411208",
-          "parcela": 5,
-          "premium": 123.9,
-          "valor": 12.39,
-          "pct": 10.0,
-          "status": "paid_off",
-          "pendente": 4.88
-        },
-        {
           "id": "2219",
           "insurer": "ZURICH BRASIL SEGUROS S.A.",
           "cliente": "THATHI NOVABRASIL LTDA",
@@ -3625,6 +3599,32 @@
           "pct": 10.0,
           "status": "pendent",
           "pendente": 7.34
+        },
+        {
+          "id": "2199",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411201",
+          "parcela": 2,
+          "premium": 619.59,
+          "valor": 61.96,
+          "pct": 10.0,
+          "status": "pendent",
+          "pendente": 61.96
+        },
+        {
+          "id": "2231",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411208",
+          "parcela": 5,
+          "premium": 123.9,
+          "valor": 12.39,
+          "pct": 10.0,
+          "status": "paid_off",
+          "pendente": 4.88
         },
         {
           "id": "2239",
@@ -3881,19 +3881,6 @@
           "pendente": 0.0
         },
         {
-          "id": "1690",
-          "insurer": "SOMPO SEGUROS S. A.",
-          "cliente": "ALMEIDA COMERCIO DE ALIMENTOS LTDA",
-          "produto": "EMPRESARIAL",
-          "policy_number": "",
-          "parcela": 3,
-          "premium": 2393.95,
-          "valor": 86.18,
-          "pct": 3.6,
-          "status": "pendent",
-          "pendente": 86.18
-        },
-        {
           "id": "1696",
           "insurer": "SOMPO SEGUROS S. A.",
           "cliente": "ALMEIDA COMERCIO DE ALIMENTOS LTDA",
@@ -3905,6 +3892,19 @@
           "pct": 14.4,
           "status": "pendent",
           "pendente": 344.73
+        },
+        {
+          "id": "1690",
+          "insurer": "SOMPO SEGUROS S. A.",
+          "cliente": "ALMEIDA COMERCIO DE ALIMENTOS LTDA",
+          "produto": "EMPRESARIAL",
+          "policy_number": "",
+          "parcela": 3,
+          "premium": 2393.95,
+          "valor": 86.18,
+          "pct": 3.6,
+          "status": "pendent",
+          "pendente": 86.18
         },
         {
           "id": "1038",
@@ -4414,19 +4414,6 @@
           "pendente": 0.0
         },
         {
-          "id": "1803",
-          "insurer": "SEGUROS SURA S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "AUTOMOVEL",
-          "policy_number": "20030437",
-          "parcela": 1,
-          "premium": 1025.51,
-          "valor": 205.1,
-          "pct": 20.0,
-          "status": "pendent",
-          "pendente": 205.1
-        },
-        {
           "id": "1800",
           "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
@@ -4438,6 +4425,19 @@
           "pct": 5.0,
           "status": "pendent",
           "pendente": 51.28
+        },
+        {
+          "id": "1803",
+          "insurer": "SEGUROS SURA S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "AUTOMOVEL",
+          "policy_number": "20030437",
+          "parcela": 1,
+          "premium": 1025.51,
+          "valor": 205.1,
+          "pct": 20.0,
+          "status": "pendent",
+          "pendente": 205.1
         },
         {
           "id": "2083",
@@ -4464,6 +4464,19 @@
           "pct": 14.4,
           "status": "pendent",
           "pendente": 1003.02
+        },
+        {
+          "id": "2752",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015339",
+          "parcela": 12,
+          "premium": 2063699.01,
+          "valor": 330191.84,
+          "pct": 16.0,
+          "status": "pendent",
+          "pendente": 330191.84
         },
         {
           "id": "2692",
@@ -4497,19 +4510,6 @@
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
           "produto": "RC DC",
           "policy_number": "1005500008325",
-          "parcela": 12,
-          "premium": 2063699.01,
-          "valor": 330191.84,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 330191.84
-        },
-        {
-          "id": "2752",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015339",
           "parcela": 12,
           "premium": 2063699.01,
           "valor": 330191.84,
@@ -4570,19 +4570,6 @@
           "pendente": 70.58
         },
         {
-          "id": "1828",
-          "insurer": "CHUBB DO BRASIL CIA. DE SEGUROS",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RISCOS NOMEADOS E OPERACIONAL",
-          "policy_number": "",
-          "parcela": 2,
-          "premium": 106901.64,
-          "valor": 3207.05,
-          "pct": 3.0,
-          "status": "paid_off",
-          "pendente": 0.01
-        },
-        {
           "id": "1835",
           "insurer": "CHUBB DO BRASIL CIA. DE SEGUROS",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
@@ -4592,6 +4579,19 @@
           "premium": 106901.64,
           "valor": 12828.2,
           "pct": 12.0,
+          "status": "paid_off",
+          "pendente": 0.01
+        },
+        {
+          "id": "1828",
+          "insurer": "CHUBB DO BRASIL CIA. DE SEGUROS",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "RISCOS NOMEADOS E OPERACIONAL",
+          "policy_number": "",
+          "parcela": 2,
+          "premium": 106901.64,
+          "valor": 3207.05,
+          "pct": 3.0,
           "status": "paid_off",
           "pendente": 0.01
         },
@@ -4635,19 +4635,6 @@
           "pendente": 0.0
         },
         {
-          "id": "1051",
-          "insurer": "PORTO SEGURO-SEGURO SAUDE S.A",
-          "cliente": "IL PSIQUIATRIA E PSICOTERAPIA LTDA",
-          "produto": "SAUDE PME",
-          "policy_number": "343077",
-          "parcela": 8,
-          "premium": 12137.2,
-          "valor": 242.74,
-          "pct": 2.0,
-          "status": "paid_off",
-          "pendente": 0.0
-        },
-        {
           "id": "1966",
           "insurer": "PORTO SEGURO-SEGURO SAUDE S.A",
           "cliente": "IL PSIQUIATRIA E PSICOTERAPIA LTDA",
@@ -4656,6 +4643,19 @@
           "parcela": 15,
           "premium": 13650.76,
           "valor": 273.02,
+          "pct": 2.0,
+          "status": "paid_off",
+          "pendente": 0.0
+        },
+        {
+          "id": "1051",
+          "insurer": "PORTO SEGURO-SEGURO SAUDE S.A",
+          "cliente": "IL PSIQUIATRIA E PSICOTERAPIA LTDA",
+          "produto": "SAUDE PME",
+          "policy_number": "343077",
+          "parcela": 8,
+          "premium": 12137.2,
+          "valor": 242.74,
           "pct": 2.0,
           "status": "paid_off",
           "pendente": 0.0
@@ -4947,6 +4947,19 @@
           "pendente": 34.43
         },
         {
+          "id": "886",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015564",
+          "parcela": 8,
+          "premium": 1000.0,
+          "valor": 40.0,
+          "pct": 4.0,
+          "status": "pendent",
+          "pendente": 40.0
+        },
+        {
           "id": "794",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
@@ -4960,17 +4973,17 @@
           "pendente": 40.0
         },
         {
-          "id": "886",
+          "id": "2773",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015564",
-          "parcela": 8,
-          "premium": 1000.0,
-          "valor": 40.0,
+          "produto": "RC DC",
+          "policy_number": "1005500008327",
+          "parcela": 13,
+          "premium": 24000.0,
+          "valor": 960.0,
           "pct": 4.0,
           "status": "pendent",
-          "pendente": 40.0
+          "pendente": 960.0
         },
         {
           "id": "2793",
@@ -5012,19 +5025,6 @@
           "pendente": 3840.0
         },
         {
-          "id": "2773",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008327",
-          "parcela": 13,
-          "premium": 24000.0,
-          "valor": 960.0,
-          "pct": 4.0,
-          "status": "pendent",
-          "pendente": 960.0
-        },
-        {
           "id": "1409",
           "insurer": "ZURICH BRASIL SEGUROS S.A.",
           "cliente": "PANORAMA DIARIO COMERCIAL E PUBLIC. LTDA",
@@ -5051,6 +5051,19 @@
           "pendente": 0.0
         },
         {
+          "id": "838",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
+          "produto": "RC DC",
+          "policy_number": "1005500008527",
+          "parcela": 8,
+          "premium": 1000.0,
+          "valor": 40.0,
+          "pct": 4.0,
+          "status": "pendent",
+          "pendente": 40.0
+        },
+        {
           "id": "818",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
@@ -5064,17 +5077,17 @@
           "pendente": 40.0
         },
         {
-          "id": "838",
+          "id": "2913",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
           "produto": "RC DC",
-          "policy_number": "1005500008527",
-          "parcela": 8,
-          "premium": 1000.0,
-          "valor": 40.0,
-          "pct": 4.0,
+          "policy_number": "1005500008326",
+          "parcela": 13,
+          "premium": 24000.0,
+          "valor": 3840.0,
+          "pct": 16.0,
           "status": "pendent",
-          "pendente": 40.0
+          "pendente": 3840.0
         },
         {
           "id": "2893",
@@ -5114,19 +5127,6 @@
           "pct": 4.0,
           "status": "pendent",
           "pendente": 960.0
-        },
-        {
-          "id": "2913",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "PAULISTA TERMINAL RETROPORTUARIO LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008326",
-          "parcela": 13,
-          "premium": 24000.0,
-          "valor": 3840.0,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 3840.0
         },
         {
           "id": "1865",
@@ -5363,6 +5363,32 @@
           "pendente": 0.0
         },
         {
+          "id": "2226",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411207",
+          "parcela": 4,
+          "premium": 117.31,
+          "valor": 11.73,
+          "pct": 10.0,
+          "status": "paid_off",
+          "pendente": 0.0
+        },
+        {
+          "id": "2214",
+          "insurer": "ZURICH BRASIL SEGUROS S.A.",
+          "cliente": "THATHI NOVABRASIL LTDA",
+          "produto": "VG PME",
+          "policy_number": "411205",
+          "parcela": 4,
+          "premium": 73.44,
+          "valor": 7.34,
+          "pct": 10.0,
+          "status": "paid_off",
+          "pendente": 0.0
+        },
+        {
           "id": "2230",
           "insurer": "ZURICH BRASIL SEGUROS S.A.",
           "cliente": "THATHI NOVABRASIL LTDA",
@@ -5413,32 +5439,6 @@
           "pct": 10.0,
           "status": "paid_off",
           "pendente": 0.84
-        },
-        {
-          "id": "2226",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411207",
-          "parcela": 4,
-          "premium": 117.31,
-          "valor": 11.73,
-          "pct": 10.0,
-          "status": "paid_off",
-          "pendente": 0.0
-        },
-        {
-          "id": "2214",
-          "insurer": "ZURICH BRASIL SEGUROS S.A.",
-          "cliente": "THATHI NOVABRASIL LTDA",
-          "produto": "VG PME",
-          "policy_number": "411205",
-          "parcela": 4,
-          "premium": 73.44,
-          "valor": 7.34,
-          "pct": 10.0,
-          "status": "paid_off",
-          "pendente": 0.0
         },
         {
           "id": "2238",
@@ -8764,19 +8764,6 @@
           "pendente": 0.0
         },
         {
-          "id": "739",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015565",
-          "parcela": 5,
-          "premium": 150000.0,
-          "valor": 6000.0,
-          "pct": 4.0,
-          "status": "paid_off",
-          "pendente": 0.0
-        },
-        {
           "id": "859",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
@@ -8790,30 +8777,17 @@
           "pendente": 0.0
         },
         {
-          "id": "2709",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "RC DC",
-          "policy_number": "1005500008325",
-          "parcela": 9,
-          "premium": 2063699.01,
-          "valor": 330191.84,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 330191.84
-        },
-        {
-          "id": "2749",
+          "id": "739",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
           "produto": "RCTR-C",
-          "policy_number": "1005400015339",
-          "parcela": 9,
-          "premium": 2063699.01,
-          "valor": 330191.84,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 330191.84
+          "policy_number": "1005400015565",
+          "parcela": 5,
+          "premium": 150000.0,
+          "valor": 6000.0,
+          "pct": 4.0,
+          "status": "paid_off",
+          "pendente": 0.0
         },
         {
           "id": "2689",
@@ -8842,6 +8816,32 @@
           "pendente": 82547.96
         },
         {
+          "id": "2709",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "RC DC",
+          "policy_number": "1005500008325",
+          "parcela": 9,
+          "premium": 2063699.01,
+          "valor": 330191.84,
+          "pct": 16.0,
+          "status": "pendent",
+          "pendente": 330191.84
+        },
+        {
+          "id": "2749",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015339",
+          "parcela": 9,
+          "premium": 2063699.01,
+          "valor": 330191.84,
+          "pct": 16.0,
+          "status": "pendent",
+          "pendente": 330191.84
+        },
+        {
           "id": "990",
           "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
@@ -8868,19 +8868,6 @@
           "pendente": 14571.71
         },
         {
-          "id": "1021",
-          "insurer": "SEGUROS SURA S.A.",
-          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
-          "produto": "AUTOMOVEL",
-          "policy_number": "20030436",
-          "parcela": 5,
-          "premium": 69399.39,
-          "valor": 13879.88,
-          "pct": 20.0,
-          "status": "pendent",
-          "pendente": 13879.88
-        },
-        {
           "id": "1011",
           "insurer": "SEGUROS SURA S.A.",
           "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
@@ -8892,6 +8879,19 @@
           "pct": 5.0,
           "status": "paid_off",
           "pendente": 0.01
+        },
+        {
+          "id": "1021",
+          "insurer": "SEGUROS SURA S.A.",
+          "cliente": "GELOG - LOCACOES E TRANSPORTES LTDA",
+          "produto": "AUTOMOVEL",
+          "policy_number": "20030436",
+          "parcela": 5,
+          "premium": 69399.39,
+          "valor": 13879.88,
+          "pct": 20.0,
+          "status": "pendent",
+          "pendente": 13879.88
         },
         {
           "id": "1048",
@@ -9206,6 +9206,19 @@
           "pendente": 40.0
         },
         {
+          "id": "2870",
+          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
+          "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
+          "produto": "RCTR-C",
+          "policy_number": "1005400015341",
+          "parcela": 10,
+          "premium": 24000.0,
+          "valor": 3840.0,
+          "pct": 16.0,
+          "status": "pendent",
+          "pendente": 3840.0
+        },
+        {
           "id": "2770",
           "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
@@ -9237,19 +9250,6 @@
           "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
           "produto": "RC DC",
           "policy_number": "1005500008327",
-          "parcela": 10,
-          "premium": 24000.0,
-          "valor": 3840.0,
-          "pct": 16.0,
-          "status": "pendent",
-          "pendente": 3840.0
-        },
-        {
-          "id": "2870",
-          "insurer": "BERKLEY INTERNATIONAL DO BRASIL SEGUROS S.A.",
-          "cliente": "OMNITRANS LOGISTICA E TRANSPORTES LTDA",
-          "produto": "RCTR-C",
-          "policy_number": "1005400015341",
           "parcela": 10,
           "premium": 24000.0,
           "valor": 3840.0,
@@ -9936,5 +9936,5 @@
       "premium_total": 0
     }
   ],
-  "updated_at": "2026-11-13T23:45:28Z"
+  "updated_at": "2026-11-13T23:49:13Z"
 }
