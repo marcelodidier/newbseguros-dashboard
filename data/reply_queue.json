@@ -13,6 +13,19 @@
       "sent_at": null,
       "error": "Error: FETCH returned no body for the requested message\n\nSuggestions:\n - Run with --log-level to enable more verbose logs",
       "sent_msg_id": ""
+    },
+    {
+      "id": "2a8d8ba7-6bfb-4412-a881-02b0bb177c19",
+      "account": "barbara",
+      "msg_id": "15",
+      "original_subject": "Agentes de IA - D0 (Barbara Araujo)",
+      "original_from": "marcelodidier27@gmail.com",
+      "body": "Resposta teste",
+      "status": "pending",
+      "created_at": "2026-11-13T15:59:52.506Z",
+      "sent_by": "Marcelo Didier",
+      "sent_at": null,
+      "error": null
     }
   ]
 }
