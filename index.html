@@ -271,17 +271,14 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 /* ── EMAIL BODY IN MODAL ── */
 .em-body-section{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
 .em-body-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.em-body-text{font-size:13px;color:var(--ink-2);line-height:1.65;white-space:pre-wrap;word-break:break-word;background:var(--surface-2);border-radius:8px;padding:12px 14px;max-height:320px;overflow-y:auto;border:1px solid var(--border-2);font-family:'Courier New',monospace}
-.em-attachments{margin-top:12px}
-.em-att-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface-2);border-radius:8px;border:1px solid var(--border-2);margin-bottom:6px;font-size:12px}
 .em-att-icon{font-size:18px;flex-shrink:0}
 .em-att-name{flex:1;font-weight:500;color:var(--ink-2);word-break:break-all}
 .em-att-size{color:var(--muted);white-space:nowrap;font-size:11px}
 
 /* ── EMAIL SUMMARY + BODY RENDER ── */
-.em-summary{background:var(--brand-light);border-left:3px solid var(--brand);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--ink-2);line-height:1.6;font-style:italic}
+.em-summary{background:var(--brand-light);border-left:3px solid var(--brand);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--ink-2);line-height:1.65;word-break:break-word;overflow-wrap:break-word;overflow:hidden;display:block}
 .em-summary-label{font-size:10px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
-.em-body-text{font-family:'Alexandria',system-ui,-apple-system,sans-serif;font-size:14.5px;font-weight:400;color:#111;line-height:1.8;word-break:break-word;background:#fff;border-radius:10px;padding:20px 22px;max-height:420px;overflow-y:auto;border:1px solid var(--border-2);box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
+.em-body-text{font-family:'Alexandria',system-ui,-apple-system,sans-serif;font-size:14.5px;font-weight:400;color:#111;line-height:1.8;word-break:break-word;background:#f2f3f5;border-radius:10px;padding:20px 22px;max-height:420px;overflow-y:auto;border:1px solid #dde0e6;box-shadow:none}
 .em-body-text .em-para{display:block;margin-bottom:12px;white-space:pre-wrap;font-family:inherit}
 .em-body-text .em-para:last-child{margin-bottom:0}
 .em-body-text .em-link{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-all;font-size:12px}
