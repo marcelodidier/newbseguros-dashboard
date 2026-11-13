@@ -445,6 +445,11 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span class="snav-label">Clientes</span>
       </button>
+      <hr class="snav-divider">
+      <button class="snav-item admin-only" onclick="go('financeiro',this)" id="snav-financeiro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="snav-label">Financeiro</span>
+      </button>
     </nav>
     <div class="sidebar-footer">
       <!-- Usuários — só admin vê -->
@@ -658,6 +663,19 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
             <div id="cl-modal-body"></div>
           </div>
         </div>
+      </div>
+
+      <!-- FINANCEIRO (admin only) -->
+      <div class="page" id="page-financeiro">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <h2 style="font-size:16px;font-weight:700">💰 Financeiro</h2>
+          <div style="display:flex;gap:6px">
+            <button id="fin-btn-m" class="btn btn-sm btn-primary" onclick="setFinPeriod('mensal')">Mensal</button>
+            <button id="fin-btn-a" class="btn btn-sm btn-ghost" onclick="setFinPeriod('anual')">Anual</button>
+          </div>
+        </div>
+        <div id="fin-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:20px"></div>
+        <div id="fin-agenda"></div>
       </div>
 
       <!-- USUÁRIOS (admin only) -->
@@ -920,7 +938,7 @@ let TK=localStorage.getItem('newb_token')||'';
 let _r=[],_ret=[],_c=[],_e=[],_w=[];
 let _ap=[],_cl=[];
 let _apPage=0,_apPageSize=50,_apFiltered=[];
-const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes'};
+const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes',financeiro:'Financeiro'};
 
 async function doLogin(){
   const u=document.getElementById('lu').value.trim().toLowerCase(),
@@ -956,6 +974,11 @@ function applyPermissions() {
   // Menu Usuários: só admin
   const snUsr = document.getElementById('snav-usuarios');
   if(snUsr) snUsr.style.display = (role === 'admin') ? 'flex' : 'none';
+  // Menu Financeiro: só admin
+  const snFin = document.getElementById('snav-financeiro');
+  if(snFin) snFin.style.display = (role === 'admin') ? 'flex' : 'none';
+  const tabFin = document.getElementById('tab-financeiro');
+  if(tabFin) tabFin.style.display = (role === 'admin') ? 'flex' : 'none';
 
   if(badge){ badge.textContent=roleLabel[role]; badge.style.background=roleColor[role]; badge.style.display='inline'; }
 
@@ -1014,6 +1037,7 @@ function go(name,btn){
   if(btn?.classList.contains('snav-item'))btn.classList.add('active');
   // Inicialização por página
   if(name==='usuarios') renderUserList();
+  if(name==='financeiro') rFinanceiro();
 }
 
 async function loadAll(){
@@ -1946,7 +1970,106 @@ function rWA(d){
 }
 function fWA(v,c){chip(c);rWA(v==='all'?_w:_w.filter(m=>m.bridge_name===v));}
 
-// ── Item Detail Modal (Renovação / Retomada / Cotação) ───────────
+// ── Financeiro (admin only) ───────────────────────────────────────
+let _finPeriod='mensal';
+function setFinPeriod(p){
+  _finPeriod=p;
+  document.getElementById('fin-btn-m').className='btn btn-sm '+(p==='mensal'?'btn-primary':'btn-ghost');
+  document.getElementById('fin-btn-a').className='btn btn-sm '+(p==='anual'?'btn-primary':'btn-ghost');
+  rFinanceiro();
+}
+function rFinanceiro(){
+  if(!document.getElementById('page-financeiro')?.classList.contains('active'))return;
+  rFinCards();
+  rFinAgenda();
+}
+function _brl(v){return v?'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2}):'R$ 0,00';}
+function _finCard(icon,label,val,sub,color){
+  return`<div style="background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:16px;border-top:3px solid ${color}">
+    <div style="font-size:22px;margin-bottom:4px">${icon}</div>
+    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">${label}</div>
+    <div style="font-size:18px;font-weight:800;color:${color}">${val}</div>
+    <div style="font-size:11px;color:var(--muted-2);margin-top:3px">${sub}</div>
+  </div>`;
+}
+function rFinCards(){
+  const el=document.getElementById('fin-cards');if(!el)return;
+  const ativas=_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida');
+  const totalAtivo=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const urgente=_ap.filter(a=>!a.cancelled&&a.urgency==='urgente');
+  const totalUrgente=urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const atencao=_ap.filter(a=>!a.cancelled&&a.urgency==='atencao');
+  const totalAtencao=atencao.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const vencidas=_ap.filter(a=>!a.cancelled&&a.urgency==='vencida');
+  const totalVencidas=vencidas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const canceladas=_ap.filter(a=>a.cancelled);
+  const pipeCot=_c.filter(c=>c.status==='aguardando'||c.status==='em_cotacao');
+  const totalPipe=pipeCot.reduce((s,c)=>s+(Number(c.valor_estimado)||0),0);
+  const renUrgente=_r.filter(r=>r.urgencia==='urgente');
+  const totalRen=renUrgente.reduce((s,r)=>s+(Number(r.premio_anual)||0),0);
+  el.innerHTML=
+    _finCard('💼','Carteira Ativa',_brl(totalAtivo),ativas.length+' apólices ativas','var(--success)')
+   +_finCard('🔴','Renovar ≤30 dias',_brl(totalUrgente),urgente.length+' apólices urgentes','var(--danger)')
+   +_finCard('🟡','Renovar 31–60 dias',_brl(totalAtencao),atencao.length+' apólices em atenção','var(--warning)')
+   +_finCard('⚠️','Vencidas',_brl(totalVencidas),vencidas.length+' apólices vencidas','var(--muted)')
+   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' em aberto','var(--brand)')
+   +_finCard('♻️','Renov. Urgentes (CRM)',_brl(totalRen),renUrgente.length+' renovações','var(--info)');
+}
+function rFinAgenda(){
+  const el=document.getElementById('fin-agenda');if(!el)return;
+  const now=new Date();
+  const months=[];
+  const count=_finPeriod==='anual'?24:12;
+  for(let i=0;i<count;i++){
+    const d=new Date(now.getFullYear(),now.getMonth()+i,1);
+    months.push({year:d.getFullYear(),month:d.getMonth(),label:d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'})});
+  }
+  const rows=months.map(m=>{
+    const aps=_ap.filter(a=>{
+      if(!a.term_end)return false;
+      const parts=(a.term_end||'').split('/');
+      if(parts.length!==3)return false;
+      const d=new Date(parts[2],parseInt(parts[1])-1,parseInt(parts[0]));
+      return d.getFullYear()===m.year&&d.getMonth()===m.month;
+    });
+    const ativas=aps.filter(a=>!a.cancelled);
+    const total=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+    const urg=ativas.filter(a=>a.urgency==='urgente'||a.urgency==='atencao').length;
+    const isCurrentMonth=(m.year===now.getFullYear()&&m.month===now.getMonth());
+    const rowStyle=isCurrentMonth?'background:var(--brand-light);font-weight:600':'';
+    return`<tr style="${rowStyle}">
+      <td>${m.label}${isCurrentMonth?' <span style="font-size:10px;color:var(--brand)">▶ atual</span>':''}</td>
+      <td style="text-align:center">${ativas.length}</td>
+      <td style="text-align:center">${aps.filter(a=>a.cancelled).length}</td>
+      <td style="text-align:center;color:var(--danger);font-weight:${urg>0?'700':'400'}">${urg||'—'}</td>
+      <td style="text-align:right;font-weight:600">${total>0?_brl(total):'—'}</td>
+    </tr>`;
+  });
+  const totalGeral=_ap.filter(a=>!a.cancelled).reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  el.innerHTML=`
+    <div style="font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:10px">
+      📅 Agenda de Vencimentos — ${_finPeriod==='anual'?'próximos 24 meses':'próximos 12 meses'}
+    </div>
+    <table class="data-table">
+      <thead><tr>
+        <th>Mês</th>
+        <th style="text-align:center">Apólices Ativas</th>
+        <th style="text-align:center">Canceladas</th>
+        <th style="text-align:center">🔴🟡 Urgente/Atenção</th>
+        <th style="text-align:right">Prêmio Total</th>
+      </tr></thead>
+      <tbody>${rows.join('')}</tbody>
+      <tfoot><tr style="border-top:2px solid var(--border);font-weight:700">
+        <td>Total carteira ativa</td>
+        <td style="text-align:center">${_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida').length}</td>
+        <td style="text-align:center">${_ap.filter(a=>a.cancelled).length}</td>
+        <td></td>
+        <td style="text-align:right">${_brl(totalGeral)}</td>
+      </tr></tfoot>
+    </table>`;
+}
+
+// ── Item Detail Modal (Renovação / Retomada / Cotação) ─────────── 
 function showItemModal(type, id){
   const map={ren:_r, ret:_ret, cot:_c};
   const arr=map[type]||[];
