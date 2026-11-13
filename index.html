@@ -285,6 +285,18 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .em-body-text .em-quoted{color:var(--muted);font-size:12px;border-left:3px solid var(--border);padding-left:10px;margin:4px 0;display:block}
 .em-body-text .em-divider{display:block;text-align:center;color:var(--muted-2);font-size:11px;margin:10px 0;border-top:1px solid var(--border-2);padding-top:8px}
 .em-no-body{font-size:12px;color:var(--muted);font-style:italic;text-align:center;padding:16px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border)}
+
+/* ── EMAIL HIGHLIGHT & HANDLED ── */
+.email-row.needs-red{border-left:3px solid var(--danger);background:rgba(220,38,38,.04)}
+.email-row.needs-yellow{border-left:3px solid var(--warning);background:rgba(217,119,6,.04)}
+.email-row.handled-row{opacity:.55}
+.er-resolve{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all var(--ease);color:var(--muted-2)}
+.email-row.needs-red .er-resolve{border-color:var(--danger);color:var(--danger)}
+.email-row.needs-yellow .er-resolve{border-color:var(--warning);color:var(--warning)}
+.er-resolve:hover{transform:scale(1.15)}
+.email-row.handled-row .er-resolve{background:var(--success-bg);border-color:var(--success);color:var(--success)}
+/* Priority filter row */
+#email-priority-filters{margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -468,6 +480,14 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       <div class="page" id="page-emails">
         <div class="filter-row" id="email-account-filters">
           <span class="filter-chip active" onclick="fEmailAccount('all',this)">Todas</span>
+        </div>
+        <div class="filter-row" id="email-priority-filters">
+          <span class="filter-chip active" onclick="fEmailPriority('all',this)">Todos</span>
+          <span class="filter-chip" onclick="fEmailPriority('needs',this)">⏳ Aguardando</span>
+          <span class="filter-chip" onclick="fEmailPriority('🔴',this)">🔴 Urgente</span>
+          <span class="filter-chip" onclick="fEmailPriority('🟡',this)">🟡 Atenção</span>
+          <span class="filter-chip" onclick="fEmailPriority('🟢',this)">🟢 Geral</span>
+          <span class="filter-chip" onclick="fEmailPriority('handled',this)">✓ Resolvidos</span>
         </div>
         <div class="search-bar">
           <span class="search-icon">
@@ -790,10 +810,31 @@ function fCot(v,c){chip(c);rCot(v==='all'?_c:_c.filter(c=>c.status===v));}
 async function startC(id){await fetch(`${API}/cotacoes/${id}?status=em_cotacao`,{method:'PATCH',headers:{authorization:'Bearer '+TK}});loadAll();}
 
 let _emailAccFilter='all';
+let _emailPriorityFilter='all';
 let _emailPage=0;
 let _emailPageSize=50;
 let _emailFiltered=[];
 
+// ── Handled state (localStorage) ─────────────────────────────────
+function getHandled(){try{return new Set(JSON.parse(localStorage.getItem('newb_handled')||'[]'));}catch{return new Set();}}
+function setHandled(s){localStorage.setItem('newb_handled',JSON.stringify([...s]));}
+function isHandled(e){return getHandled().has(_emailKey(e));}
+function _emailKey(e){return (e.account||'')+'_'+(e.msg_id||e.id||'');}
+function toggleHandled(idx,ev){
+  ev.stopPropagation();
+  const e=_e[idx]; if(!e) return;
+  const h=getHandled();
+  const k=_emailKey(e);
+  if(h.has(k)) h.delete(k); else h.add(k);
+  setHandled(h);
+  _emailFiltered=getFilteredEmails();
+  renderEmailPage();
+}
+
+// ── Needs reply: 🔴 or 🟡 and NOT handled ────────────────────────
+function needsReply(e){return !isHandled(e) && (e.priority==='🔴'||e.priority==='🟡');}
+
+// ── Date formatting ───────────────────────────────────────────────
 function fmtEmailDate(str){
   if(!str) return '—';
   try{
@@ -808,14 +849,25 @@ function fmtEmailDate(str){
   }catch{return '—';}
 }
 
+// ── Email list row ────────────────────────────────────────────────
 function emailListRow(e,idx){
   const tags=JSON.parse(e.tags||'[]');
   const tg=tags.slice(0,1).map(t=>`<span class="badge badge-neutral">${t}</span>`).join('');
   const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';
   const date=fmtEmailDate(e.date_str||e.logged_at);
-  return`<div class="email-row" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div><div class="er-date">${date}</div></div>`;
+  const handled=isHandled(e);
+  const nr=needsReply(e);
+  let rowClass='email-row';
+  if(handled) rowClass+=' handled-row';
+  else if(e.priority==='🔴') rowClass+=' needs-red';
+  else if(e.priority==='🟡') rowClass+=' needs-yellow';
+  const resolveBtn=nr||handled
+    ?`<button class="er-resolve" onclick="toggleHandled(${idx},event)" title="${handled?'Reabrir':'Marcar resolvido'}">${handled?'✓':'!'}</button>`
+    :'';
+  return`<div class="${rowClass}" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div><div class="er-date">${date}</div>${resolveBtn}</div>`;
 }
 
+// ── Build account filter chips ────────────────────────────────────
 function buildEmailFilters(items){
   const seen=new Set(); const chips=[];
   items.forEach(e=>{if(!seen.has(e.account)){seen.add(e.account);chips.push({account:e.account,addr:e.email_addr});}});
@@ -831,14 +883,24 @@ function buildEmailFilters(items){
     }).join('');
 }
 
+// ── Combined filter ───────────────────────────────────────────────
 function getFilteredEmails(){
   let items=_e;
+  // Account filter
   if(_emailAccFilter!=='all') items=items.filter(e=>e.account===_emailAccFilter);
+  // Priority / status filter
+  if(_emailPriorityFilter==='🔴') items=items.filter(e=>e.priority==='🔴');
+  else if(_emailPriorityFilter==='🟡') items=items.filter(e=>e.priority==='🟡');
+  else if(_emailPriorityFilter==='🟢') items=items.filter(e=>e.priority==='🟢');
+  else if(_emailPriorityFilter==='needs') items=items.filter(e=>needsReply(e));
+  else if(_emailPriorityFilter==='handled') items=items.filter(e=>isHandled(e));
+  // Text search
   const q=document.querySelector('#page-emails .search-bar input')?.value||'';
   if(q){const lo=q.toLowerCase();items=items.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)||(e.from_addr||'').toLowerCase().includes(lo));}
   return items;
 }
 
+// ── Render page ───────────────────────────────────────────────────
 function renderEmailPage(){
   const items=_emailFiltered;
   const total=items.length;
@@ -847,13 +909,20 @@ function renderEmailPage(){
   const page=items.slice(start,end);
   const totalPages=Math.max(1,Math.ceil(total/_emailPageSize));
 
+  // Count pending
+  const pending=_e.filter(e=>needsReply(e)).length;
+  const pendingBadge=pending>0?` <span style="background:var(--danger);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;vertical-align:middle">${pending}</span>`:'';
+
+  // Update "Aguardando" chip label
+  const awChip=document.querySelector('#email-priority-filters .filter-chip:nth-child(2)');
+  if(awChip) awChip.innerHTML=`⏳ Aguardando${pendingBadge}`;
+
   const listHtml=page.length
     ?`<div class="email-list">${page.map(e=>emailListRow(e,_e.indexOf(e))).join('')}</div>`
     :emp('Nenhum email encontrado');
 
   const prevDis=_emailPage===0?'disabled':'';
   const nextDis=_emailPage>=totalPages-1?'disabled':'';
-
   const pagHtml=`<div class="pagination">
     <div style="display:flex;align-items:center;gap:8px">
       <div class="pag-size">
@@ -885,60 +954,29 @@ function emailGoPage(p){
   renderEmailPage();
   document.getElementById('page-emails').scrollIntoView({behavior:'smooth'});
 }
+function setEmailPageSize(n){_emailPageSize=n;_emailPage=0;renderEmailPage();}
+function fEmailAccount(v,c){_emailAccFilter=v;chip(c);_emailPage=0;_emailFiltered=getFilteredEmails();renderEmailPage();}
+function fEmailPriority(v,c){_emailPriorityFilter=v;chip(c);_emailPage=0;_emailFiltered=getFilteredEmails();renderEmailPage();}
+function sEmail(q){_emailPage=0;_emailFiltered=getFilteredEmails();renderEmailPage();}
 
-function setEmailPageSize(n){
-  _emailPageSize=n;
-  _emailPage=0;
-  renderEmailPage();
-}
-
-function fEmailAccount(v,c){
-  _emailAccFilter=v;
-  chip(c);
-  _emailPage=0;
-  _emailFiltered=getFilteredEmails();
-  renderEmailPage();
-}
-
-function sEmail(q){
-  _emailPage=0;
-  _emailFiltered=getFilteredEmails();
-  renderEmailPage();
-}
-
+// ── Body renderer ─────────────────────────────────────────────────
 function renderEmailBody(raw){
   if(!raw) return '';
-  const dividers=[
-    '-----mensagem original-----','-----original message-----',
-    '________________________________','----reply above','-----forwarded'
-  ];
+  const dividers=['-----mensagem original-----','-----original message-----','________________________________','----reply above','-----forwarded'];
   const lines=raw.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
-  let html=''; let inQuote=false;
+  let out='';
   for(const line of lines){
     const low=line.trim().toLowerCase();
-    const isDiv=dividers.some(d=>low.includes(d));
-    if(isDiv){
-      html+=`<span class="em-divider">— mensagem anterior —</span>`;
-      inQuote=true; continue;
-    }
-    if(line.trim().startsWith('>')){
-      html+=`<span class="em-quoted">${escHtml(line.replace(/^>+/,'').trim())}</span>`;
-      continue;
-    }
-    html+=escHtml(line)+'\n';
+    if(dividers.some(d=>low.includes(d))){out+=`<span class="em-divider">— mensagem anterior —</span>`;continue;}
+    if(line.trim().startsWith('>')){out+=`<span class="em-quoted">${escHtml(line.replace(/^>+/,'').trim())}</span>`;continue;}
+    out+=escHtml(line)+'\n';
   }
-  return html;
+  return out;
 }
-function escHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function fmtFileSize(bytes){
-  if(!bytes) return '';
-  if(bytes<1024) return bytes+'B';
-  if(bytes<1048576) return (bytes/1024).toFixed(1)+'KB';
-  return (bytes/1048576).toFixed(1)+'MB';
-}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtFileSize(bytes){if(!bytes)return '';if(bytes<1024)return bytes+'B';if(bytes<1048576)return (bytes/1024).toFixed(1)+'KB';return (bytes/1048576).toFixed(1)+'MB';}
 
+// ── Email Modal ───────────────────────────────────────────────────
 function showEmailModal(idx){
   const e=_e[idx]; if(!e)return;
   const tags=JSON.parse(e.tags||'[]');
@@ -951,43 +989,45 @@ function showEmailModal(idx){
   document.getElementById('em-account').textContent=e.email_addr||e.account;
   document.getElementById('em-priority').innerHTML=priLabel;
   document.getElementById('em-tags').innerHTML=tags.length?tags.map(t=>`<span class="badge badge-neutral">${t}</span>`).join(''):'<span style="font-size:12px;color:var(--muted)">Sem tags</span>';
-  // Resumo
+  // Handled toggle button in modal
+  const handled=isHandled(e);
+  let resolveHtml=`<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2);display:flex;gap:10px;align-items:center">`;
+  if(handled){
+    resolveHtml+=`<span style="font-size:12px;color:var(--success);font-weight:600">✓ Resolvido / Respondido</span>
+    <button class="btn btn-ghost btn-sm" onclick="toggleHandled(${idx},{stopPropagation:()=>{}});refreshModal(${idx})">↩ Reabrir</button>`;
+  } else if(needsReply(e)){
+    resolveHtml+=`<button class="btn btn-primary btn-sm" onclick="toggleHandled(${idx},{stopPropagation:()=>{}});refreshModal(${idx})">✓ Marcar como Resolvido</button>
+    <span style="font-size:11px;color:var(--muted)">Respondido pelo WhatsApp ou outro canal</span>`;
+  }
+  resolveHtml+='</div>';
+  // Summary
   const summarySection=document.getElementById('em-summary-section');
   const summaryText=document.getElementById('em-summary-text');
-  if(e.summary){
-    summaryText.textContent=e.summary;
-    summarySection.style.display='block';
-  } else {
-    summarySection.style.display='none';
-  }
-  // Corpo da mensagem
+  if(e.summary){summaryText.textContent=e.summary;summarySection.style.display='block';}
+  else{summarySection.style.display='none';}
+  // Body
   const bodySection=document.getElementById('em-body-section');
   const bodyText=document.getElementById('em-body-text');
   const noBody=document.getElementById('em-no-body');
-  if(e.body){
-    bodyText.innerHTML=renderEmailBody(e.body);
-    bodySection.style.display='block';
-    noBody.style.display='none';
-  } else {
-    bodySection.style.display='none';
-    noBody.style.display='block';
-  }
-  // Anexos
+  if(e.body){bodyText.innerHTML=renderEmailBody(e.body);bodySection.style.display='block';noBody.style.display='none';}
+  else{bodySection.style.display='none';noBody.style.display='block';}
+  // Attachments
   const attSection=document.getElementById('em-attachments-section');
   const attList=document.getElementById('em-attachments-list');
-  let attachments=[];
-  try{ attachments=JSON.parse(e.attachments||'[]'); }catch{}
+  let attachments=[];try{attachments=JSON.parse(e.attachments||'[]');}catch{}
   if(attachments.length){
     const extIcon=n=>{const ext=(n.split('.').pop()||'').toLowerCase();return{pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',ppt:'📋',pptx:'📋',jpg:'🖼️',jpeg:'🖼️',png:'🖼️',zip:'🗜️',rar:'🗜️',xml:'📋',csv:'📊'}[ext]||'📎';};
     attList.innerHTML=attachments.map(a=>`<div class="em-att-item"><span class="em-att-icon">${extIcon(a.name)}</span><span class="em-att-name">${a.name}</span><span class="em-att-size">${fmtFileSize(a.size)}</span></div>`).join('');
     attSection.style.display='block';
-  } else {
-    attSection.style.display='none';
-  }
+  } else {attSection.style.display='none';}
+  // Resolve action
+  let actEl=document.getElementById('em-resolve-action');
+  if(!actEl){actEl=document.createElement('div');actEl.id='em-resolve-action';document.querySelector('.em-body').appendChild(actEl);}
+  actEl.innerHTML=(handled||needsReply(e))?resolveHtml:'';
   document.getElementById('email-modal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-
+function refreshModal(idx){showEmailModal(idx);}
 function closeEmailModal(){
   document.getElementById('email-modal').classList.remove('open');
   document.body.style.overflow='';
