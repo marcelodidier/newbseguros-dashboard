@@ -1,3 +1,17 @@
 {
-  "queue": []
+  "queue": [
+    {
+      "id": "72efd374-70a1-4cbe-af38-8bc6834a68db",
+      "account": "barbara",
+      "msg_id": "15",
+      "original_subject": "Agentes de IA - D0 (Barbara Araujo)",
+      "original_from": "marcelodidier27@gmail.com",
+      "body": "Teste de resposta pelo sistema.",
+      "status": "pending",
+      "created_at": "2026-11-13T15:24:30.237Z",
+      "sent_by": "Marcelo Didier",
+      "sent_at": null,
+      "error": null
+    }
+  ]
 }
