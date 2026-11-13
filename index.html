@@ -936,7 +936,7 @@ async function sha256(str) {
 }
 let TK=localStorage.getItem('newb_token')||'';
 let _r=[],_ret=[],_c=[],_e=[],_w=[];
-let _ap=[],_cl=[],_com=[];
+let _ap=[],_cl=[];
 let _apPage=0,_apPageSize=50,_apFiltered=[];
 const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes',financeiro:'Financeiro'};
 
@@ -1041,10 +1041,10 @@ function go(name,btn){
 }
 
 async function loadAll(){
-  const[st,r,ret,c,e,w,apo,cli,com]=await Promise.all([
+  const[st,r,ret,c,e,w,apo,cli]=await Promise.all([
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
     ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json'),
-    ap('data/apolices.json'), ap('data/clientes_moltrio.json'), ap('data/comissoes.json')
+    ap('data/apolices.json'), ap('data/clientes_moltrio.json')
   ]);
   await loadHandledRemote();
   if(st)rStats(st);
@@ -1067,7 +1067,6 @@ async function loadAll(){
   if(w){_w=w.items||[];rWA(_w);}
   if(apo){_ap=apo.items||[];rApolices(_ap);rStatsAp(_ap);}
   if(cli){_cl=cli.items||[];rClientes(_cl);}
-  if(com){_com=com.items||[];if(document.getElementById('page-financeiro')?.classList.contains('active'))rFinanceiro();}
 }
 
 function rStats(s){
@@ -1995,34 +1994,35 @@ function _finCard(icon,label,val,sub,color){
 }
 function rFinCards(){
   const el=document.getElementById('fin-cards');if(!el)return;
-  // Dados de comissão do mês atual
-  const now=new Date();
-  const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  const comMes=_com.find(c=>c.mes===mesAtual)||{total:0,recebido:0,pendente:0,pct_medio:0,count:0,premium_total:0};
-  // Dados de carteira (apólices)
   const ativas=_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida');
-  const carteira=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const totalAtivo=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
   const urgente=_ap.filter(a=>!a.cancelled&&a.urgency==='urgente');
+  const totalUrgente=urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const atencao=_ap.filter(a=>!a.cancelled&&a.urgency==='atencao');
+  const totalAtencao=atencao.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
   const vencidas=_ap.filter(a=>!a.cancelled&&a.urgency==='vencida');
-  // Pipeline cotações
+  const totalVencidas=vencidas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const canceladas=_ap.filter(a=>a.cancelled);
   const pipeCot=_c.filter(c=>c.status==='aguardando'||c.status==='em_cotacao');
   const totalPipe=pipeCot.reduce((s,c)=>s+(Number(c.valor_estimado)||0),0);
+  const renUrgente=_r.filter(r=>r.urgencia==='urgente');
+  const totalRen=renUrgente.reduce((s,r)=>s+(Number(r.premio_anual)||0),0);
   el.innerHTML=
-    _finCard('💰','Comissão do Mês',_brl(comMes.total),comMes.count+' registros · '+comMes.pct_medio+'% médio','var(--brand)')
-   +_finCard('✅','Recebida',_brl(comMes.recebido),'Já liquidada pela seguradora','var(--success)')
-   +_finCard('⏳','A Receber',_brl(comMes.pendente),'Pendente de liquidação','var(--warning)')
-   +_finCard('💼','Carteira Ativa',_brl(carteira),ativas.length+' apólices (prêmio gerenciado)','var(--info)')
-   +_finCard('🔴','Renovar ≤30 dias',urgente.length+' apólices',_brl(urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0))+' em prêmio','var(--danger)')
-   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' cotações em aberto','var(--muted)');
+    _finCard('💼','Carteira Ativa',_brl(totalAtivo),ativas.length+' apólices ativas','var(--success)')
+   +_finCard('🔴','Renovar ≤30 dias',_brl(totalUrgente),urgente.length+' apólices urgentes','var(--danger)')
+   +_finCard('🟡','Renovar 31–60 dias',_brl(totalAtencao),atencao.length+' apólices em atenção','var(--warning)')
+   +_finCard('⚠️','Vencidas',_brl(totalVencidas),vencidas.length+' apólices vencidas','var(--muted)')
+   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' em aberto','var(--brand)')
+   +_finCard('♻️','Renov. Urgentes (CRM)',_brl(totalRen),renUrgente.length+' renovações','var(--info)');
 }
 function rFinAgenda(){
   const el=document.getElementById('fin-agenda');if(!el)return;
-  const count=_finPeriod==='anual'?12:6;
+  const count=_finPeriod==='anual'?24:6;
   const data=_com.slice(0,count);
   if(!data.length){el.innerHTML=emp('Dados de comissão não disponíveis');return;}
+  const now=new Date();
+  const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
   const rows=data.map(m=>{
-    const now=new Date();
-    const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
     const isNow=m.mes===mesAtual;
     const pct=m.pct_medio?`${m.pct_medio}%`:'—';
     const pctReceb=m.total>0?Math.round(m.recebido/m.total*100)+'%':'0%';
@@ -2031,7 +2031,7 @@ function rFinAgenda(){
       <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(m.total)}</td>
       <td style="text-align:right;color:var(--success)">${_brl(m.recebido)}</td>
       <td style="text-align:right;color:var(--warning)">${_brl(m.pendente)}</td>
-      <td style="text-align:center;color:var(--muted-2)">${pctReceb} recebido</td>
+      <td style="text-align:center;color:var(--muted-2)">${pctReceb}</td>
       <td style="text-align:center">${pct}</td>
       <td style="text-align:right;color:var(--muted-2);font-size:12px">${m.premium_total>0?_brl(m.premium_total):'—'}</td>
     </tr>`;
@@ -2041,8 +2041,8 @@ function rFinAgenda(){
   const totalPend=data.reduce((s,m)=>s+(m.pendente||0),0);
   el.innerHTML=`
     <div style="font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:10px">
-      💰 Histórico de Comissões — ${_finPeriod==='anual'?'últimos 12 meses':'últimos 6 meses'}
-      <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:8px">valor que a NewB recebe das seguradoras</span>
+      💰 Histórico de Comissões — ${_finPeriod==='anual'?'últimos 24 meses':'últimos 6 meses'}
+      <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:8px">receita NewB (comissão das seguradoras)</span>
     </div>
     <table class="data-table">
       <thead><tr>
