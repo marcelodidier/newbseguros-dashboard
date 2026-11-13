@@ -339,6 +339,17 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .check-btn svg{transition:transform .6s ease}
 .check-btn.checking svg{animation:spinSvg 1s linear infinite}
 @keyframes spinSvg{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ── SENT REPLIES SECTION ── */
+.sent-item{background:var(--surface);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;border:1px solid var(--border-2);box-shadow:var(--sh-sm)}
+.sent-item.sent-ok{border-left:3px solid var(--success)}
+.sent-item.sent-err{border-left:3px solid var(--danger)}
+.sent-item.sent-pending{border-left:3px solid var(--warning)}
+.sent-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.sent-subject{font-size:13px;font-weight:600;color:var(--ink);flex:1}
+.sent-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.sent-meta{font-size:12px;color:var(--muted);line-height:1.5}
+.sent-body-preview{font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:8px 10px;margin-top:8px;white-space:pre-wrap;max-height:80px;overflow:hidden;border:1px solid var(--border-2)}
 </style>
 </head>
 <body>
@@ -520,8 +531,17 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 
       <!-- EMAILS -->
       <div class="page" id="page-emails">
+        <!-- Sent Replies section (collapsible) -->
+        <div id="sent-replies-section" style="margin-bottom:16px;display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:var(--ink-2)">↩ Respostas Enviadas</span>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('sent-replies-section').style.display='none'">✕</button>
+          </div>
+          <div id="sent-replies-list"></div>
+        </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
           <span style="font-size:13px;font-weight:700;color:var(--ink-2)">Caixas de Email</span>
+          <button class="btn btn-ghost btn-sm" id="sent-history-btn" onclick="showSentReplies()" style="display:none">📤 Enviados</button>
           <button class="check-btn" id="check-emails-btn" onclick="checkNewEmails()">
             <svg id="check-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span id="check-btn-label">Verificar novos</span>
@@ -858,6 +878,14 @@ async function loadAll(){
   if(ret){_ret=filter(ret.items||[]);rRet(_ret);}
   if(c){_c=filter(c.items||[]);rCot(_c);rHC(_c);}
   if(e){_e=e.items||[];rEmail(_e);}
+  // Show sent history button if there are items in queue
+  try {
+    const qResp = await fetch(`${API}/data/reply_queue.json?_=${Date.now()}`);
+    const qData = await qResp.json();
+    const qItems = qData.queue||[];
+    const btn = document.getElementById('sent-history-btn');
+    if(btn) btn.style.display = qItems.length ? 'inline-flex' : 'none';
+  } catch {}
   if(w){_w=w.items||[];rWA(_w);}
 }
 
@@ -1271,6 +1299,51 @@ function showEmailModal(idx){
   document.body.style.overflow='hidden';
 }
 function refreshModal(idx){showEmailModal(idx);}
+// ── Sent Replies History ─────────────────────────────────────────
+async function showSentReplies(){
+  const section = document.getElementById('sent-replies-section');
+  const list    = document.getElementById('sent-replies-list');
+  section.style.display = 'block';
+  list.innerHTML = '<div class="empty"><div class="empty-icon">⏳</div><p>Carregando...</p></div>';
+  section.scrollIntoView({behavior:'smooth'});
+  try {
+    if(!_ghToken) await loadConfig();
+    const r = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/data/reply_queue.json`,
+      { headers:{ Authorization:`Bearer ${_ghToken}`, Accept:'application/vnd.github+json' } }
+    );
+    const meta = await r.json();
+    const queue = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+    const items = (queue.queue||[]).slice().reverse(); // newest first
+    if(!items.length){
+      list.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>Nenhuma resposta enviada ainda.</p></div>';
+      return;
+    }
+    list.innerHTML = items.map(q => {
+      const statusMap = {
+        sent:    {cls:'sent-ok',   label:'✅ Enviado',   color:'var(--success)'},
+        error:   {cls:'sent-err',  label:'❌ Erro',      color:'var(--danger)'},
+        pending: {cls:'sent-pending',label:'⏳ Aguardando',color:'var(--warning)'},
+      };
+      const s = statusMap[q.status] || statusMap.pending;
+      const when = q.sent_at ? new Date(q.sent_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) :
+                   new Date(q.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      const errNote = q.error ? `<div style="font-size:11px;color:var(--danger);margin-top:4px">⚠️ ${q.error.split('\n')[0].slice(0,80)}</div>` : '';
+      return `<div class="sent-item ${s.cls}">
+        <div class="sent-header">
+          <span class="sent-subject">↩ ${escHtml(q.original_subject||'(sem assunto)')}</span>
+          <span class="sent-status" style="background:${s.color}22;color:${s.color}">${s.label}</span>
+        </div>
+        <div class="sent-meta">📬 ${q.account} · ${when} · Para: ${q.original_from||'—'}</div>
+        ${errNote}
+        <div class="sent-body-preview">${escHtml(q.body||'')}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="empty"><p>Erro ao carregar: ${e.message}</p></div>`;
+  }
+}
+
 // ── Check New Emails ─────────────────────────────────────────────
 let _checkPolling = null;
 
