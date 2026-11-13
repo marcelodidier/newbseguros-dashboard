@@ -1257,7 +1257,7 @@ function showEmailModal(idx){
   let attachments=[];try{attachments=JSON.parse(e.attachments||'[]');}catch{}
   if(attachments.length){
     const extIcon=n=>{const ext=(n.split('.').pop()||'').toLowerCase();return{pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',ppt:'📋',pptx:'📋',jpg:'🖼️',jpeg:'🖼️',png:'🖼️',zip:'🗜️',rar:'🗜️',xml:'📋',csv:'📊'}[ext]||'📎';};
-    attList.innerHTML=attachments.map(a=>`<div class="em-att-item"><span class="em-att-icon">${extIcon(a.name)}</span><span class="em-att-name">${a.name}</span><span class="em-att-size">${fmtFileSize(a.size)}</span></div>`).join('');
+    attList.innerHTML=attachments.map(a=>`<div class="em-att-item" onclick="openAttachment()" style="cursor:pointer" title="Abrir no Webmail para baixar"><span class="em-att-icon">${extIcon(a.name)}</span><span class="em-att-name">${a.name}</span><span class="em-att-size">${fmtFileSize(a.size)||''}</span><span style="font-size:11px;color:var(--brand);font-weight:600;margin-left:auto;white-space:nowrap;flex-shrink:0">↗ Webmail</span></div>`).join('');
     attSection.style.display='block';
   } else {attSection.style.display='none';}
   // Resolve action
@@ -1504,6 +1504,11 @@ async function sendEmailReply(){
     statusEl.textContent = `❌ Erro: ${err.message}`;
     sendBtn.disabled = false;
   }
+}
+
+function openAttachment(){
+  // Attachments live on the IMAP server - open webmail to access them
+  openWebmail();
 }
 
 function closeEmailModal(){
