@@ -340,16 +340,25 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .check-btn.checking svg{animation:spinSvg 1s linear infinite}
 @keyframes spinSvg{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
-/* ── SENT REPLIES SECTION ── */
-.sent-item{background:var(--surface);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;border:1px solid var(--border-2);box-shadow:var(--sh-sm)}
-.sent-item.sent-ok{border-left:3px solid var(--success)}
-.sent-item.sent-err{border-left:3px solid var(--danger)}
-.sent-item.sent-pending{border-left:3px solid var(--warning)}
-.sent-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-.sent-subject{font-size:13px;font-weight:600;color:var(--ink);flex:1}
-.sent-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
-.sent-meta{font-size:12px;color:var(--muted);line-height:1.5}
-.sent-body-preview{font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:8px 10px;margin-top:8px;white-space:pre-wrap;max-height:80px;overflow:hidden;border:1px solid var(--border-2)}
+/* ── SENT REPLIES — COMMUNICATION LOG ── */
+.comm-log{position:relative;padding-left:28px}
+.comm-log::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border-2)}
+.comm-entry{position:relative;margin-bottom:20px}
+.comm-entry::before{content:'';position:absolute;left:-22px;top:14px;width:10px;height:10px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 2px var(--border)}
+.comm-entry.comm-sent::before{background:var(--success);box-shadow:0 0 0 2px rgba(22,163,74,.3)}
+.comm-entry.comm-error::before{background:var(--danger);box-shadow:0 0 0 2px rgba(220,38,38,.3)}
+.comm-entry.comm-pending::before{background:var(--warning);box-shadow:0 0 0 2px rgba(217,119,6,.3)}
+.comm-bubble{background:var(--surface);border-radius:0 var(--r) var(--r) var(--r);padding:12px 14px;border:1px solid var(--border-2);box-shadow:var(--sh-sm)}
+.comm-bubble.comm-sent{background:#f0fdf4;border-color:#bbf7d0}
+.comm-bubble.comm-error{background:#fef2f2;border-color:#fecaca}
+.comm-ts{font-size:11px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.comm-ts-badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.comm-route{font-size:12px;color:var(--ink-2);margin-bottom:8px;display:flex;flex-direction:column;gap:2px}
+.comm-route span{display:flex;gap:5px}
+.comm-route .lbl{color:var(--muted);font-weight:600;min-width:40px;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.comm-subject{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.comm-body{font-family:'Alexandria',system-ui,sans-serif;font-size:13.5px;color:#111;line-height:1.75;white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,.7);border-radius:6px;padding:10px 12px;border:1px solid rgba(0,0,0,.06)}
+.comm-err-note{font-size:11px;color:var(--danger);margin-top:8px;padding:6px 10px;background:#fef2f2;border-radius:6px}
 
 /* ── SENT REPLY IN MODAL ── */
 .em-sent-reply{margin-top:14px;border-top:1px solid var(--border-2);padding-top:14px}
@@ -1412,26 +1421,38 @@ async function showSentReplies(){
       list.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>Nenhuma resposta enviada ainda.</p></div>';
       return;
     }
-    list.innerHTML = items.map(q => {
-      const statusMap = {
-        sent:    {cls:'sent-ok',   label:'✅ Enviado',   color:'var(--success)'},
-        error:   {cls:'sent-err',  label:'❌ Erro',      color:'var(--danger)'},
-        pending: {cls:'sent-pending',label:'⏳ Aguardando',color:'var(--warning)'},
-      };
+    const statusMap = {
+      sent:    {cls:'comm-sent',    label:'✅ Enviado',    color:'var(--success)'},
+      error:   {cls:'comm-error',   label:'❌ Erro',       color:'var(--danger)'},
+      pending: {cls:'comm-pending', label:'⏳ Aguardando', color:'var(--warning)'},
+    };
+    list.innerHTML = `<div class="comm-log">${items.map(q => {
       const s = statusMap[q.status] || statusMap.pending;
-      const when = q.sent_at ? new Date(q.sent_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) :
-                   new Date(q.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      const errNote = q.error ? `<div style="font-size:11px;color:var(--danger);margin-top:4px">⚠️ ${q.error.split('\n')[0].slice(0,80)}</div>` : '';
-      return `<div class="sent-item ${s.cls}">
-        <div class="sent-header">
-          <span class="sent-subject">↩ ${escHtml(q.original_subject||'(sem assunto)')}</span>
-          <span class="sent-status" style="background:${s.color}22;color:${s.color}">${s.label}</span>
+      const ts = q.sent_at || q.created_at || '';
+      const d = ts ? new Date(ts) : null;
+      const dateStr = d ? d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
+      const timeStr = d ? d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+      const sentBy = q.sent_by || 'Sistema';
+      const accEmail = `${q.account}@newbseguros.com.br`;
+      const errNote = q.error ? `<div class="comm-err-note">⚠️ ${escHtml(q.error.split('\n')[0].slice(0,120))}</div>` : '';
+      return `<div class="comm-entry ${s.cls}">
+        <div class="comm-bubble ${s.cls}">
+          <div class="comm-ts">
+            <span style="font-weight:600;color:var(--ink-2)">${dateStr}</span>
+            <span>${timeStr}</span>
+            <span class="comm-ts-badge" style="background:${s.color}22;color:${s.color}">${s.label}</span>
+            <span style="font-size:11px;color:var(--muted)">por ${escHtml(sentBy)}</span>
+          </div>
+          <div class="comm-route">
+            <span><span class="lbl">De</span><span>${escHtml(accEmail)}</span></span>
+            <span><span class="lbl">Para</span><span>${escHtml(q.original_from||'—')}</span></span>
+          </div>
+          <div class="comm-subject">↩ ${escHtml(q.original_subject||'(sem assunto)')}</div>
+          <div class="comm-body">${escHtml(q.body||'')}</div>
+          ${errNote}
         </div>
-        <div class="sent-meta">📬 ${q.account} · ${when} · Para: ${q.original_from||'—'}</div>
-        ${errNote}
-        <div class="sent-body-preview">${escHtml(q.body||'')}</div>
       </div>`;
-    }).join('');
+    }).join('')}</div>`;
   } catch(e) {
     list.innerHTML = `<div class="empty"><p>Erro ao carregar: ${e.message}</p></div>`;
   }
