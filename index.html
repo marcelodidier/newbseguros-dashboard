@@ -1768,7 +1768,20 @@ function closeEmailModal(){
   closeReplyForm();
 }
 
-function waCard(m){return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name" style="font-size:13px">${m.sender_name||m.sender_num||'—'}</div><div class="item-meta">📱 ${m.bridge_name} · ${m.is_group?'Grupo':'DM'}</div><div class="item-meta" style="margin-top:4px;font-style:italic">"${(m.body||'').substring(0,80)}"</div></div></div></div>`;}
+function waCard(m){
+  const crmBadge = _waCrmBadge(m);
+  return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name" style="font-size:13px">${m.sender_name||m.sender_num||'—'}</div><div class="item-meta">📱 ${m.bridge_name} · ${m.is_group?'Grupo':'DM'} · ${_waTime(m.logged_at)}</div><div class="item-meta" style="margin-top:4px;font-style:italic">"${(m.body||'').substring(0,80)}"</div>${crmBadge}</div></div></div>`;
+}
+function _waTime(ts){if(!ts)return'—';try{const d=new Date(ts);const hm=d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});const now=new Date();if(d.toDateString()===now.toDateString())return'Hoje '+hm;const y=new Date(now-86400000);if(d.toDateString()===y.toDateString())return'Ontem '+hm;return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' '+hm;}catch{return'—';}}
+function _waCrmBadge(m){
+  const cot=(m.crm_cotacoes||[]).length, ren=(m.crm_renovacoes||[]).length, ret=(m.crm_retomadas||[]).length;
+  if(!cot&&!ren&&!ret) return '';
+  const parts=[];
+  if(cot) parts.push(`<span class="badge badge-warning">📋 ${cot} cotaç${cot>1?'ões':'ão'}</span>`);
+  if(ren) parts.push(`<span class="badge badge-info">📅 ${ren} renov.</span>`);
+  if(ret) parts.push(`<span class="badge badge-neutral">🔁 ${ret} retomada${ret>1?'s':''}</span>`);
+  return`<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${parts.join('')}</div>`;
+}
 
 // ── Desktop table-row helpers ──────────────────────────────────────
 function renRow(r){
@@ -1793,13 +1806,14 @@ function emailRow(e){
   return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div>${e.subject||'(sem assunto)'}</div></td><td>${e.from_name||e.from_addr||'—'}</td><td>${e.display||e.account}</td><td>${tg||'—'}</td></tr>`;
 }
 function waRow(m){
-  return`<tr><td><strong>${m.sender_name||m.sender_num||'—'}</strong></td><td>${m.bridge_name}</td><td>${m.is_group?'Grupo':'DM'}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><em>${(m.body||'').substring(0,80)}</em></td></tr>`;
+  const crmBadge=_waCrmBadge(m);
+  return`<tr><td><strong>${m.sender_name||m.sender_num||'—'}</strong>${crmBadge}</td><td>${m.bridge_name}</td><td>${m.is_group?'Grupo':'DM'}</td><td>${_waTime(m.logged_at)}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><em>${(m.body||'').substring(0,80)}</em></td></tr>`;
 }
 function rWA(d){
   if(isMobile()){
     document.getElementById('lw').innerHTML=d.length?d.map(waCard).join(''):emp('Nenhuma mensagem registrada');
   } else {
-    document.getElementById('lw').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Contato</th><th>Bridge</th><th>Tipo</th><th>Mensagem</th></tr></thead><tbody>${d.map(waRow).join('')}</tbody></table>`:emp('Nenhuma mensagem registrada');
+    document.getElementById('lw').innerHTML=d.length?`<table class="data-table"><thead><tr><th>Contato</th><th>Bridge</th><th>Tipo</th><th>Data</th><th>Mensagem</th></tr></thead><tbody>${d.map(waRow).join('')}</tbody></table>`:emp('Nenhuma mensagem registrada');
   }
 }
 function fWA(v,c){chip(c);rWA(v==='all'?_w:_w.filter(m=>m.bridge_name===v));}
