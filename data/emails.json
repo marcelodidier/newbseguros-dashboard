@@ -1374,7 +1374,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1391,7 +1391,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1408,7 +1408,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1425,7 +1425,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1442,7 +1442,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1459,7 +1459,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1476,7 +1476,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1493,7 +1493,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1510,7 +1510,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1527,7 +1527,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1544,7 +1544,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1561,7 +1561,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1578,7 +1578,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1595,7 +1595,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1612,7 +1612,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1629,7 +1629,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1646,7 +1646,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1663,7 +1663,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1680,7 +1680,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1697,7 +1697,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1714,7 +1714,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1731,7 +1731,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1748,7 +1748,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1765,7 +1765,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1782,7 +1782,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1799,7 +1799,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1816,7 +1816,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1833,7 +1833,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1850,7 +1850,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1867,7 +1867,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1884,7 +1884,7 @@
       "tags": "[\"sinistro\", \"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1901,7 +1901,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1918,7 +1918,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1935,7 +1935,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1952,7 +1952,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1969,7 +1969,7 @@
       "tags": "[\"sinistro\", \"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1986,7 +1986,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2003,7 +2003,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2020,7 +2020,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2037,7 +2037,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2054,7 +2054,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2071,7 +2071,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2088,7 +2088,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2105,7 +2105,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2122,7 +2122,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2139,7 +2139,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2156,7 +2156,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2173,7 +2173,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2190,7 +2190,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2207,7 +2207,7 @@
       "tags": "[\"cotacao\", \"renovacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2224,7 +2224,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2241,7 +2241,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2258,7 +2258,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2275,7 +2275,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2292,7 +2292,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2309,7 +2309,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2326,7 +2326,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2343,7 +2343,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2360,7 +2360,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2377,7 +2377,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2394,7 +2394,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2411,7 +2411,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2428,7 +2428,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2445,7 +2445,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2462,7 +2462,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2479,7 +2479,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2496,7 +2496,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2513,7 +2513,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2530,7 +2530,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2547,7 +2547,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2564,7 +2564,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2581,7 +2581,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2598,7 +2598,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2615,7 +2615,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2632,7 +2632,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2649,7 +2649,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2666,7 +2666,7 @@
       "tags": "[\"sinistro\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2683,7 +2683,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2700,7 +2700,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2717,7 +2717,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2734,7 +2734,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2751,7 +2751,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2768,7 +2768,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2785,7 +2785,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2802,7 +2802,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2819,7 +2819,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2836,7 +2836,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2853,7 +2853,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2870,7 +2870,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2887,7 +2887,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2904,7 +2904,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2921,7 +2921,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2938,7 +2938,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2955,7 +2955,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2972,7 +2972,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -2989,7 +2989,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3006,7 +3006,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3023,7 +3023,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3040,7 +3040,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3057,7 +3057,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3074,7 +3074,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3091,7 +3091,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3108,7 +3108,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3125,7 +3125,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3142,7 +3142,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3159,7 +3159,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3176,7 +3176,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3193,7 +3193,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3210,7 +3210,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3227,7 +3227,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3244,7 +3244,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3261,7 +3261,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3278,7 +3278,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3295,7 +3295,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3312,7 +3312,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3329,7 +3329,7 @@
       "tags": "[\"contratacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3346,7 +3346,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3363,7 +3363,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3380,7 +3380,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -3397,7 +3397,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     }
   ]
