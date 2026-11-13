@@ -297,6 +297,18 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .email-row.handled-row .er-resolve{background:var(--success-bg);border-color:var(--success);color:var(--success)}
 /* Priority filter row */
 #email-priority-filters{margin-bottom:8px}
+
+/* ── REPLY FORM ── */
+.em-reply-section{margin-top:14px;border-top:1px solid var(--border-2);padding-top:14px}
+.em-reply-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.em-reply-to{font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:6px 10px;margin-bottom:8px;border:1px solid var(--border-2)}
+.em-reply-textarea{width:100%;min-height:100px;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:inherit;font-size:13px;color:var(--ink);outline:none;resize:vertical;transition:border-color var(--ease),box-shadow var(--ease);line-height:1.6}
+.em-reply-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
+.em-reply-actions{display:flex;gap:8px;margin-top:8px;align-items:center}
+.em-reply-status{font-size:12px;color:var(--muted);flex:1}
+.em-reply-status.sending{color:var(--warning);font-weight:600}
+.em-reply-status.sent{color:var(--success);font-weight:600}
+.em-reply-status.error{color:var(--danger);font-weight:600}
 </style>
 </head>
 <body>
@@ -580,6 +592,17 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <div class="em-attachments" id="em-attachments-section" style="display:none">
           <div class="em-body-label" style="margin-top:12px">📎 Anexos</div>
           <div id="em-attachments-list"></div>
+        </div>
+        <!-- Reply Form -->
+        <div class="em-reply-section" id="em-reply-section" style="display:none">
+          <div class="em-reply-label">↩ Responder</div>
+          <div class="em-reply-to" id="em-reply-to"></div>
+          <textarea class="em-reply-textarea" id="em-reply-body" placeholder="Escreva sua resposta..."></textarea>
+          <div class="em-reply-actions">
+            <button class="btn btn-primary btn-sm" onclick="sendEmailReply()">✉️ Enviar Resposta</button>
+            <button class="btn btn-ghost btn-sm" onclick="closeReplyForm()">Cancelar</button>
+            <span class="em-reply-status" id="em-reply-status"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -1023,14 +1046,109 @@ function showEmailModal(idx){
   // Resolve action
   let actEl=document.getElementById('em-resolve-action');
   if(!actEl){actEl=document.createElement('div');actEl.id='em-resolve-action';document.querySelector('.em-body').appendChild(actEl);}
-  actEl.innerHTML=(handled||needsReply(e))?resolveHtml:'';
+  // Add "Responder" button always
+  const replyBtnHtml=`<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="openReplyForm(${idx})">↩ Responder</button></div>`;
+  actEl.innerHTML=((handled||needsReply(e))?resolveHtml:'')+replyBtnHtml;
+  // Reset reply form
+  document.getElementById('em-reply-section').style.display='none';
   document.getElementById('email-modal').classList.add('open');
   document.body.style.overflow='hidden';
 }
 function refreshModal(idx){showEmailModal(idx);}
+// ── Reply via GitHub queue ───────────────────────────────────────
+let _replyEmailIdx = -1;
+
+function openReplyForm(idx){
+  _replyEmailIdx = idx;
+  const e = _e[idx]; if(!e) return;
+  const replyTo = e.from_name ? `${e.from_name} <${e.from_addr}>` : (e.from_addr || e.display || e.account);
+  document.getElementById('em-reply-to').textContent = `Para: ${replyTo}`;
+  document.getElementById('em-reply-body').value = '';
+  document.getElementById('em-reply-status').textContent = '';
+  document.getElementById('em-reply-status').className = 'em-reply-status';
+  document.getElementById('em-reply-section').style.display = 'block';
+  setTimeout(() => document.getElementById('em-reply-body').focus(), 100);
+}
+
+function closeReplyForm(){
+  document.getElementById('em-reply-section').style.display = 'none';
+  document.getElementById('em-reply-body').value = '';
+  document.getElementById('em-reply-status').textContent = '';
+}
+
+async function sendEmailReply(){
+  const e = _e[_replyEmailIdx]; if(!e) return;
+  const body = document.getElementById('em-reply-body').value.trim();
+  if(!body){ document.getElementById('em-reply-status').textContent='Escreva a mensagem antes de enviar.';return; }
+  const statusEl = document.getElementById('em-reply-status');
+  const sendBtn  = document.querySelector('#em-reply-section .btn-primary');
+  statusEl.className = 'em-reply-status sending';
+  statusEl.textContent = '⏳ Enviando...';
+  sendBtn.disabled = true;
+
+  try {
+    if(!_ghToken) await loadConfig();
+    if(!_ghToken) throw new Error('Token não disponível');
+
+    // Read current queue
+    const qUrl = `${API}/data/reply_queue.json?_=${Date.now()}`;
+    const qResp = await fetch(qUrl);
+    const queue = await qResp.json();
+
+    // Also get SHA for PUT
+    const metaResp = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/data/reply_queue.json`,
+      { headers: { Authorization: `Bearer ${_ghToken}`, Accept: 'application/vnd.github+json' } }
+    );
+    const meta = await metaResp.json();
+    const qSha = meta.sha;
+
+    // Build new item
+    const item = {
+      id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36),
+      account: e.account,
+      msg_id: e.msg_id || e.id,
+      original_subject: e.subject || '',
+      original_from: e.from_addr || '',
+      body: body,
+      status: 'pending',
+      created_at: new Date().toISOString(),
+      sent_by: CURRENT_USER?.name || 'Dashboard',
+      sent_at: null,
+      error: null
+    };
+    queue.queue.push(item);
+
+    // Write back
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(queue, null, 2))));
+    const putResp = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/data/reply_queue.json`,
+      { method:'PUT', headers:{ Authorization:`Bearer ${_ghToken}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+        body: JSON.stringify({ message:`reply: ${e.subject||'email'}`, content, sha: qSha }) }
+    );
+
+    if(putResp.ok){
+      statusEl.className = 'em-reply-status sent';
+      statusEl.textContent = '✅ Na fila — enviado em até 2 minutos';
+      document.getElementById('em-reply-body').value = '';
+      sendBtn.disabled = false;
+      // Auto-mark as handled
+      const h = getHandled(); h.add(_emailKey(e)); setHandled(h);
+      setTimeout(() => closeReplyForm(), 3000);
+    } else {
+      throw new Error('Erro ao salvar na fila');
+    }
+  } catch(err){
+    statusEl.className = 'em-reply-status error';
+    statusEl.textContent = `❌ Erro: ${err.message}`;
+    sendBtn.disabled = false;
+  }
+}
+
 function closeEmailModal(){
   document.getElementById('email-modal').classList.remove('open');
   document.body.style.overflow='';
+  closeReplyForm();
 }
 
 function waCard(m){return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name" style="font-size:13px">${m.sender_name||m.sender_num||'—'}</div><div class="item-meta">📱 ${m.bridge_name} · ${m.is_group?'Grupo':'DM'}</div><div class="item-meta" style="margin-top:4px;font-style:italic">"${(m.body||'').substring(0,80)}"</div></div></div></div>`;}
