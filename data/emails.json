@@ -14,7 +14,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -31,7 +31,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -48,7 +48,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -65,7 +65,7 @@
       "tags": "[\"cotacao\", \"renovacao\", \"contratacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -82,7 +82,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -99,7 +99,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -116,7 +116,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -133,7 +133,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -150,7 +150,7 @@
       "tags": "[\"cotacao\", \"renovacao\", \"contratacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -167,7 +167,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -184,7 +184,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -201,7 +201,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -218,7 +218,7 @@
       "tags": "[\"contratacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -235,7 +235,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -252,7 +252,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -269,7 +269,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -286,7 +286,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -303,7 +303,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -320,7 +320,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -337,7 +337,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -354,7 +354,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -371,7 +371,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -388,7 +388,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -405,7 +405,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -422,7 +422,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -439,7 +439,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -456,7 +456,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -473,7 +473,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -490,7 +490,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -507,7 +507,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -524,7 +524,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -541,7 +541,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -558,7 +558,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -575,7 +575,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "\r\nLuana, boa tarde.\r\n\r\nCotação da Tókio 25% aprovada. R$ 4.844,00\r\n\r\nFaremos o pagamento à vista, no boleto.\r\n\r\nPode seguir no cep 18185-500\r\n\r\nAtenciosamente.\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br>\r\nEnviada em: quinta-feira, 12 de novembro de 2026 11:48\r\nPara: abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: Katia Mitie Sakai Martins Bezerra <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: RES: Fazenda / Urgente\r\n\r\n[Geralmente, você não obtém emails de suporte@newbseguros.com.br. Saiba por que isso é importante em https://aka.ms/LearnAboutSenderIdentification ]\r\n\r\nKatia, Bom dia!\r\n\r\nTudo bem?\r\n\r\nSegue a melhor proposta para sua análise, estou enviando com a opção de franquia de 25% e 50%, como a  diferença de custo é pouco, sugiro a opção de 25% da franquia.\r\n\r\nA cotação esta sem perfil.\r\n\r\nPor gentileza confirma se o CEP pernoite 18185-500 esta correto?\r\n\r\nFico no aguardo.\r\n\r\nLuana Amaro\r\n\r\n-----Mensagem original-----\r\nDe: abm@newbseguros.com.br <abm@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 10:44\r\nPara: suporte@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: ENC: Fazenda / Urgente\r\n\r\nLuana , bom dia !\r\n\r\nPor favor vamos precisar cotar o veículo em anexo que é da fazenda , atenção eles vão retirar hoje.\r\n\r\nEstou copiando a Katia secretaria do Sr. Jhonny para qualquer dúvida , atenção endereço de pernoite.\r\n\r\nCelular da Katia: 996361506\r\n\r\nAtt.\r\n\r\nArnaldo.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Arnaldo Mellão <arnaldo.mellao@gmail.com> Enviada em: quinta-feira, 12 de novembro de 2026 10:36\r\nPara: abm@newbseguros.com.br\r\nAssunto: Fazenda\r\n\r\nMelão, temos um veículo novo p fazer o seguro\r\n\r\nEm nome do sr Johnny, cnpj da fazenda\r\n\r\nJá pedi a nf\r\n\r\nVamos retirar o carro hj\r\n\r\n\r\n[https://disclaimer.band.com.br/banner.png]\r\n\r\nAVISO DE PRIVACIDADE:\r\nA Bandeirantes e suas demais emissoras se preocupam com a privacidade dos seus dados pessoais e os protegem de acordo com a Lei Geral de Proteção de Dados - LGPD (13.709/2018).\r\n\r\nAVISO LEGAL:\r\nO conteúdo desta mensagem (incluindo qualquer arquivo nela contido) é confidencial. (Artigo 56 da Lei 4.117 de 27 de agosto de 1962, aplicável aos crimes em telecomunicações, nos termos do artigo 215/I, da Lei 9.472, de 16 de Julho de 1997). Se você recebeu esta mensagem por engano ou não é o destinatário pretendido, perdoe-nos pelo erro e destrua a mensagem de e-mail e quaisquer anexos ou cópias. Você está proibido de reter, distribuir, divulgar ou usar qualquer informação aqui contida. Por favor, informe-nos da entrega incorreta por e-mail de retorno.\r\n\r\n\r\nPRIVACY NOTICE:\r\nBandeirantes and its other broadcasters are concerned with the privacy of your personal data and protect them in accordance with the Brazilian General Data Protection Law - LGPD (13.709/2018).\r\n\r\nDISCLAIMER:\r\nThe content of this e-mail (including any attachments) is confidential. (Article 56 of the Brazilian Law #4117, published on August,27th 1962, applicable to telecommunications crimes, according the Article 215/I of the Brazilian Law #9472, published on July, 16th 1997). If you have received this message by mistake or are not the intended recipient, please forgive our fault and destroy this email message and any attachments or copies. You are prohibited from retaining, distributing, disclosing or using any information contained herein. Please inform us of the incorrect delivery by returning this email message.\r\n",
       "attachments": "[]"
     },
     {
@@ -592,7 +592,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -609,7 +609,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "\r\nLuana,\r\n\r\nO cep precisa alterar para 18.184-899\r\n\r\nVou te enviar um áudio explicando.\r\n\r\nAtenciosamente.\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Katia Mitie Sakai Martins Bezerra\r\nEnviada em: quinta-feira, 12 de novembro de 2026 13:53\r\nPara: 'suporte@newbseguros.com.br' <suporte@newbseguros.com.br>; abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: barbara@newbseguros.com.br; Thiago Henrique Vieira (fazendapontenova@hotmail.com) <fazendapontenova@hotmail.com>\r\nAssunto: RES: Fazenda / Urgente\r\n\r\n\r\nLuana, boa tarde.\r\n\r\nCotação da Tókio 25% aprovada. R$ 4.844,00\r\n\r\nFaremos o pagamento à vista, no boleto.\r\n\r\nPode seguir no cep 18185-500\r\n\r\nAtenciosamente.\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 11:48\r\nPara: abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: Katia Mitie Sakai Martins Bezerra <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: RES: Fazenda / Urgente\r\n\r\n[Geralmente, você não obtém emails de suporte@newbseguros.com.br. Saiba por que isso é importante em https://aka.ms/LearnAboutSenderIdentification ]\r\n\r\nKatia, Bom dia!\r\n\r\nTudo bem?\r\n\r\nSegue a melhor proposta para sua análise, estou enviando com a opção de franquia de 25% e 50%, como a  diferença de custo é pouco, sugiro a opção de 25% da franquia.\r\n\r\nA cotação esta sem perfil.\r\n\r\nPor gentileza confirma se o CEP pernoite 18185-500 esta correto?\r\n\r\nFico no aguardo.\r\n\r\nLuana Amaro\r\n\r\n-----Mensagem original-----\r\nDe: abm@newbseguros.com.br <abm@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 10:44\r\nPara: suporte@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: ENC: Fazenda / Urgente\r\n\r\nLuana , bom dia !\r\n\r\nPor favor vamos precisar cotar o veículo em anexo que é da fazenda , atenção eles vão retirar hoje.\r\n\r\nEstou copiando a Katia secretaria do Sr. Jhonny para qualquer dúvida , atenção endereço de pernoite.\r\n\r\nCelular da Katia: 996361506\r\n\r\nAtt.\r\n\r\nArnaldo.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Arnaldo Mellão <arnaldo.mellao@gmail.com> Enviada em: quinta-feira, 12 de novembro de 2026 10:36\r\nPara: abm@newbseguros.com.br\r\nAssunto: Fazenda\r\n\r\nMelão, temos um veículo novo p fazer o seguro\r\n\r\nEm nome do sr Johnny, cnpj da fazenda\r\n\r\nJá pedi a nf\r\n\r\nVamos retirar o carro hj\r\n\r\n\r\n[https://disclaimer.band.com.br/banner.png]\r\n\r\nAVISO DE PRIVACIDADE:\r\nA Bandeirantes e suas demais emissoras se preocupam com a privacidade dos seus dados pessoais e os protegem de acordo com a Lei Geral de Proteção de Dados - LGPD (13.709/2018).\r\n\r\nAVISO LEGAL:\r\nO conteúdo desta mensagem (incluindo qualquer arquivo nela contido) é confidencial. (Artigo 56 da Lei 4.117 de 27 de agosto de 1962, aplicável aos crimes em telecomunicações, nos termos do artigo 215/I, da Lei 9.472, de 16 de Julho de 1997). Se você recebeu esta mensagem por engano ou não é o destinatário pretendido, perdoe-nos pelo erro e destrua a mensagem de e-mail e quaisquer anexos ou cópias. Você está proibido de reter, distribuir, divulgar ou usar qualquer informação aqui contida. Por favor, informe-nos da entrega incorreta por e-mail de retorno.\r\n\r\n\r\nPRIVACY NOTICE:\r\nBandeirantes and its other broadcasters are concerned with the privacy of your personal data and protect them in accordance with the Brazilian General Data Protection Law - LGPD (13.709/2018).\r\n\r\nDISCLAIMER:\r\nThe content of this e-mail (including any attachments) is confidential. (Article 56 of the Brazilian Law #4117, published on August,27th 1962, applicable to telecommunications crimes, according the Article 215/I of the Brazilian Law #9472, published on July, 16th 1997). If you have received this message by mistake or are not the intended recipient, please forgive our fault and de",
       "attachments": "[]"
     },
     {
@@ -626,7 +626,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "Obrigada, Luana.\r\n\r\nSeguir com a Tókio franquia 25%, no cep 18.184-899\r\nAtenciosamente.\r\n\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br>\r\nEnviada em: quinta-feira, 12 de novembro de 2026 14:10\r\nPara: abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: Katia Mitie Sakai Martins Bezerra <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: RES: Fazenda / Urgente\r\n\r\nKatia,\r\n\r\nConforme falamos segue com o CEP 18.184-899 para sua análise, com as duas opções de franquia.\r\n\r\nLuana Amaro.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 11:48\r\nPara: 'abm@newbseguros.com.br' <abm@newbseguros.com.br>; 'comercial@newbseguros.com.br' <comercial@newbseguros.com.br>\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; 'barbara@newbseguros.com.br' <barbara@newbseguros.com.br>\r\nAssunto: RES: Fazenda / Urgente\r\n\r\nKatia, Bom dia!\r\n\r\nTudo bem?\r\n\r\nSegue a melhor proposta para sua análise, estou enviando com a opção de franquia de 25% e 50%, como a  diferença de custo é pouco, sugiro a opção de 25% da franquia.\r\n\r\nA cotação esta sem perfil.\r\n\r\nPor gentileza confirma se o CEP pernoite 18185-500 esta correto?\r\n\r\nFico no aguardo.\r\n\r\nLuana Amaro\r\n\r\n-----Mensagem original-----\r\nDe: abm@newbseguros.com.br <abm@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 10:44\r\nPara: suporte@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: ENC: Fazenda / Urgente\r\n\r\nLuana , bom dia !\r\n\r\nPor favor vamos precisar cotar o veículo em anexo que é da fazenda , atenção eles vão retirar hoje.\r\n\r\nEstou copiando a Katia secretaria do Sr. Jhonny para qualquer dúvida , atenção endereço de pernoite.\r\n\r\nCelular da Katia: 996361506\r\n\r\nAtt.\r\n\r\nArnaldo.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Arnaldo Mellão <arnaldo.mellao@gmail.com> Enviada em: quinta-feira, 12 de novembro de 2026 10:36\r\nPara: abm@newbseguros.com.br\r\nAssunto: Fazenda\r\n\r\nMelão, temos um veículo novo p fazer o seguro\r\n\r\nEm nome do sr Johnny, cnpj da fazenda\r\n\r\nJá pedi a nf\r\n\r\nVamos retirar o carro hj\r\n\r\n\r\n[https://disclaimer.band.com.br/banner.png]\r\n\r\nAVISO DE PRIVACIDADE:\r\nA Bandeirantes e suas demais emissoras se preocupam com a privacidade dos seus dados pessoais e os protegem de acordo com a Lei Geral de Proteção de Dados - LGPD (13.709/2018).\r\n\r\nAVISO LEGAL:\r\nO conteúdo desta mensagem (incluindo qualquer arquivo nela contido) é confidencial. (Artigo 56 da Lei 4.117 de 27 de agosto de 1962, aplicável aos crimes em telecomunicações, nos termos do artigo 215/I, da Lei 9.472, de 16 de Julho de 1997). Se você recebeu esta mensagem por engano ou não é o destinatário pretendido, perdoe-nos pelo erro e destrua a mensagem de e-mail e quaisquer anexos ou cópias. Você está proibido de reter, distribuir, divulgar ou usar qualquer informação aqui contida. Por favor, informe-nos da entrega incorreta por e-mail de retorno.\r\n\r\n\r\nPRIVACY NOTICE:\r\nBandeirantes and its other broadcasters are concerned with the privacy of your personal data and protect them in accordance with the Brazilian General Data Protection Law - LGPD (13.709/2018).\r\n\r\nDISCLAIMER:\r\nThe content of this e-mail (including any attachments) is confidential. (Article 56 of the Brazilian Law #4117, published on August,27th 1962, applicable to telecommunications crimes, according the Article 215/I of the Brazilian Law #9472, published on July, 16th 1997). If you have received this message by mistake or are not the intended recipient, please forgive our fault and destroy this email message and any attachments or copies. You are prohibited from retaining, distributing, disclosing or using any information contained herein. Please inform us of the incorrect delivery by returning this email message.\r\n",
       "attachments": "[]"
     },
     {
@@ -643,7 +643,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -660,7 +660,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -677,7 +677,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -694,7 +694,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -711,7 +711,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -728,7 +728,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -745,7 +745,7 @@
       "tags": "[\"cancelamento\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -762,7 +762,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -779,7 +779,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -796,7 +796,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -813,7 +813,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -830,7 +830,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "Olá\r\n\r\n Para solicitar um atendimento com a equipe de suporte, clique abaixo:\r\n\r\nAbrir Atendimento<https://suporte.agger.com.br/login>\r\n\r\n\r\nAo acessar a central do cliente, precisaremos que você se identifique com alguns dados:\r\nCNPJ da sua empresa\r\nNome\r\nE-mail\r\nA solicitação do atendimento também pode ser feita através dos nossos sistemas em Ajuda > Atendimento.\r\n\r\n\r\nNão se esqueça: nosso horário de atendimento é de segunda à sexta, das 08h às 17:30h, exceto em feriados nacionais. Os atendimentos abertos dentro desse período, seguem a ordem de chegada, com base na data/hora do envio e registro em nosso sistema.\r\n\r\nMuito obrigado, até a próxima,\r\nEquipe Agger\r\n\r\n",
       "attachments": "[]"
     },
     {
@@ -847,7 +847,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -864,7 +864,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "Prezados,\r\nInformo que estarei ausente no período de 09/11/2026 a 18/11/2026, com retorno previsto para o dia 19/11/2026. Durante este intervalo, para solicitações ou dúvidas, por favor, acione o relacionamento corporativo pelo e-mail: corporativo2@unimedcuiaba.coop.br.\r\nAtenciosamente,\r\n\r\n\r\n\r\nGiselli Da Silva\r\nANALISTA ADMINISTRATIVO JR\r\nPV - RELACIONAMENTO CORPORATIVO\r\nUnimed Cuiabá Cooperativa de Trabalho Médico\r\nTelefones: (065) 3612-3310 |\r\nSAC 0800 647 3008 SAC exclusivo para surdo: 0800 647 3110\r\nwww.unimedcuiaba.coop.br<https://www.unimedcuiaba.coop.br/>\r\n\r\n[https://ngw.unimedcuiaba.coop.br/images/AssinaturaCorporativa.jpg]\r\nCada atitude conta! Pense bem antes de imprimir este e-mail. O Meio Ambiente agradece.\r\n\r\nA informação contida neste e-mail, bem como em qualquer de seus anexos, é CONFIDENCIAL e destinada ao uso exclusivo do(s) destinatário(s) acima referido(s), podendo conter informações sigilosas e/ou legalmente protegidas. Caso você não seja o destinatário desta mensagem, informamos que qualquer divulgação, distribuição ou cópia deste e-mail e/ou de qualquer de seus anexos é absolutamente proibida. Solicitamos que o remetente seja comunicado imediatamente, respondendo a esta mensagem, e que o original desta mensagem e de seus anexos, bem como toda e qualquer cópia e/ou impressão realizada a partir destes, sejam permanentemente apagados e/ou destruídos.\r\n",
       "attachments": "[]"
     },
     {
@@ -881,7 +881,7 @@
       "tags": "[\"contratacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -898,7 +898,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -915,7 +915,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -932,7 +932,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -949,7 +949,7 @@
       "tags": "[\"contratacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -966,7 +966,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": " @barbara@newbseguros.com.br <barbara@newbseguros.com.br> boa tarde!\r\nEspero que esteja bem.\r\n\r\nPreciso atualizar a diretoria sobre o andamento de algumas negociações.\r\nVocê poderia, por gentileza, me enviar o status atualizado e informar se\r\ntivemos alguma evolução nas seguintes contas?\r\n\r\n\r\n\r\n\r\n*  - LUPO S.A.  - ABILITY TECNOLOGIA E SERVICOS S/A  - SERCOM SERVICOS\r\nDIGITAIS LTDA  - OBRAS SOCIAIS UNIVERSITARIAS E CULTURAIS*\r\n\r\nFico no aguardo.\r\n\r\n*Atenciosamente, *\r\n\r\n<https://www.facebook.com/SulAmerica>\r\n<https://www.instagram.com/sulamerica/?hl=pt-br>\r\n<https://www.linkedin.com/company/sulamerica/?originalSubdomain=br>\r\n<https://twitter.com/sulamerica>\r\n<https://api.whatsapp.com/send/?phone=551130049723>\r\n<https://www.youtube.com/c/sulamerica>\r\n*Pamela Possetti*\r\nEla/Dela\r\n*Gestora Comercial*\r\n Filial Moema\r\n\r\n(11) 96593-4222\r\nAv. Moema, 300\r\nCEP 04077-020 | São Paulo | SP\r\nwww.sulamerica.com.br <https://portal.sulamericaseguros.com.br/home.htm>\r\n\r\n-- \r\nEsta mensagem, incluindo seus anexos, é de uso exclusivo do destinatário e \r\npode conter informações confidenciais e/ou privilegiadas cuja divulgação é \r\nrestrita. Esta mensagem e seus anexos não podem, sob qualquer forma ou \r\npretexto, serem utilizados, divulgados, alterados, impressos ou copiados, \r\ntotal ou parcialmente, por pessoas não autorizadas. Eventual erro de \r\ntransmissão desta mensagem, em nenhuma hipótese, constituirá renúncia à \r\nconfidencialidade ou a qualquer direito ou prerrogativa dela decorrente. \r\nCaso você não seja o destinatário desta mensagem, qualquer uso, cópia, \r\nalteração, divulgação, veiculação, reprodução ou distribuição desta \r\nmensagem e seus anexos, no todo ou parte, é estritamente proibida. Neste \r\ncaso, por favor, notifique o remetente imediatamente respondendo a este \r\nemail, exclua esta mensagem de seu computador e  de qualquer sistema e/ou \r\ndestrua quaisquer cópias.  Qualquer transmissão, disseminação ou outro uso, \r\nespecialmente tomada de ação baseada nesta mensagem por pessoas ou \r\nentidades, que não seja o destinatário pretendido, é proibida e ilegal.     \r\n  \r\n\r\n\r\nThis message, including its attachments, is intended for the exclusive \r\nuse of its addressee and may contain confidential, proprietary, and/or \r\nprivileged information of restricted disclosure. This message and its \r\nattachments may not, under any form or pretext, be used, disclosed, \r\naltered, printed, or copied, in whole or in part, by unauthorized persons. \r\nAny error in the transmission of this message, under no circumstances, will \r\nconstitute a waiver of confidentiality or any right or prerogative \r\nresulting from it.  If you are not the intended recipient, any use, copy, \r\nmodification, disclosure, dissemination, reproduction, or distribution of \r\neither the whole or part of this message or the attached documents are \r\nstrictly prohibited. In this case, please notify the sender immediately by \r\nreply e-mail, delete this message from your computer and any system, and/or \r\ndestroy any copies. Any transmission, dissemination, or other use, \r\nespecially action based on this message by persons or entities, other than \r\nthe intended recipient is prohibited and illegal.\r\n\r\n\r\n",
       "attachments": "[]"
     },
     {
@@ -983,7 +983,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1000,7 +1000,7 @@
       "tags": "[\"cotacao\", \"renovacao\", \"contratacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1017,7 +1017,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1034,7 +1034,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "\r\nLuana, boa tarde.\r\n\r\nCotação da Tókio 25% aprovada. R$ 4.844,00\r\n\r\nFaremos o pagamento à vista, no boleto.\r\n\r\nPode seguir no cep 18185-500\r\n\r\nAtenciosamente.\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br>\r\nEnviada em: quinta-feira, 12 de novembro de 2026 11:48\r\nPara: abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: Katia Mitie Sakai Martins Bezerra <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: RES: Fazenda / Urgente\r\n\r\n[Geralmente, você não obtém emails de suporte@newbseguros.com.br. Saiba por que isso é importante em https://aka.ms/LearnAboutSenderIdentification ]\r\n\r\nKatia, Bom dia!\r\n\r\nTudo bem?\r\n\r\nSegue a melhor proposta para sua análise, estou enviando com a opção de franquia de 25% e 50%, como a  diferença de custo é pouco, sugiro a opção de 25% da franquia.\r\n\r\nA cotação esta sem perfil.\r\n\r\nPor gentileza confirma se o CEP pernoite 18185-500 esta correto?\r\n\r\nFico no aguardo.\r\n\r\nLuana Amaro\r\n\r\n-----Mensagem original-----\r\nDe: abm@newbseguros.com.br <abm@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 10:44\r\nPara: suporte@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: ENC: Fazenda / Urgente\r\n\r\nLuana , bom dia !\r\n\r\nPor favor vamos precisar cotar o veículo em anexo que é da fazenda , atenção eles vão retirar hoje.\r\n\r\nEstou copiando a Katia secretaria do Sr. Jhonny para qualquer dúvida , atenção endereço de pernoite.\r\n\r\nCelular da Katia: 996361506\r\n\r\nAtt.\r\n\r\nArnaldo.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Arnaldo Mellão <arnaldo.mellao@gmail.com> Enviada em: quinta-feira, 12 de novembro de 2026 10:36\r\nPara: abm@newbseguros.com.br\r\nAssunto: Fazenda\r\n\r\nMelão, temos um veículo novo p fazer o seguro\r\n\r\nEm nome do sr Johnny, cnpj da fazenda\r\n\r\nJá pedi a nf\r\n\r\nVamos retirar o carro hj\r\n\r\n\r\n[https://disclaimer.band.com.br/banner.png]\r\n\r\nAVISO DE PRIVACIDADE:\r\nA Bandeirantes e suas demais emissoras se preocupam com a privacidade dos seus dados pessoais e os protegem de acordo com a Lei Geral de Proteção de Dados - LGPD (13.709/2018).\r\n\r\nAVISO LEGAL:\r\nO conteúdo desta mensagem (incluindo qualquer arquivo nela contido) é confidencial. (Artigo 56 da Lei 4.117 de 27 de agosto de 1962, aplicável aos crimes em telecomunicações, nos termos do artigo 215/I, da Lei 9.472, de 16 de Julho de 1997). Se você recebeu esta mensagem por engano ou não é o destinatário pretendido, perdoe-nos pelo erro e destrua a mensagem de e-mail e quaisquer anexos ou cópias. Você está proibido de reter, distribuir, divulgar ou usar qualquer informação aqui contida. Por favor, informe-nos da entrega incorreta por e-mail de retorno.\r\n\r\n\r\nPRIVACY NOTICE:\r\nBandeirantes and its other broadcasters are concerned with the privacy of your personal data and protect them in accordance with the Brazilian General Data Protection Law - LGPD (13.709/2018).\r\n\r\nDISCLAIMER:\r\nThe content of this e-mail (including any attachments) is confidential. (Article 56 of the Brazilian Law #4117, published on August,27th 1962, applicable to telecommunications crimes, according the Article 215/I of the Brazilian Law #9472, published on July, 16th 1997). If you have received this message by mistake or are not the intended recipient, please forgive our fault and destroy this email message and any attachments or copies. You are prohibited from retaining, distributing, disclosing or using any information contained herein. Please inform us of the incorrect delivery by returning this email message.\r\n",
       "attachments": "[]"
     },
     {
@@ -1051,7 +1051,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "\r\nLuana,\r\n\r\nO cep precisa alterar para 18.184-899\r\n\r\nVou te enviar um áudio explicando.\r\n\r\nAtenciosamente.\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Katia Mitie Sakai Martins Bezerra\r\nEnviada em: quinta-feira, 12 de novembro de 2026 13:53\r\nPara: 'suporte@newbseguros.com.br' <suporte@newbseguros.com.br>; abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: barbara@newbseguros.com.br; Thiago Henrique Vieira (fazendapontenova@hotmail.com) <fazendapontenova@hotmail.com>\r\nAssunto: RES: Fazenda / Urgente\r\n\r\n\r\nLuana, boa tarde.\r\n\r\nCotação da Tókio 25% aprovada. R$ 4.844,00\r\n\r\nFaremos o pagamento à vista, no boleto.\r\n\r\nPode seguir no cep 18185-500\r\n\r\nAtenciosamente.\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 11:48\r\nPara: abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: Katia Mitie Sakai Martins Bezerra <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: RES: Fazenda / Urgente\r\n\r\n[Geralmente, você não obtém emails de suporte@newbseguros.com.br. Saiba por que isso é importante em https://aka.ms/LearnAboutSenderIdentification ]\r\n\r\nKatia, Bom dia!\r\n\r\nTudo bem?\r\n\r\nSegue a melhor proposta para sua análise, estou enviando com a opção de franquia de 25% e 50%, como a  diferença de custo é pouco, sugiro a opção de 25% da franquia.\r\n\r\nA cotação esta sem perfil.\r\n\r\nPor gentileza confirma se o CEP pernoite 18185-500 esta correto?\r\n\r\nFico no aguardo.\r\n\r\nLuana Amaro\r\n\r\n-----Mensagem original-----\r\nDe: abm@newbseguros.com.br <abm@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 10:44\r\nPara: suporte@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: ENC: Fazenda / Urgente\r\n\r\nLuana , bom dia !\r\n\r\nPor favor vamos precisar cotar o veículo em anexo que é da fazenda , atenção eles vão retirar hoje.\r\n\r\nEstou copiando a Katia secretaria do Sr. Jhonny para qualquer dúvida , atenção endereço de pernoite.\r\n\r\nCelular da Katia: 996361506\r\n\r\nAtt.\r\n\r\nArnaldo.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Arnaldo Mellão <arnaldo.mellao@gmail.com> Enviada em: quinta-feira, 12 de novembro de 2026 10:36\r\nPara: abm@newbseguros.com.br\r\nAssunto: Fazenda\r\n\r\nMelão, temos um veículo novo p fazer o seguro\r\n\r\nEm nome do sr Johnny, cnpj da fazenda\r\n\r\nJá pedi a nf\r\n\r\nVamos retirar o carro hj\r\n\r\n\r\n[https://disclaimer.band.com.br/banner.png]\r\n\r\nAVISO DE PRIVACIDADE:\r\nA Bandeirantes e suas demais emissoras se preocupam com a privacidade dos seus dados pessoais e os protegem de acordo com a Lei Geral de Proteção de Dados - LGPD (13.709/2018).\r\n\r\nAVISO LEGAL:\r\nO conteúdo desta mensagem (incluindo qualquer arquivo nela contido) é confidencial. (Artigo 56 da Lei 4.117 de 27 de agosto de 1962, aplicável aos crimes em telecomunicações, nos termos do artigo 215/I, da Lei 9.472, de 16 de Julho de 1997). Se você recebeu esta mensagem por engano ou não é o destinatário pretendido, perdoe-nos pelo erro e destrua a mensagem de e-mail e quaisquer anexos ou cópias. Você está proibido de reter, distribuir, divulgar ou usar qualquer informação aqui contida. Por favor, informe-nos da entrega incorreta por e-mail de retorno.\r\n\r\n\r\nPRIVACY NOTICE:\r\nBandeirantes and its other broadcasters are concerned with the privacy of your personal data and protect them in accordance with the Brazilian General Data Protection Law - LGPD (13.709/2018).\r\n\r\nDISCLAIMER:\r\nThe content of this e-mail (including any attachments) is confidential. (Article 56 of the Brazilian Law #4117, published on August,27th 1962, applicable to telecommunications crimes, according the Article 215/I of the Brazilian Law #9472, published on July, 16th 1997). If you have received this message by mistake or are not the intended recipient, please forgive our fault and de",
       "attachments": "[]"
     },
     {
@@ -1068,7 +1068,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1085,7 +1085,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "Obrigada, Luana.\r\n\r\nSeguir com a Tókio franquia 25%, no cep 18.184-899\r\nAtenciosamente.\r\n\r\n\r\n\r\nKatia Sakai\r\nPRESIDÊNCIA\r\nT: +55 (11) 3131-7313\r\nksakai@band.com.br\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br>\r\nEnviada em: quinta-feira, 12 de novembro de 2026 14:10\r\nPara: abm@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: Katia Mitie Sakai Martins Bezerra <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: RES: Fazenda / Urgente\r\n\r\nKatia,\r\n\r\nConforme falamos segue com o CEP 18.184-899 para sua análise, com as duas opções de franquia.\r\n\r\nLuana Amaro.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: suporte@newbseguros.com.br <suporte@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 11:48\r\nPara: 'abm@newbseguros.com.br' <abm@newbseguros.com.br>; 'comercial@newbseguros.com.br' <comercial@newbseguros.com.br>\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; 'barbara@newbseguros.com.br' <barbara@newbseguros.com.br>\r\nAssunto: RES: Fazenda / Urgente\r\n\r\nKatia, Bom dia!\r\n\r\nTudo bem?\r\n\r\nSegue a melhor proposta para sua análise, estou enviando com a opção de franquia de 25% e 50%, como a  diferença de custo é pouco, sugiro a opção de 25% da franquia.\r\n\r\nA cotação esta sem perfil.\r\n\r\nPor gentileza confirma se o CEP pernoite 18185-500 esta correto?\r\n\r\nFico no aguardo.\r\n\r\nLuana Amaro\r\n\r\n-----Mensagem original-----\r\nDe: abm@newbseguros.com.br <abm@newbseguros.com.br> Enviada em: quinta-feira, 12 de novembro de 2026 10:44\r\nPara: suporte@newbseguros.com.br; comercial@newbseguros.com.br\r\nCc: 'Katia Mitie Sakai Martins Bezerra' <ksakai@band.com.br>; barbara@newbseguros.com.br\r\nAssunto: ENC: Fazenda / Urgente\r\n\r\nLuana , bom dia !\r\n\r\nPor favor vamos precisar cotar o veículo em anexo que é da fazenda , atenção eles vão retirar hoje.\r\n\r\nEstou copiando a Katia secretaria do Sr. Jhonny para qualquer dúvida , atenção endereço de pernoite.\r\n\r\nCelular da Katia: 996361506\r\n\r\nAtt.\r\n\r\nArnaldo.\r\n\r\n\r\n\r\n-----Mensagem original-----\r\nDe: Arnaldo Mellão <arnaldo.mellao@gmail.com> Enviada em: quinta-feira, 12 de novembro de 2026 10:36\r\nPara: abm@newbseguros.com.br\r\nAssunto: Fazenda\r\n\r\nMelão, temos um veículo novo p fazer o seguro\r\n\r\nEm nome do sr Johnny, cnpj da fazenda\r\n\r\nJá pedi a nf\r\n\r\nVamos retirar o carro hj\r\n\r\n\r\n[https://disclaimer.band.com.br/banner.png]\r\n\r\nAVISO DE PRIVACIDADE:\r\nA Bandeirantes e suas demais emissoras se preocupam com a privacidade dos seus dados pessoais e os protegem de acordo com a Lei Geral de Proteção de Dados - LGPD (13.709/2018).\r\n\r\nAVISO LEGAL:\r\nO conteúdo desta mensagem (incluindo qualquer arquivo nela contido) é confidencial. (Artigo 56 da Lei 4.117 de 27 de agosto de 1962, aplicável aos crimes em telecomunicações, nos termos do artigo 215/I, da Lei 9.472, de 16 de Julho de 1997). Se você recebeu esta mensagem por engano ou não é o destinatário pretendido, perdoe-nos pelo erro e destrua a mensagem de e-mail e quaisquer anexos ou cópias. Você está proibido de reter, distribuir, divulgar ou usar qualquer informação aqui contida. Por favor, informe-nos da entrega incorreta por e-mail de retorno.\r\n\r\n\r\nPRIVACY NOTICE:\r\nBandeirantes and its other broadcasters are concerned with the privacy of your personal data and protect them in accordance with the Brazilian General Data Protection Law - LGPD (13.709/2018).\r\n\r\nDISCLAIMER:\r\nThe content of this e-mail (including any attachments) is confidential. (Article 56 of the Brazilian Law #4117, published on August,27th 1962, applicable to telecommunications crimes, according the Article 215/I of the Brazilian Law #9472, published on July, 16th 1997). If you have received this message by mistake or are not the intended recipient, please forgive our fault and destroy this email message and any attachments or copies. You are prohibited from retaining, distributing, disclosing or using any information contained herein. Please inform us of the incorrect delivery by returning this email message.\r\n",
       "attachments": "[]"
     },
     {
@@ -1102,7 +1102,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1119,7 +1119,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1136,7 +1136,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1153,7 +1153,7 @@
       "tags": "[\"urgente\"]",
       "priority": "🔴",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1170,7 +1170,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1187,7 +1187,7 @@
       "tags": "[\"cotacao\"]",
       "priority": "🟡",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1204,7 +1204,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1221,7 +1221,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1238,7 +1238,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1255,7 +1255,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1272,7 +1272,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1289,7 +1289,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1306,7 +1306,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1323,7 +1323,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1340,7 +1340,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 0,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
@@ -1357,7 +1357,7 @@
       "tags": "[\"geral\"]",
       "priority": "🟢",
       "unread": 1,
-      "body": null,
+      "body": "",
       "attachments": "[]"
     },
     {
