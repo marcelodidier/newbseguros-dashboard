@@ -1,13 +1,9 @@
 {
-  "pending": false,
+  "pending": true,
   "accounts": [
-    "barbara"
+    "all"
   ],
-  "requested_at": "2026-11-13T15:08:10.752Z",
-  "processed_at": "2026-11-13T15:10:00.414426",
-  "result": {
-    "new_emails": 205,
-    "errors": [],
-    "exported_at": "2026-11-13T15:11:59.069005"
-  }
+  "requested_at": "2026-11-13T16:33:25.032Z",
+  "processed_at": "",
+  "result": null
 }
