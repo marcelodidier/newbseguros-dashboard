@@ -606,6 +606,17 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
           <div class="em-body-label" style="margin-top:12px">📎 Anexos</div>
           <div id="em-attachments-list"></div>
         </div>
+        <!-- Reply Form -->
+        <div class="em-reply-section" id="em-reply-section" style="display:none">
+          <div class="em-reply-label" style="font-size:13px;font-weight:700;color:var(--brand)">↩ Respondendo</div>
+          <div class="em-reply-to" id="em-reply-to"></div>
+          <textarea class="em-reply-textarea" id="em-reply-body" placeholder="Escreva sua resposta..."></textarea>
+          <div class="em-reply-actions">
+            <button class="btn btn-primary btn-sm" onclick="sendEmailReply()">✉️ Enviar Resposta</button>
+            <button class="btn btn-ghost btn-sm" onclick="closeReplyForm()">Cancelar</button>
+            <span class="em-reply-status" id="em-reply-status"></span>
+          </div>
+        </div>
         <!-- Webmail Link -->
         <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2)" id="em-webmail-row">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -623,17 +634,7 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
             <button class="em-pwd-copy" onclick="copyPwd('pass')" id="copy-pass-btn">🔑 Copiar Senha</button>
           </div>
         </div>
-        <!-- Reply Form -->
-        <div class="em-reply-section" id="em-reply-section" style="display:none">
-          <div class="em-reply-label">↩ Responder</div>
-          <div class="em-reply-to" id="em-reply-to"></div>
-          <textarea class="em-reply-textarea" id="em-reply-body" placeholder="Escreva sua resposta..."></textarea>
-          <div class="em-reply-actions">
-            <button class="btn btn-primary btn-sm" onclick="sendEmailReply()">✉️ Enviar Resposta</button>
-            <button class="btn btn-ghost btn-sm" onclick="closeReplyForm()">Cancelar</button>
-            <span class="em-reply-status" id="em-reply-status"></span>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -1112,7 +1113,12 @@ function showEmailModal(idx){
   let actEl=document.getElementById('em-resolve-action');
   if(!actEl){actEl=document.createElement('div');actEl.id='em-resolve-action';document.querySelector('.em-body').appendChild(actEl);}
   // Add "Responder" button always
-  const replyBtnHtml=`<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="openReplyForm(${idx})">↩ Responder</button></div>`;
+  const replyBtnHtml=`<div style="margin-top:12px">
+    <button class="btn btn-primary" style="width:100%;justify-content:center;gap:8px;font-size:14px;padding:11px" onclick="openReplyForm(${idx})">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+      ↩ Responder
+    </button>
+  </div>`;
   actEl.innerHTML=((handled||needsReply(e))?resolveHtml:'')+replyBtnHtml;
   // Reset reply form
   document.getElementById('em-reply-section').style.display='none';
