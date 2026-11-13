@@ -606,6 +606,17 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
           <div class="em-body-label" style="margin-top:12px">📎 Anexos</div>
           <div id="em-attachments-list"></div>
         </div>
+
+        <!-- Responder Button -->
+        <div id="em-responder-btn-wrap" style="margin-top:16px">
+          <button class="btn btn-primary" id="em-responder-main-btn"
+            style="width:100%;justify-content:center;gap:8px;font-size:14px;padding:12px"
+            onclick="openReplyForm(_currentEmailIdx)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+            ↩ Responder
+          </button>
+        </div>
+
         <!-- Reply Form -->
         <div class="em-reply-section" id="em-reply-section" style="display:none">
           <div class="em-reply-label" style="font-size:13px;font-weight:700;color:var(--brand)">↩ Respondendo</div>
@@ -1055,6 +1066,7 @@ function fmtFileSize(bytes){if(!bytes)return '';if(bytes<1024)return bytes+'B';i
 // ── Email Modal ───────────────────────────────────────────────────
 function showEmailModal(idx){
   const e=_e[idx]; if(!e)return;
+  _currentEmailIdx=idx;
   const tags=JSON.parse(e.tags||'[]');
   const priLabel={'🔴':'<span class="badge badge-danger">🔴 Urgente</span>','🟡':'<span class="badge badge-warning">🟡 Cotação / Atenção</span>','🟢':'<span class="badge badge-success">🟢 Geral</span>'}[e.priority]||e.priority;
   const dateStr=e.date_str?new Date(e.date_str).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
@@ -1113,13 +1125,7 @@ function showEmailModal(idx){
   let actEl=document.getElementById('em-resolve-action');
   if(!actEl){actEl=document.createElement('div');actEl.id='em-resolve-action';document.querySelector('.em-body').appendChild(actEl);}
   // Add "Responder" button always
-  const replyBtnHtml=`<div style="margin-top:12px">
-    <button class="btn btn-primary" style="width:100%;justify-content:center;gap:8px;font-size:14px;padding:11px" onclick="openReplyForm(${idx})">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
-      ↩ Responder
-    </button>
-  </div>`;
-  actEl.innerHTML=((handled||needsReply(e))?resolveHtml:'')+replyBtnHtml;
+  actEl.innerHTML=(handled||needsReply(e))?resolveHtml:'';
   // Reset reply form
   document.getElementById('em-reply-section').style.display='none';
   document.getElementById('email-modal').classList.add('open');
@@ -1190,6 +1196,7 @@ function copyPwd(which){
 
 // ── Reply via GitHub queue ───────────────────────────────────────
 let _replyEmailIdx = -1;
+let _currentEmailIdx = -1;
 
 function openReplyForm(idx){
   _replyEmailIdx = idx;
