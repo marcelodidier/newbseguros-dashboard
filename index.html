@@ -243,7 +243,9 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 #email-modal.open{display:flex;animation:fadeOverlay .2s ease}
 #item-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end;justify-content:center;padding:0}
 #item-modal.open{display:flex;animation:fadeOverlay .2s ease}
-@media(min-width:768px){#item-modal{align-items:center;padding:20px}}
+#ap-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end;justify-content:center;padding:0}
+#ap-modal.open{display:flex;animation:fadeOverlay .2s ease}
+@media(min-width:768px){#email-modal{align-items:center;padding:20px}#item-modal{align-items:center;padding:20px}#ap-modal{align-items:center;padding:20px}}
 @keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
 .email-modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:90dvh;overflow-y:auto;padding:0 0 32px;animation:slideUp .28s cubic-bezier(.4,0,.2,1)}
 @media(min-width:768px){
@@ -711,6 +713,27 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <button class="em-close" onclick="closeItemModal()">✕</button>
       </div>
       <div class="em-body" id="im-body"></div>
+    </div>
+  </div>
+
+  <!-- APÓLICE MODAL -->
+  <div id="ap-modal" onclick="if(event.target===this)closeApModal()">
+    <div class="email-modal-sheet">
+      <div class="em-header">
+        <div>
+          <div class="em-title" id="apm-title" style="font-size:15px">—</div>
+          <div id="apm-subtitle" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+        </div>
+        <button class="em-close" onclick="closeApModal()">✕</button>
+      </div>
+      <div class="em-body">
+        <div id="apm-body"></div>
+        <div id="apm-client-section" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <div class="em-body-label" style="margin-bottom:10px">👤 Cliente</div>
+          <div id="apm-client-body"></div>
+          <button id="apm-all-btn" class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="">Ver todas as apólices deste cliente →</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2133,13 +2156,7 @@ async function saveUsersToGitHub() {
 var AP_COL={urgente:'var(--danger)',atencao:'var(--warning)',em_breve:'var(--info)',ok:'var(--success)',vencida:'var(--muted)',desconhecida:'var(--muted-2)'};
 var AP_LBL={urgente:'Urgente',atencao:'Atencao',em_breve:'Em breve',ok:'Em dia',vencida:'Vencida',desconhecida:'?'};
 function esc(s){var d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
-function fApSearch(q){
-  var low=q.toLowerCase();
-  _apPage=0;
-  var res=_ap.filter(function(a){return(a.stipulator_name||'').toLowerCase().indexOf(low)>-1||(a.product_name||'').toLowerCase().indexOf(low)>-1||(a.insurer_abbr_name||'').toLowerCase().indexOf(low)>-1;});
-  _apFiltered=res;
-  rApPage();
-}
+function fApSearch(q){var low=q.toLowerCase();_apFiltered=_ap.filter(function(a){return(a.stipulator_name||'').toLowerCase().indexOf(low)>-1||(a.product_name||'').toLowerCase().indexOf(low)>-1||(a.insurer_abbr_name||'').toLowerCase().indexOf(low)>-1;});_apPage=0;rApPage();}
 function fApolice(v,c){
   if(c)chip(c);
   else{var chips=document.querySelectorAll('#ap-chips .filter-chip');chips.forEach(function(ch){var o=ch.getAttribute('onclick')||'';if(o.indexOf("'"+v+"'")>-1)ch.classList.add('active');else ch.classList.remove('active');});}
@@ -2148,8 +2165,7 @@ function fApolice(v,c){
   if(v==='all')_apFiltered=base;
   else if(v==='cancelada')_apFiltered=base.filter(function(a){return a.cancelled;});
   else _apFiltered=base.filter(function(a){return !a.cancelled&&a.urgency===v;});
-  _apPage=0;
-  rApPage();
+  _apPage=0;rApPage();
 }
 function rStatsAp(items){
   var u=items.filter(function(a){return !a.cancelled&&a.urgency==='urgente';}).length;
@@ -2161,7 +2177,7 @@ function apCard(a){
   var col=AP_COL[a.urgency]||'var(--muted)',lbl=AP_LBL[a.urgency]||'?';
   var days=a.days_to_expiry,ds=days===null?'-':days<=0?(-days)+'d atrás':days+'d';
   var prem=a.liquid_premium?'R$ '+Number(a.liquid_premium).toLocaleString('pt-BR',{minimumFractionDigits:2}):'-';
-  return '<div style="margin-bottom:10px;padding:14px;background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);border:1px solid var(--border-2);border-left:3px solid '+col+'">'
+  return '<div onclick="showApoliceModal('+a.id+')" style="cursor:pointer;margin-bottom:10px;padding:14px;background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);border:1px solid var(--border-2);border-left:3px solid '+col+';transition:box-shadow var(--ease)" onmouseover="this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.12)\'" onmouseout="this.style.boxShadow=\'var(--sh-sm)\'">'
     +'<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">'
     +'<div style="flex:1;min-width:0"><b style="font-size:13px">'+esc(a.stipulator_name||'-')+(a.cancelled?' [C]':'')+'</b><br>'
     +'<span style="font-size:12px;color:var(--muted)">'+esc(a.product_name||'-')+' | '+esc(a.insurer_abbr_name||'-')+'</span></div>'
@@ -2169,12 +2185,36 @@ function apCard(a){
     +'<span style="font-size:11px;color:var(--muted)">'+ds+'</span></div></div>'
     +'<div style="margin-top:8px;font-size:11px;color:var(--muted-2)">'+esc(a.term_start||'-')+' até '+esc(a.term_end||'-')+' | <span class="col-financeiro premio">'+prem+'</span>'+(a.policy_number?' | #'+esc(a.policy_number):'')+'</div></div>';
 }
+function rApolices(items){
+  _apFiltered=items||[];_apPage=0;rApPage();
+}
+function rApPage(){
+  var el=document.getElementById('lap');if(!el)return;
+  var total=_apFiltered.length;
+  if(!total){el.innerHTML=emp('Nenhuma apólice encontrada');return;}
+  var totalPages=Math.max(1,Math.ceil(total/_apPageSize));
+  var start=_apPage*_apPageSize,end=Math.min(start+_apPageSize,total);
+  var page=_apFiltered.slice(start,end);
+  var pag='<div class="pagination"><div style="display:flex;align-items:center;gap:8px"><div class="pag-size">'
+    +'<button class="pag-size-btn'+(_apPageSize===50?' active':'')+'\" onclick="setApPageSize(50)">50</button>'
+    +'<button class="pag-size-btn'+(_apPageSize===100?' active':'')+'\" onclick="setApPageSize(100)">100</button>'
+    +'<button class="pag-size-btn'+(_apPageSize===200?' active':'')+'\" onclick="setApPageSize(200)">200</button>'
+    +'</div><span class="pag-info">por pág.</span></div>'
+    +'<div class="pag-controls"><span class="pag-info">'+(start+1)+'–'+end+' de '+total+'</span>'
+    +'<button class="pag-btn" onclick="apGoPage('+(_apPage-1)+')" '+(_apPage===0?'disabled':'')+'>‹</button>'
+    +'<button class="pag-btn" onclick="apGoPage('+(_apPage+1)+')" '+(_apPage>=totalPages-1?'disabled':'')+'>›</button>'
+    +'</div></div>';
+  var list=isMobile()
+    ?'<div>'+page.map(apCard).join('')+'</div>'
+    :'<table class="data-table"><thead><tr><th>Cliente</th><th>Produto</th><th>Seguradora</th><th>Vigência</th><th>Venc.</th><th class="col-financeiro">Prêmio</th><th>Status</th></tr></thead><tbody>'+page.map(apRow).join('')+'</tbody></table>';
+  el.innerHTML=list+pag;
+}
 function apRow(a){
   var col=AP_COL[a.urgency]||'var(--muted)',lbl=AP_LBL[a.urgency]||'?';
   var days=a.days_to_expiry,ds=days===null?'—':days<=0?'<span style="color:var(--danger);font-weight:700">'+(-days)+'d atrás</span>':'<span style="color:'+col+';font-weight:600">'+days+'d</span>';
   var prem=a.liquid_premium?'R$ '+Number(a.liquid_premium).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—';
   var status='<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:'+col+'22;color:'+col+'">'+(a.cancelled?'Cancelada':lbl)+'</span>';
-  return '<tr>'
+  return '<tr style="cursor:pointer" onclick="showApoliceModal('+a.id+')">'
     +'<td><strong>'+esc(a.stipulator_name||'—')+'</strong>'+(a.policy_number?'<br><span style="font-size:11px;color:var(--muted)">#'+esc(a.policy_number)+'</span>':'')+'</td>'
     +'<td>'+esc(a.product_name||'—')+'</td>'
     +'<td>'+esc(a.insurer_abbr_name||'—')+'</td>'
@@ -2184,56 +2224,90 @@ function apRow(a){
     +'<td>'+status+'</td>'
     +'</tr>';
 }
-function rApolices(items){
-  _apFiltered=items||[];
-  _apPage=0;
-  rApPage();
-}
-function rApPage(){
-  var el=document.getElementById('lap');if(!el)return;
-  var total=_apFiltered.length;
-  if(!total){el.innerHTML=emp('Nenhuma apólice encontrada');return;}
-  var totalPages=Math.max(1,Math.ceil(total/_apPageSize));
-  var start=_apPage*_apPageSize;
-  var end=Math.min(start+_apPageSize,total);
-  var page=_apFiltered.slice(start,end);
-  var prevDis=_apPage===0?'disabled':'';
-  var nextDis=_apPage>=totalPages-1?'disabled':'';
-  var pag='<div class="pagination">'
-    +'<div style="display:flex;align-items:center;gap:8px">'
-    +'<div class="pag-size">'
-    +'<button class="pag-size-btn'+(_apPageSize===50?' active':'')+'" onclick="setApPageSize(50)">50</button>'
-    +'<button class="pag-size-btn'+(_apPageSize===100?' active':'')+'" onclick="setApPageSize(100)">100</button>'
-    +'<button class="pag-size-btn'+(_apPageSize===200?' active':'')+'" onclick="setApPageSize(200)">200</button>'
-    +'</div><span class="pag-info">por pág.</span></div>'
-    +'<div class="pag-controls">'
-    +'<span class="pag-info">'+(start+1)+'–'+end+' de '+total+'</span>'
-    +'<button class="pag-btn" onclick="apGoPage('+(_apPage-1)+')" '+prevDis+'>‹</button>'
-    +'<button class="pag-btn" onclick="apGoPage('+(_apPage+1)+')" '+nextDis+'>›</button>'
-    +'</div></div>';
-  var list='';
-  if(isMobile()){
-    list='<div>'+page.map(apCard).join('')+'</div>';
-  } else {
-    list='<table class="data-table"><thead><tr><th>Cliente</th><th>Produto</th><th>Seguradora</th><th>Vigência</th><th>Venc.</th><th class="col-financeiro">Prêmio</th><th>Status</th></tr></thead><tbody>'+page.map(apRow).join('')+'</tbody></table>';
-  }
-  el.innerHTML=list+pag;
-}
-function apGoPage(p){
-  var totalPages=Math.max(1,Math.ceil(_apFiltered.length/_apPageSize));
-  _apPage=Math.max(0,Math.min(p,totalPages-1));
-  rApPage();
-  document.getElementById('page-apolices').scrollIntoView({behavior:'smooth'});
-}
+function apGoPage(p){var tp=Math.max(1,Math.ceil(_apFiltered.length/_apPageSize));_apPage=Math.max(0,Math.min(p,tp-1));rApPage();document.getElementById('page-apolices').scrollIntoView({behavior:'smooth'});}
 function setApPageSize(n){_apPageSize=n;_apPage=0;rApPage();}
 function fClSearch(q){var low=q.toLowerCase();return _cl.filter(function(c){return(c.name||'').toLowerCase().indexOf(low)>-1||(c.cpf_cnpj||'').replace(/\D/g,'').indexOf(low.replace(/\D/g,''))>-1;});}
+function showApoliceModal(id){
+  var a=null;for(var i=0;i<_ap.length;i++){if(String(_ap[i].id)===String(id)){a=_ap[i];break;}}
+  if(!a)return;
+  var col=AP_COL[a.urgency]||'var(--muted)',lbl=AP_LBL[a.urgency]||'?';
+  var days=a.days_to_expiry;
+  var ds=days===null?'—':days<=0?'<span style="color:var(--danger);font-weight:700">'+(-days)+'d atrás</span>':'<span style="color:'+col+';font-weight:700">'+days+' dias</span>';
+  var prem=a.liquid_premium?'R$ '+Number(a.liquid_premium).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—';
+  var status='<span style="font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;background:'+col+'22;color:'+col+'">'+(a.cancelled?'Cancelada':lbl)+'</span>';
+  var row=function(lbl,val){return '<div class="em-row"><span class="em-label">'+lbl+'</span><span class="em-value">'+val+'</span></div>';};
+  document.getElementById('apm-title').textContent=(a.product_name||'Apólice')+(a.policy_number?' — #'+a.policy_number:'');
+  document.getElementById('apm-subtitle').textContent=a.insurer_abbr_name||'';
+  document.getElementById('apm-body').innerHTML=
+    row('Cliente',esc(a.stipulator_name||'—'))
+    +row('Produto',esc(a.product_name||'—'))
+    +row('Seguradora',esc(a.insurer_abbr_name||'—'))
+    +(a.policy_number?row('Nº Apólice','#'+esc(a.policy_number)):'')
+    +row('Vigência',esc(a.term_start||'—')+' até '+esc(a.term_end||'—'))
+    +row('Vencimento',ds)
+    +row('Prêmio Líquido',prem)
+    +(a.total_premium?row('Prêmio Total','R$ '+Number(a.total_premium).toLocaleString('pt-BR',{minimumFractionDigits:2})):'')
+    +row('Status',status)
+    +(a.lives_count?row('Vidas',a.lives_count):'');
+  // Info do cliente
+  var cl=null;for(var i=0;i<_cl.length;i++){if(_cl[i].id===a.stipulator_id){cl=_cl[i];break;}}
+  var clHtml='';
+  if(cl){
+    clHtml=row('Nome',esc(cl.name||'—'))
+      +(cl.cpf_cnpj?row('CPF/CNPJ',esc(cl.cpf_cnpj)):'')
+      +(cl.cellphone?row('Telefone',esc(cl.cellphone)):'')
+      +(cl.email?row('E-mail',esc(cl.email)):'')
+      +row('Apólices',cl.apolices_ativas+' ativas / '+cl.apolices_count+' total')
+      +(cl.proxima_renovacao?row('Próx. Renovação',esc(cl.proxima_renovacao)):'');
+    document.getElementById('apm-all-btn').onclick=function(){closeApModal();showClienteModal(cl.id);};
+    document.getElementById('apm-all-btn').style.display='inline-flex';
+  } else {
+    document.getElementById('apm-all-btn').style.display='none';
+  }
+  document.getElementById('apm-client-body').innerHTML=clHtml;
+  document.getElementById('ap-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeApModal(){
+  document.getElementById('ap-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
 function showClienteModal(id){
   var cl=null;for(var i=0;i<_cl.length;i++){if(_cl[i].id===id){cl=_cl[i];break;}}if(!cl)return;
   var aps=_ap.filter(function(a){return a.stipulator_id===id;});
   var modal=document.getElementById('cl-modal');if(!modal)return;
   document.getElementById('cl-modal-title').textContent=cl.name||'Cliente';
-  document.getElementById('cl-modal-body').innerHTML=aps.length?aps.map(apCard).join(''):emp('Nenhuma apolice');
+  var row=function(lbl,val){return '<div class="em-row"><span class="em-label">'+lbl+'</span><span class="em-value">'+val+'</span></div>';};
+  var info=(cl.cpf_cnpj?row('CPF/CNPJ',esc(cl.cpf_cnpj)):'')
+    +(cl.cellphone?row('Telefone',esc(cl.cellphone)):'')
+    +(cl.email?row('E-mail',esc(cl.email)):'')
+    +row('Apólices',cl.apolices_ativas+' ativas / '+cl.apolices_count+' total')
+    +(cl.proxima_renovacao?row('Próx. Renovação',esc(cl.proxima_renovacao)):'');
+  var apsHtml='';
+  if(aps.length){
+    apsHtml='<div class="em-body-label" style="margin:16px 0 10px">📋 Apólices ('+aps.length+')</div>'
+      +'<table class="data-table"><thead><tr><th>Produto</th><th>Seguradora</th><th>Vigência</th><th>Venc.</th><th>Status</th></tr></thead><tbody>'
+      +aps.map(function(a){
+        var col=AP_COL[a.urgency]||'var(--muted)',lbl=a.cancelled?'Cancelada':(AP_LBL[a.urgency]||'?');
+        var days=a.days_to_expiry,ds=days===null?'—':days<=0?(-days)+'d atrás':days+'d';
+        return '<tr style="cursor:pointer" onclick="closeClModal();showApoliceModal('+a.id+')">'
+          +'<td><strong>'+esc(a.product_name||'—')+'</strong>'+(a.policy_number?'<br><span style="font-size:11px;color:var(--muted)">#'+esc(a.policy_number)+'</span>':'')+'</td>'
+          +'<td>'+esc(a.insurer_abbr_name||'—')+'</td>'
+          +'<td style="font-size:11px">'+esc(a.term_start||'—')+'<br>'+esc(a.term_end||'—')+'</td>'
+          +'<td style="font-size:12px;color:'+col+';font-weight:600">'+ds+'</td>'
+          +'<td><span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:'+col+'22;color:'+col+'">'+lbl+'</span></td>'
+          +'</tr>';
+      }).join('')+'</tbody></table>';
+  } else {
+    apsHtml=emp('Nenhuma apólice');
+  }
+  document.getElementById('cl-modal-body').innerHTML=info+apsHtml;
   modal.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeClModal(){
+  var m=document.getElementById('cl-modal');if(m)m.style.display='none';
+  document.body.style.overflow='';
 }
 function clCard(c){
   var prox=c.proxima_renovacao||'-';
