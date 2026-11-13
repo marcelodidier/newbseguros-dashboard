@@ -1056,10 +1056,10 @@ function go(name,btn){
 }
 
 async function loadAll(){
-  const[st,r,ret,c,e,w,apo,cli]=await Promise.all([
+  const[st,r,ret,c,e,w,apo,cli,com]=await Promise.all([
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
     ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json'),
-    ap('data/apolices.json'), ap('data/clientes_moltrio.json')
+    ap('data/apolices.json'), ap('data/clientes_moltrio.json'), ap('data/comissoes.json')
   ]);
   await loadHandledRemote();
   if(st)rStats(st);
