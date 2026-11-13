@@ -1,9 +1,9 @@
 {
-  "pending": true,
+  "pending": false,
   "accounts": [
     "barbara"
   ],
   "requested_at": "2026-11-13T14:53:54.931Z",
-  "processed_at": "",
+  "processed_at": "2026-11-13T14:54:00.539754",
   "result": null
 }
