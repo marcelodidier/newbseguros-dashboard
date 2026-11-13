@@ -936,7 +936,7 @@ async function sha256(str) {
 }
 let TK=localStorage.getItem('newb_token')||'';
 let _r=[],_ret=[],_c=[],_e=[],_w=[];
-let _ap=[],_cl=[];
+let _ap=[],_cl=[],_com=[];
 let _apPage=0,_apPageSize=50,_apFiltered=[];
 const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes',financeiro:'Financeiro'};
 
@@ -1041,10 +1041,10 @@ function go(name,btn){
 }
 
 async function loadAll(){
-  const[st,r,ret,c,e,w,apo,cli]=await Promise.all([
+  const[st,r,ret,c,e,w,apo,cli,com]=await Promise.all([
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
     ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json'),
-    ap('data/apolices.json'), ap('data/clientes_moltrio.json')
+    ap('data/apolices.json'), ap('data/clientes_moltrio.json'), ap('data/comissoes.json')
   ]);
   await loadHandledRemote();
   if(st)rStats(st);
@@ -1067,6 +1067,7 @@ async function loadAll(){
   if(w){_w=w.items||[];rWA(_w);}
   if(apo){_ap=apo.items||[];rApolices(_ap);rStatsAp(_ap);}
   if(cli){_cl=cli.items||[];rClientes(_cl);}
+  if(com){_com=com.items||[];if(document.getElementById('page-financeiro')?.classList.contains('active'))rFinanceiro();}
 }
 
 function rStats(s){
@@ -1994,77 +1995,72 @@ function _finCard(icon,label,val,sub,color){
 }
 function rFinCards(){
   const el=document.getElementById('fin-cards');if(!el)return;
+  // Dados de comissão do mês atual
+  const now=new Date();
+  const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const comMes=_com.find(c=>c.mes===mesAtual)||{total:0,recebido:0,pendente:0,pct_medio:0,count:0,premium_total:0};
+  // Dados de carteira (apólices)
   const ativas=_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida');
-  const totalAtivo=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const carteira=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
   const urgente=_ap.filter(a=>!a.cancelled&&a.urgency==='urgente');
-  const totalUrgente=urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
-  const atencao=_ap.filter(a=>!a.cancelled&&a.urgency==='atencao');
-  const totalAtencao=atencao.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
   const vencidas=_ap.filter(a=>!a.cancelled&&a.urgency==='vencida');
-  const totalVencidas=vencidas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
-  const canceladas=_ap.filter(a=>a.cancelled);
+  // Pipeline cotações
   const pipeCot=_c.filter(c=>c.status==='aguardando'||c.status==='em_cotacao');
   const totalPipe=pipeCot.reduce((s,c)=>s+(Number(c.valor_estimado)||0),0);
-  const renUrgente=_r.filter(r=>r.urgencia==='urgente');
-  const totalRen=renUrgente.reduce((s,r)=>s+(Number(r.premio_anual)||0),0);
   el.innerHTML=
-    _finCard('💼','Carteira Ativa',_brl(totalAtivo),ativas.length+' apólices ativas','var(--success)')
-   +_finCard('🔴','Renovar ≤30 dias',_brl(totalUrgente),urgente.length+' apólices urgentes','var(--danger)')
-   +_finCard('🟡','Renovar 31–60 dias',_brl(totalAtencao),atencao.length+' apólices em atenção','var(--warning)')
-   +_finCard('⚠️','Vencidas',_brl(totalVencidas),vencidas.length+' apólices vencidas','var(--muted)')
-   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' em aberto','var(--brand)')
-   +_finCard('♻️','Renov. Urgentes (CRM)',_brl(totalRen),renUrgente.length+' renovações','var(--info)');
+    _finCard('💰','Comissão do Mês',_brl(comMes.total),comMes.count+' registros · '+comMes.pct_medio+'% médio','var(--brand)')
+   +_finCard('✅','Recebida',_brl(comMes.recebido),'Já liquidada pela seguradora','var(--success)')
+   +_finCard('⏳','A Receber',_brl(comMes.pendente),'Pendente de liquidação','var(--warning)')
+   +_finCard('💼','Carteira Ativa',_brl(carteira),ativas.length+' apólices (prêmio gerenciado)','var(--info)')
+   +_finCard('🔴','Renovar ≤30 dias',urgente.length+' apólices',_brl(urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0))+' em prêmio','var(--danger)')
+   +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' cotações em aberto','var(--muted)');
 }
 function rFinAgenda(){
   const el=document.getElementById('fin-agenda');if(!el)return;
-  const now=new Date();
-  const months=[];
-  const count=_finPeriod==='anual'?24:12;
-  for(let i=0;i<count;i++){
-    const d=new Date(now.getFullYear(),now.getMonth()+i,1);
-    months.push({year:d.getFullYear(),month:d.getMonth(),label:d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'})});
-  }
-  const rows=months.map(m=>{
-    const aps=_ap.filter(a=>{
-      if(!a.term_end)return false;
-      const parts=(a.term_end||'').split('/');
-      if(parts.length!==3)return false;
-      const d=new Date(parts[2],parseInt(parts[1])-1,parseInt(parts[0]));
-      return d.getFullYear()===m.year&&d.getMonth()===m.month;
-    });
-    const ativas=aps.filter(a=>!a.cancelled);
-    const total=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
-    const urg=ativas.filter(a=>a.urgency==='urgente'||a.urgency==='atencao').length;
-    const isCurrentMonth=(m.year===now.getFullYear()&&m.month===now.getMonth());
-    const rowStyle=isCurrentMonth?'background:var(--brand-light);font-weight:600':'';
-    return`<tr style="${rowStyle}">
-      <td>${m.label}${isCurrentMonth?' <span style="font-size:10px;color:var(--brand)">▶ atual</span>':''}</td>
-      <td style="text-align:center">${ativas.length}</td>
-      <td style="text-align:center">${aps.filter(a=>a.cancelled).length}</td>
-      <td style="text-align:center;color:var(--danger);font-weight:${urg>0?'700':'400'}">${urg||'—'}</td>
-      <td style="text-align:right;font-weight:600">${total>0?_brl(total):'—'}</td>
+  const count=_finPeriod==='anual'?12:6;
+  const data=_com.slice(0,count);
+  if(!data.length){el.innerHTML=emp('Dados de comissão não disponíveis');return;}
+  const rows=data.map(m=>{
+    const now=new Date();
+    const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    const isNow=m.mes===mesAtual;
+    const pct=m.pct_medio?`${m.pct_medio}%`:'—';
+    const pctReceb=m.total>0?Math.round(m.recebido/m.total*100)+'%':'0%';
+    return`<tr style="${isNow?'background:var(--brand-light);font-weight:600':''}">
+      <td>${m.mes}${isNow?' <span style="font-size:10px;color:var(--brand)">▶</span>':''}</td>
+      <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(m.total)}</td>
+      <td style="text-align:right;color:var(--success)">${_brl(m.recebido)}</td>
+      <td style="text-align:right;color:var(--warning)">${_brl(m.pendente)}</td>
+      <td style="text-align:center;color:var(--muted-2)">${pctReceb} recebido</td>
+      <td style="text-align:center">${pct}</td>
+      <td style="text-align:right;color:var(--muted-2);font-size:12px">${m.premium_total>0?_brl(m.premium_total):'—'}</td>
     </tr>`;
   });
-  const totalGeral=_ap.filter(a=>!a.cancelled).reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
+  const totalComm=data.reduce((s,m)=>s+(m.total||0),0);
+  const totalReceb=data.reduce((s,m)=>s+(m.recebido||0),0);
+  const totalPend=data.reduce((s,m)=>s+(m.pendente||0),0);
   el.innerHTML=`
     <div style="font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:10px">
-      📅 Agenda de Vencimentos — ${_finPeriod==='anual'?'próximos 24 meses':'próximos 12 meses'}
+      💰 Histórico de Comissões — ${_finPeriod==='anual'?'últimos 12 meses':'últimos 6 meses'}
+      <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:8px">valor que a NewB recebe das seguradoras</span>
     </div>
     <table class="data-table">
       <thead><tr>
         <th>Mês</th>
-        <th style="text-align:center">Apólices Ativas</th>
-        <th style="text-align:center">Canceladas</th>
-        <th style="text-align:center">🔴🟡 Urgente/Atenção</th>
-        <th style="text-align:right">Prêmio Total</th>
+        <th style="text-align:right">Comissão Total</th>
+        <th style="text-align:right">✅ Recebida</th>
+        <th style="text-align:right">⏳ Pendente</th>
+        <th style="text-align:center">% Recebido</th>
+        <th style="text-align:center">% Comissão</th>
+        <th style="text-align:right">Prêmio (base)</th>
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
       <tfoot><tr style="border-top:2px solid var(--border);font-weight:700">
-        <td>Total carteira ativa</td>
-        <td style="text-align:center">${_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida').length}</td>
-        <td style="text-align:center">${_ap.filter(a=>a.cancelled).length}</td>
-        <td></td>
-        <td style="text-align:right">${_brl(totalGeral)}</td>
+        <td>Total período</td>
+        <td style="text-align:right;color:var(--brand)">${_brl(totalComm)}</td>
+        <td style="text-align:right;color:var(--success)">${_brl(totalReceb)}</td>
+        <td style="text-align:right;color:var(--warning)">${_brl(totalPend)}</td>
+        <td colspan="3"></td>
       </tr></tfoot>
     </table>`;
 }
