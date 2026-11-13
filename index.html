@@ -1486,6 +1486,11 @@ function filterSentReplies(q){
 
 async function showSentReplies(){
   const section = document.getElementById('sent-replies-section');
+  // Toggle: se já visível, fecha
+  if(section.style.display !== 'none' && section.style.display !== ''){
+    section.style.display = 'none';
+    return;
+  }
   const list    = document.getElementById('sent-replies-list');
   section.style.display = 'block';
   list.innerHTML = '<div class="empty"><div class="empty-icon">⏳</div><p>Carregando...</p></div>';
