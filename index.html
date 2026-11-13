@@ -208,7 +208,6 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
   .snav-label{flex:1}
   .snav-badge{margin-left:auto;background:var(--brand);color:white;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;min-width:20px;text-align:center}
   .snav-item.active .snav-badge{background:var(--brand-dark)}
-  .snav-divider{border:none;border-top:1px solid var(--border);margin:6px 10px}
   .sidebar-footer{padding:14px 16px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
   .sf-user{font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:13px}
   .sf-user::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--success);display:inline-block;flex-shrink:0;box-shadow:0 0 0 2px rgba(22,163,74,.2)}
@@ -241,6 +240,9 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 /* ── EMAIL MODAL ── */
 #email-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end;justify-content:center;padding:0}
 #email-modal.open{display:flex;animation:fadeOverlay .2s ease}
+#item-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end;justify-content:center;padding:0}
+#item-modal.open{display:flex;animation:fadeOverlay .2s ease}
+@media(min-width:768px){#item-modal{align-items:center;padding:20px}}
 @keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
 .email-modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:90dvh;overflow-y:auto;padding:0 0 32px;animation:slideUp .28s cubic-bezier(.4,0,.2,1)}
 @media(min-width:768px){
@@ -421,7 +423,6 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <span class="snav-label">Cotações</span>
         <span class="snav-badge" id="sb-cot">—</span>
       </button>
-      <hr class="snav-divider">
       <button class="snav-item" onclick="go('emails',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         <span class="snav-label">Emails</span>
@@ -430,7 +431,6 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="snav-label">WhatsApp</span>
       </button>
-      <hr class="snav-divider">
       <button class="snav-item" onclick="go('apolices',this)" id="snav-apolices">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         <span class="snav-label">Apólices</span>
@@ -500,6 +500,11 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
             <div class="stat-label">Emails hoje</div>
             <div class="stat-num" id="se" style="color:var(--brand)">—</div>
             <div class="stat-delta up">registrados</div>
+          </div>
+          <div class="stat-card" onclick="go('apolices');setTimeout(function(){fApolice('urgente');},100)" style="cursor:pointer">
+            <div class="stat-label">Apolices Urgentes</div>
+            <div class="stat-num" id="sap" style="color:var(--danger)">-</div>
+            <div class="stat-delta down">vencendo em 30d</div>
           </div>
         </div>
 
@@ -612,6 +617,44 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
         <div id="lw"></div>
       </div>
 
+      <!-- APOLICES MOLTRIO -->
+      <div class="page" id="page-apolices">
+        <div style="margin-bottom:12px">
+          <input type="text" id="ap-search" placeholder="Buscar cliente, produto, seguradora..."
+            oninput="rApolices(fApSearch(this.value))"
+            style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:inherit;font-size:14px;outline:none;background:var(--surface-2)">
+        </div>
+        <div class="filter-row" id="ap-chips">
+          <span class="filter-chip active" onclick="fApolice('all',this)">Todas</span>
+          <span class="filter-chip" onclick="fApolice('urgente',this)">Urgente &lt;=30d</span>
+          <span class="filter-chip" onclick="fApolice('atencao',this)">Atencao 31-60d</span>
+          <span class="filter-chip" onclick="fApolice('em_breve',this)">Em breve 61-90d</span>
+          <span class="filter-chip" onclick="fApolice('ok',this)">Em dia</span>
+          <span class="filter-chip" onclick="fApolice('vencida',this)">Vencidas</span>
+          <span class="filter-chip" onclick="fApolice('cancelada',this)">Canceladas</span>
+        </div>
+        <div id="lap"></div>
+      </div>
+
+      <!-- CLIENTES MOLTRIO -->
+      <div class="page" id="page-clientes">
+        <div style="margin-bottom:12px">
+          <input type="text" id="cl-search" placeholder="Buscar por nome ou CPF/CNPJ..."
+            oninput="rClientes(fClSearch(this.value))"
+            style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:inherit;font-size:14px;outline:none;background:var(--surface-2)">
+        </div>
+        <div id="lcl"></div>
+        <div id="cl-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px">
+          <div style="background:white;border-radius:16px;padding:24px;width:100%;max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <h3 id="cl-modal-title" style="font-size:16px;font-weight:700">Apolices do cliente</h3>
+              <button onclick="document.getElementById('cl-modal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">x</button>
+            </div>
+            <div id="cl-modal-body"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- USUÁRIOS (admin only) -->
       <div class="page" id="page-usuarios">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
@@ -655,6 +698,17 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       </div>
 
     </main>
+  </div>
+
+  <!-- ITEM DETAIL MODAL (Renovação / Retomada / Cotação) -->
+  <div id="item-modal" onclick="if(event.target===this)closeItemModal()">
+    <div class="email-modal-sheet">
+      <div class="em-header">
+        <div class="em-title" id="im-title" style="font-size:15px">—</div>
+        <button class="em-close" onclick="closeItemModal()">✕</button>
+      </div>
+      <div class="em-body" id="im-body"></div>
+    </div>
   </div>
 
   <!-- EMAIL DETAIL MODAL -->
@@ -790,6 +844,19 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       </span>
       <span class="nav-tab-label">Emails</span>
     </button>
+    <button class="nav-tab" onclick="go('apolices',this)" id="tab-apolices">
+      <span class="nav-tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </span>
+      <span class="nav-badge" id="nb-ap" style="display:none"></span>
+      <span class="nav-tab-label">Apolices</span>
+    </button>
+    <button class="nav-tab" onclick="go('clientes',this)" id="tab-clientes">
+      <span class="nav-tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <span class="nav-tab-label">Clientes</span>
+    </button>
   </nav>
 </div>
 
@@ -825,7 +892,8 @@ async function sha256(str) {
 }
 let TK=localStorage.getItem('newb_token')||'';
 let _r=[],_ret=[],_c=[],_e=[],_w=[];
-const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp'};
+let _ap=[],_cl=[];
+const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes'};
 
 async function doLogin(){
   const u=document.getElementById('lu').value.trim().toLowerCase(),
@@ -922,9 +990,10 @@ function go(name,btn){
 }
 
 async function loadAll(){
-  const[st,r,ret,c,e,w]=await Promise.all([
+  const[st,r,ret,c,e,w,apo,cli]=await Promise.all([
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
-    ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json')
+    ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json'),
+    ap('data/apolices.json'), ap('data/clientes_moltrio.json')
   ]);
   await loadHandledRemote();
   if(st)rStats(st);
@@ -945,6 +1014,8 @@ async function loadAll(){
     if(btn) btn.style.display = qItems.length ? 'inline-flex' : 'none';
   } catch {}
   if(w){_w=w.items||[];rWA(_w);}
+  if(apo){_ap=apo.items||[];rApolices(_ap);rStatsAp(_ap);}
+  if(cli){_cl=cli.items||[];rClientes(_cl);}
 }
 
 function rStats(s){
@@ -964,7 +1035,7 @@ function renCard(r){
   const dot=r.urgencia==='urgente'?'red':r.urgencia==='breve'?'yellow':'green';
   const bg=r.urgencia==='urgente'?'<span class="badge badge-danger">Urgente</span>':r.urgencia==='breve'?'<span class="badge badge-warning">Em breve</span>':'<span class="badge badge-success">Em dia</span>';
   const v=r.premio_anual?`R$ ${r.premio_anual.toLocaleString('pt-BR')}`:'—';
-  return`<div class="item-card"><div class="item-card-top"><div class="priority-dot ${dot}"></div><div style="flex:1"><div class="item-name">${r.cliente_nome}</div><div class="item-meta">${r.tipo_seguro} · ${r.seguradora||'—'}</div><div class="item-meta" style="margin-top:4px">📅 ${r.vencimento} · ${v}</div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${r.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary">Contatar</button></div></div></div>`;
+  return`<div class="item-card"><div class="item-card-top"><div class="priority-dot ${dot}"></div><div style="flex:1"><div class="item-name">${r.cliente_nome}</div><div class="item-meta">${r.tipo_seguro} · ${r.seguradora||'—'}</div><div class="item-meta" style="margin-top:4px">📅 ${r.vencimento} · ${v}</div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${r.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="showItemModal('ren','${r.id}')">Ver</button><button class="btn btn-sm btn-primary">Contatar</button></div></div></div>`;
 }
 function rRen(d){
   if(isMobile()){
@@ -987,7 +1058,7 @@ function fRen(v,c){chip(c);rRen(v==='all'?_r:_r.filter(r=>r.urgencia===v));}
 
 function retCard(r){
   const bg={em_contato:'<span class="badge badge-info">Em contato</span>',sem_contato:'<span class="badge badge-warning">Sem resposta</span>',perdido:'<span class="badge badge-danger">Perdido</span>',recuperado:'<span class="badge badge-success">Recuperado</span>'}[r.status]||r.status;
-  return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name">${r.cliente_nome}</div><div class="item-meta">${r.ultimo_seguro||'—'} · ${(r.motivo_saida||'—').replace(/_/g,' ')}</div><div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="progress"><div class="progress-fill" style="width:${r.probabilidade||0}%"></div></div><span style="font-size:12px;font-weight:700;color:var(--brand)">${r.probabilidade||0}%</span></div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${r.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost">Histórico</button><button class="btn btn-sm btn-primary">Retomar</button></div></div></div>`;
+  return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name">${r.cliente_nome}</div><div class="item-meta">${r.ultimo_seguro||'—'} · ${(r.motivo_saida||'—').replace(/_/g,' ')}</div><div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="progress"><div class="progress-fill" style="width:${r.probabilidade||0}%"></div></div><span style="font-size:12px;font-weight:700;color:var(--brand)">${r.probabilidade||0}%</span></div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${r.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="showItemModal('ret','${r.id}')">Histórico</button><button class="btn btn-sm btn-primary">Retomar</button></div></div></div>`;
 }
 function rRet(d){
   if(isMobile()){
@@ -1001,7 +1072,7 @@ function fRet(v,c){chip(c);rRet(v==='all'?_ret:_ret.filter(r=>r.status===v));}
 function cotCard(c){
   const bg={aguardando:'<span class="badge badge-warning">Aguardando</span>',em_cotacao:'<span class="badge badge-info">Em cotação</span>',proposta_enviada:'<span class="badge badge-info">Proposta enviada</span>',fechado:'<span class="badge badge-success">Fechado ✓</span>',perdido:'<span class="badge badge-danger">Perdido</span>'}[c.status]||c.status;
   const v=c.valor_estimado?`~R$ ${c.valor_estimado.toLocaleString('pt-BR')}`:'—';
-  return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name">${c.cliente_nome}</div><div class="item-meta">${c.tipo_seguro} · ${c.canal||'—'} · ${v}</div><div class="item-meta" style="margin-top:2px">📅 ${(c.criado_em||'').split(' ')[0]||'—'}</div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${c.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary" onclick="startC(${c.id})">Iniciar</button></div></div></div>`;
+  return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name">${c.cliente_nome}</div><div class="item-meta">${c.tipo_seguro} · ${c.canal||'—'} · ${v}</div><div class="item-meta" style="margin-top:2px">📅 ${(c.criado_em||'').split(' ')[0]||'—'}</div></div>${bg}</div><div class="item-card-bottom"><span class="badge badge-neutral">${c.responsavel||'—'}</span><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="showItemModal('cot','${c.id}')">Ver</button><button class="btn btn-sm btn-primary" onclick="startC(${c.id})">Iniciar</button></div></div></div>`;
 }
 function rCot(d){
   if(isMobile()){
@@ -1818,16 +1889,16 @@ function renRow(r){
   const dot=r.urgencia==='urgente'?'red':r.urgencia==='breve'?'yellow':'green';
   const bg=r.urgencia==='urgente'?'<span class="badge badge-danger">Urgente</span>':r.urgencia==='breve'?'<span class="badge badge-warning">Em breve</span>':'<span class="badge badge-success">Em dia</span>';
   const v=r.premio_anual?`R$ ${r.premio_anual.toLocaleString('pt-BR')}`:'—';
-  return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div><strong>${r.cliente_nome}</strong></div></td><td>${r.tipo_seguro}</td><td>${r.seguradora||'—'}</td><td>${r.vencimento}</td><td class="col-financeiro premio">${v}</td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary">Contatar</button></div></td></tr>`;
+  return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div><strong>${r.cliente_nome}</strong></div></td><td>${r.tipo_seguro}</td><td>${r.seguradora||'—'}</td><td>${r.vencimento}</td><td class="col-financeiro premio">${v}</td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="showItemModal('ren','${r.id}')">Ver</button><button class="btn btn-sm btn-primary">Contatar</button></div></td></tr>`;
 }
 function retRow(r){
   const bg={em_contato:'<span class="badge badge-info">Em contato</span>',sem_contato:'<span class="badge badge-warning">Sem resposta</span>',perdido:'<span class="badge badge-danger">Perdido</span>',recuperado:'<span class="badge badge-success">Recuperado</span>'}[r.status]||r.status;
-  return`<tr><td><strong>${r.cliente_nome}</strong></td><td>${r.ultimo_seguro||'—'}</td><td>${(r.motivo_saida||'—').replace(/_/g,' ')}</td><td><div style="display:flex;align-items:center;gap:8px;min-width:120px"><div class="progress"><div class="progress-fill" style="width:${r.probabilidade||0}%"></div></div><span style="font-size:12px;font-weight:700;color:var(--brand)">${r.probabilidade||0}%</span></div></td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost">Histórico</button><button class="btn btn-sm btn-primary">Retomar</button></div></td></tr>`;
+  return`<tr><td><strong>${r.cliente_nome}</strong></td><td>${r.ultimo_seguro||'—'}</td><td>${(r.motivo_saida||'—').replace(/_/g,' ')}</td><td><div style="display:flex;align-items:center;gap:8px;min-width:120px"><div class="progress"><div class="progress-fill" style="width:${r.probabilidade||0}%"></div></div><span style="font-size:12px;font-weight:700;color:var(--brand)">${r.probabilidade||0}%</span></div></td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="showItemModal('ret','${r.id}')">Histórico</button><button class="btn btn-sm btn-primary">Retomar</button></div></td></tr>`;
 }
 function cotRow(c){
   const bg={aguardando:'<span class="badge badge-warning">Aguardando</span>',em_cotacao:'<span class="badge badge-info">Em cotação</span>',proposta_enviada:'<span class="badge badge-info">Proposta enviada</span>',fechado:'<span class="badge badge-success">Fechado ✓</span>',perdido:'<span class="badge badge-danger">Perdido</span>'}[c.status]||c.status;
   const v=c.valor_estimado?`~R$ ${c.valor_estimado.toLocaleString('pt-BR')}`:'—';
-  return`<tr><td><strong>${c.cliente_nome}</strong></td><td>${c.tipo_seguro}</td><td>${c.canal||'—'}</td><td class="col-financeiro">${v}</td><td>${(c.criado_em||'').split(' ')[0]||'—'}</td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost">Ver</button><button class="btn btn-sm btn-primary" onclick="startC(${c.id})">Iniciar</button></div></td></tr>`;
+  return`<tr><td><strong>${c.cliente_nome}</strong></td><td>${c.tipo_seguro}</td><td>${c.canal||'—'}</td><td class="col-financeiro">${v}</td><td>${(c.criado_em||'').split(' ')[0]||'—'}</td><td>${bg}</td><td><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="showItemModal('cot','${c.id}')">Ver</button><button class="btn btn-sm btn-primary" onclick="startC(${c.id})">Iniciar</button></div></td></tr>`;
 }
 function emailRow(e){
   const tags=JSON.parse(e.tags||'[]');
@@ -1847,6 +1918,65 @@ function rWA(d){
   }
 }
 function fWA(v,c){chip(c);rWA(v==='all'?_w:_w.filter(m=>m.bridge_name===v));}
+
+// ── Item Detail Modal (Renovação / Retomada / Cotação) ───────────
+function showItemModal(type, id){
+  const map={ren:_r, ret:_ret, cot:_c};
+  const arr=map[type]||[];
+  const item=arr.find(x=>String(x.id)===String(id));
+  if(!item) return;
+
+  const escH=s=>String(s||'—').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const row=(lbl,val)=>`<div class="em-row"><span class="em-label">${lbl}</span><span class="em-value">${val}</span></div>`;
+  const money=v=>v?`R$ ${Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2})}`:'—';
+
+  let title='', body='';
+
+  if(type==='ren'){
+    const urgLbl={urgente:'<span class="badge badge-danger">🔴 Urgente</span>',breve:'<span class="badge badge-warning">🟡 Em breve</span>',ok:'<span class="badge badge-success">🟢 Em dia</span>'}[item.urgencia]||item.urgencia;
+    title=escH(item.cliente_nome);
+    body=row('Tipo de Seguro',escH(item.tipo_seguro))
+        +row('Seguradora',escH(item.seguradora))
+        +row('Vencimento',escH(item.vencimento))
+        +row('Prêmio Anual',money(item.premio_anual))
+        +row('Status',urgLbl)
+        +row('Responsável',escH(item.responsavel))
+        +(item.observacoes?row('Observações',escH(item.observacoes)):'');
+  } else if(type==='ret'){
+    const stLbl={em_contato:'<span class="badge badge-info">Em contato</span>',sem_contato:'<span class="badge badge-warning">Sem resposta</span>',perdido:'<span class="badge badge-danger">Perdido</span>',recuperado:'<span class="badge badge-success">Recuperado</span>'}[item.status]||item.status;
+    const progHtml=`<div style="display:flex;align-items:center;gap:10px"><div class="progress" style="flex:1"><div class="progress-fill" style="width:${item.probabilidade||0}%"></div></div><strong style="color:var(--brand)">${item.probabilidade||0}%</strong></div>`;
+    title=escH(item.cliente_nome);
+    body=row('Último Seguro',escH(item.ultimo_seguro))
+        +row('Motivo de Saída',escH((item.motivo_saida||'').replace(/_/g,' ')))
+        +row('Probabilidade',progHtml)
+        +row('Último Contato',escH(item.ultimo_contato))
+        +row('Status',stLbl)
+        +row('Responsável',escH(item.responsavel))
+        +(item.observacoes?row('Observações',escH(item.observacoes)):'');
+  } else if(type==='cot'){
+    const stLbl={aguardando:'<span class="badge badge-warning">Aguardando</span>',em_cotacao:'<span class="badge badge-info">Em cotação</span>',proposta_enviada:'<span class="badge badge-info">Proposta enviada</span>',fechado:'<span class="badge badge-success">Fechado ✓</span>',perdido:'<span class="badge badge-danger">Perdido</span>'}[item.status]||item.status;
+    title=escH(item.cliente_nome);
+    body=row('Tipo de Seguro',escH(item.tipo_seguro))
+        +row('Canal',escH(item.canal))
+        +row('Valor Estimado',money(item.valor_estimado))
+        +row('Valor Proposta',money(item.valor_proposta))
+        +row('Seguradora',escH(item.seguradora))
+        +row('Status',stLbl)
+        +row('Responsável',escH(item.responsavel))
+        +row('Origem',escH(item.origem))
+        +row('Data',escH((item.criado_em||'').split(' ')[0]))
+        +(item.observacoes?row('Observações',escH(item.observacoes)):'');
+  }
+
+  document.getElementById('im-title').textContent=item.cliente_nome||'—';
+  document.getElementById('im-body').innerHTML=body;
+  document.getElementById('item-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeItemModal(){
+  document.getElementById('item-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
 
 function emp(m){return`<div class="empty"><div class="empty-icon">📭</div><p>${m}</p></div>`;}
 function chip(c){if(!c)return;c.closest('.filter-row')?.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');}
@@ -1994,6 +2124,66 @@ async function saveUsersToGitHub() {
 }
 
 // ── Fin Gestão de Usuários ────────────────────────────────────────
+
+// ==== APOLICES + CLIENTES MOLTRIO ====
+var AP_COL={urgente:'var(--danger)',atencao:'var(--warning)',em_breve:'var(--info)',ok:'var(--success)',vencida:'var(--muted)',desconhecida:'var(--muted-2)'};
+var AP_LBL={urgente:'Urgente',atencao:'Atencao',em_breve:'Em breve',ok:'Em dia',vencida:'Vencida',desconhecida:'?'};
+function esc(s){var d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
+function fApSearch(q){var low=q.toLowerCase();return _ap.filter(function(a){return(a.stipulator_name||'').toLowerCase().indexOf(low)>-1||(a.product_name||'').toLowerCase().indexOf(low)>-1||(a.insurer_abbr_name||'').toLowerCase().indexOf(low)>-1;});}
+function fApolice(v,c){
+  if(c)chip(c);
+  else{var chips=document.querySelectorAll('#ap-chips .filter-chip');chips.forEach(function(ch){var o=ch.getAttribute('onclick')||'';if(o.indexOf("'"+v+"'")>-1)ch.classList.add('active');else ch.classList.remove('active');});}
+  var src=(document.getElementById('ap-search')||{}).value||'';
+  var base=src?fApSearch(src):_ap;
+  if(v==='all')rApolices(base);
+  else if(v==='cancelada')rApolices(base.filter(function(a){return a.cancelled;}));
+  else rApolices(base.filter(function(a){return !a.cancelled&&a.urgency===v;}));
+}
+function rStatsAp(items){
+  var u=items.filter(function(a){return !a.cancelled&&a.urgency==='urgente';}).length;
+  var el=document.getElementById('sap');if(el)el.textContent=u;
+  var nb=document.getElementById('nb-ap');if(nb&&u>0){nb.textContent=u;nb.style.display='inline';}
+  var sb=document.getElementById('sb-ap');if(sb&&u>0)sb.textContent=u;
+}
+function apCard(a){
+  var col=AP_COL[a.urgency]||'var(--muted)',lbl=AP_LBL[a.urgency]||'?';
+  var days=a.days_to_expiry,ds=days===null?'-':days<=0?(-days)+'d atras':days+'d';
+  var prem=a.liquid_premium?'R$ '+Number(a.liquid_premium).toLocaleString('pt-BR',{minimumFractionDigits:2}):'-';
+  return '<div style="margin-bottom:10px;padding:14px;background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);border:1px solid var(--border-2);border-left:3px solid '+col+'">'
+    +'<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">'
+    +'<div style="flex:1;min-width:0"><b style="font-size:13px">'+esc(a.stipulator_name||'-')+(a.cancelled?' [C]':'')+'</b><br>'
+    +'<span style="font-size:12px;color:var(--muted)">'+esc(a.product_name||'-')+' | '+esc(a.insurer_abbr_name||'-')+'</span></div>'
+    +'<div style="text-align:right"><span style="font-size:11px;font-weight:700;color:'+col+'">'+lbl+'</span><br>'
+    +'<span style="font-size:11px;color:var(--muted)">'+ds+'</span></div></div>'
+    +'<div style="margin-top:8px;font-size:11px;color:var(--muted-2)">'+esc(a.term_start||'-')+' ate '+esc(a.term_end||'-')+' | <span class="col-financeiro premio">'+prem+'</span>'+(a.policy_number?' | #'+esc(a.policy_number):'')+'</div></div>';
+}
+function rApolices(items){
+  var el=document.getElementById('lap');if(!el)return;
+  if(!items||!items.length){el.innerHTML=emp('Nenhuma apolice encontrada');return;}
+  el.innerHTML=items.map(apCard).join('');
+}
+function fClSearch(q){var low=q.toLowerCase();return _cl.filter(function(c){return(c.name||'').toLowerCase().indexOf(low)>-1||(c.cpf_cnpj||'').replace(/\D/g,'').indexOf(low.replace(/\D/g,''))>-1;});}
+function showClienteModal(id){
+  var cl=null;for(var i=0;i<_cl.length;i++){if(_cl[i].id===id){cl=_cl[i];break;}}if(!cl)return;
+  var aps=_ap.filter(function(a){return a.stipulator_id===id;});
+  var modal=document.getElementById('cl-modal');if(!modal)return;
+  document.getElementById('cl-modal-title').textContent=cl.name||'Cliente';
+  document.getElementById('cl-modal-body').innerHTML=aps.length?aps.map(apCard).join(''):emp('Nenhuma apolice');
+  modal.style.display='flex';
+}
+function clCard(c){
+  var prox=c.proxima_renovacao||'-';
+  return '<div onclick="showClienteModal('+c.id+')" style="cursor:pointer;margin-bottom:10px;padding:14px;background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);border:1px solid var(--border-2)">'
+    +'<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">'
+    +'<div style="flex:1;min-width:0"><b style="font-size:13px">'+esc(c.name||'-')+'</b><br><span style="font-size:11px;color:var(--muted)">'+esc(c.cpf_cnpj||'-')+'</span></div>'
+    +'<div style="text-align:right;font-size:11px"><b style="color:var(--brand)">'+c.apolices_ativas+' ativas</b><br><span style="color:var(--muted)">'+c.apolices_count+' total</span></div></div>'
+    +'<div style="margin-top:8px;font-size:11px;color:var(--muted-2)">'+(c.cellphone?esc(c.cellphone)+' | ':'')+' Prox: '+esc(prox)+'</div></div>';
+}
+function rClientes(items){
+  var el=document.getElementById('lcl');if(!el)return;
+  if(!items||!items.length){el.innerHTML=emp('Nenhum cliente encontrado');return;}
+  el.innerHTML=items.map(clCard).join('');
+}
 
 (async()=>{
   const saved = localStorage.getItem('newb_user');
