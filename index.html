@@ -1194,8 +1194,13 @@ async function checkNewEmails(){
     _checkPolling = setInterval(async () => {
       tries++;
       try {
-        const r = await fetch(`${API}/data/check_request.json?_=${Date.now()}`);
-        const d = await r.json();
+        // Use GitHub API (not raw CDN) to bypass cache and get fresh data
+        const r = await fetch(
+          `https://api.github.com/repos/${GH_REPO}/contents/data/check_request.json`,
+          { headers: { Authorization: `Bearer ${_ghToken}`, Accept: 'application/vnd.github+json' } }
+        );
+        const meta = await r.json();
+        const d = JSON.parse(atob(meta.content.replace(/\n/g,'')));
         if(d.processed_at && !d.pending){
           clearInterval(_checkPolling);
           const n = d.result?.new_emails || 0;
