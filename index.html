@@ -1061,18 +1061,39 @@ function emailListRow(e,idx){
 }
 
 // ── Build account filter chips ────────────────────────────────────
+// Todas as caixas configuradas — aparecem sempre, mesmo sem emails recentes
+const ALL_ACCOUNTS = [
+  {account:'abm',       addr:'abm@newbseguros.com.br'},
+  {account:'adimin',    addr:'adimin@newbseguros.com.br'},
+  {account:'barbara',   addr:'barbara@newbseguros.com.br'},
+  {account:'comercial', addr:'comercial@newbseguros.com.br'},
+  {account:'contato',   addr:'contato@newbseguros.com.br'},
+  {account:'drive',     addr:'drive@newbseguros.com.br'},
+  {account:'faturamento',addr:'faturamento@newbseguros.com.br'},
+  {account:'joseaugusto',addr:'joseaugusto@newbseguros.com.br'},
+  {account:'nane',      addr:'nane@newbseguros.com.br'},
+  {account:'newbseguros',addr:'newbseguros@newbseguros.com.br'},
+  {account:'newton',    addr:'newton@newbseguros.com.br'},
+  {account:'rhability', addr:'rhability@newbseguros.com.br'},
+  {account:'suporte',   addr:'suporte@newbseguros.com.br'},
+  {account:'suporte1',  addr:'suporte1@newbseguros.com.br'},
+  {account:'suporte2',  addr:'suporte2@newbseguros.com.br'},
+];
+
 function buildEmailFilters(items){
-  const seen=new Set(); const chips=[];
-  items.forEach(e=>{if(!seen.has(e.account)){seen.add(e.account);chips.push({account:e.account,addr:e.email_addr});}});
-  chips.sort((a,b)=>a.account.localeCompare(b.account));
+  // Conta emails por caixa nos dados carregados
+  const counts={};
+  items.forEach(e=>{ if(e.account) counts[e.account]=(counts[e.account]||0)+1; });
   const row=document.getElementById('email-account-filters');
   if(!row)return;
   const allActive=_emailAccFilter==='all'?'active':'';
   row.innerHTML=`<span class="filter-chip ${allActive}" onclick="fEmailAccount('all',this)">Todas</span>`+
-    chips.map(c=>{
+    ALL_ACCOUNTS.map(c=>{
       const lbl=c.addr.split('@')[0];
       const active=_emailAccFilter===c.account?'active':'';
-      return`<span class="filter-chip ${active}" onclick="fEmailAccount('${c.account}',this)">${lbl}</span>`;
+      const cnt=counts[c.account]||0;
+      const badge=cnt>0?` <span style="font-size:10px;opacity:.7">(${cnt})</span>`:'';
+      return`<span class="filter-chip ${active}" onclick="fEmailAccount('${c.account}',this)">${lbl}${badge}</span>`;
     }).join('');
 }
 
