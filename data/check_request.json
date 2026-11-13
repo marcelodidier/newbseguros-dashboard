@@ -1,13 +1,9 @@
 {
-  "pending": false,
+  "pending": true,
   "accounts": [
     "all"
   ],
-  "requested_at": "2026-11-13T20:21:50.028Z",
-  "processed_at": "2026-11-13T20:23:00.538508",
-  "result": {
-    "new_emails": 4,
-    "errors": [],
-    "exported_at": "2026-11-13T20:23:14.199525"
-  }
+  "requested_at": "2026-11-13T23:09:53.393Z",
+  "processed_at": "",
+  "result": null
 }
