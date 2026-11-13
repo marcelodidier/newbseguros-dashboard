@@ -233,6 +233,26 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 .er-subject{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
 .er-meta{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .er-tags{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:130px}
+
+/* ── EMAIL MODAL ── */
+#email-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end;justify-content:center;padding:0}
+#email-modal.open{display:flex;animation:fadeOverlay .2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.email-modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:90dvh;overflow-y:auto;padding:0 0 32px;animation:slideUp .28s cubic-bezier(.4,0,.2,1)}
+@media(min-width:768px){
+  #email-modal{align-items:center;padding:20px}
+  .email-modal-sheet{border-radius:16px;max-height:80dvh}
+}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.em-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border)}
+.em-title{font-size:15px;font-weight:700;color:var(--ink);flex:1;padding-right:12px;line-height:1.35}
+.em-close{width:30px;height:30px;border-radius:50%;border:none;background:var(--surface-3);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;font-size:16px;line-height:1}
+.em-close:hover{background:var(--border);color:var(--ink)}
+.em-body{padding:16px 20px}
+.em-row{display:flex;gap:8px;margin-bottom:12px;font-size:13px}
+.em-label{font-weight:700;color:var(--muted);min-width:60px;flex-shrink:0;text-transform:uppercase;font-size:11px;letter-spacing:.05em;padding-top:1px}
+.em-value{color:var(--ink-2);flex:1;word-break:break-word;line-height:1.5}
+.em-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
 </style>
 </head>
 <body>
@@ -414,6 +434,9 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
 
       <!-- EMAILS -->
       <div class="page" id="page-emails">
+        <div class="filter-row" id="email-account-filters">
+          <span class="filter-chip active" onclick="fEmailAccount('all',this)">Todas</span>
+        </div>
         <div class="search-bar">
           <span class="search-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -477,6 +500,24 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       </div>
 
     </main>
+  </div>
+
+  <!-- EMAIL DETAIL MODAL -->
+  <div id="email-modal" onclick="if(event.target===this)closeEmailModal()">
+    <div class="email-modal-sheet">
+      <div class="em-header">
+        <div class="em-title" id="em-subject">—</div>
+        <button class="em-close" onclick="closeEmailModal()">✕</button>
+      </div>
+      <div class="em-body">
+        <div class="em-row"><span class="em-label">De</span><span class="em-value" id="em-from">—</span></div>
+        <div class="em-row"><span class="em-label">Para</span><span class="em-value" id="em-to">—</span></div>
+        <div class="em-row"><span class="em-label">Data</span><span class="em-value" id="em-date">—</span></div>
+        <div class="em-row"><span class="em-label">Conta</span><span class="em-value" id="em-account">—</span></div>
+        <div class="em-row"><span class="em-label">Prioridade</span><span class="em-value" id="em-priority">—</span></div>
+        <div class="em-tags" id="em-tags"></div>
+      </div>
+    </div>
   </div>
 
   <!-- BOTTOM NAV -->
@@ -703,16 +744,79 @@ function rHC(d){document.getElementById('hc-list').innerHTML=d.filter(c=>c.statu
 function fCot(v,c){chip(c);rCot(v==='all'?_c:_c.filter(c=>c.status===v));}
 async function startC(id){await fetch(`${API}/cotacoes/${id}?status=em_cotacao`,{method:'PATCH',headers:{authorization:'Bearer '+TK}});loadAll();}
 
-function emailListRow(e){
+let _emailAccFilter='all';
+
+function emailListRow(e,idx){
   const tags=JSON.parse(e.tags||'[]');
   const tg=tags.slice(0,2).map(t=>`<span class="badge badge-neutral">${t}</span>`).join('');
   const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';
-  return`<div class="email-row"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div></div>`;
+  return`<div class="email-row" onclick="showEmailModal(${idx})"><div class="priority-dot ${dot}"></div><div class="er-main"><div class="er-subject">${e.subject||'(sem assunto)'}</div><div class="er-meta">📬 ${e.display||e.account} · ${e.from_name||e.from_addr||'—'}</div></div><div class="er-tags">${tg||''}</div></div>`;
 }
+
+function buildEmailFilters(items){
+  const seen=new Set(); const chips=[];
+  items.forEach(e=>{if(!seen.has(e.account)){seen.add(e.account);chips.push({account:e.account,addr:e.email_addr});}});
+  chips.sort((a,b)=>a.account.localeCompare(b.account));
+  const row=document.getElementById('email-account-filters');
+  if(!row)return;
+  const allActive=_emailAccFilter==='all'?'active':'';
+  row.innerHTML=`<span class="filter-chip ${allActive}" onclick="fEmailAccount('all',this)">Todas</span>`+
+    chips.map(c=>{
+      const lbl=c.addr.split('@')[0];
+      const active=_emailAccFilter===c.account?'active':'';
+      return`<span class="filter-chip ${active}" onclick="fEmailAccount('${c.account}',this)">${lbl}</span>`;
+    }).join('');
+}
+
+function getFilteredEmails(){
+  let items=_e;
+  if(_emailAccFilter!=='all') items=items.filter(e=>e.account===_emailAccFilter);
+  return items;
+}
+
 function rEmail(d){
-  document.getElementById('le').innerHTML=d.length?`<div class="email-list">${d.map(emailListRow).join('')}</div>`:emp('Nenhum email registrado hoje');
+  buildEmailFilters(_e);
+  const filtered=_emailAccFilter==='all'?d:d.filter(e=>e.account===_emailAccFilter);
+  document.getElementById('le').innerHTML=filtered.length
+    ?`<div class="email-list">${filtered.map((e,i)=>emailListRow(e,_e.indexOf(e))).join('')}</div>`
+    :emp('Nenhum email encontrado');
 }
-function sEmail(q){if(!q){rEmail(_e);return;}const lo=q.toLowerCase();rEmail(_e.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)));}
+
+function fEmailAccount(v,c){
+  _emailAccFilter=v;
+  chip(c);
+  const q=document.querySelector('#page-emails .search-bar input')?.value||'';
+  sEmail(q);
+}
+
+function sEmail(q){
+  let items=getFilteredEmails();
+  if(q){const lo=q.toLowerCase();items=items.filter(e=>(e.subject||'').toLowerCase().includes(lo)||(e.from_name||'').toLowerCase().includes(lo)||(e.from_addr||'').toLowerCase().includes(lo));}
+  document.getElementById('le').innerHTML=items.length
+    ?`<div class="email-list">${items.map((e,i)=>emailListRow(e,_e.indexOf(e))).join('')}</div>`
+    :emp('Nenhum email encontrado');
+}
+
+function showEmailModal(idx){
+  const e=_e[idx]; if(!e)return;
+  const tags=JSON.parse(e.tags||'[]');
+  const priLabel={'🔴':'<span class="badge badge-danger">🔴 Urgente</span>','🟡':'<span class="badge badge-warning">🟡 Cotação / Atenção</span>','🟢':'<span class="badge badge-success">🟢 Geral</span>'}[e.priority]||e.priority;
+  const dateStr=e.date_str?new Date(e.date_str).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+  document.getElementById('em-subject').textContent=e.subject||'(sem assunto)';
+  document.getElementById('em-from').textContent=e.from_name?(e.from_name+(e.from_addr?` <${e.from_addr}>`:'')):(e.from_addr||'—');
+  document.getElementById('em-to').textContent=(e.display||e.account)+(e.email_addr?` <${e.email_addr}>`:'');
+  document.getElementById('em-date').textContent=dateStr;
+  document.getElementById('em-account').textContent=e.email_addr||e.account;
+  document.getElementById('em-priority').innerHTML=priLabel;
+  document.getElementById('em-tags').innerHTML=tags.length?tags.map(t=>`<span class="badge badge-neutral">${t}</span>`).join(''):'<span style="font-size:12px;color:var(--muted)">Sem tags</span>';
+  document.getElementById('email-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeEmailModal(){
+  document.getElementById('email-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
 
 function waCard(m){return`<div class="item-card"><div class="item-card-top"><div style="flex:1"><div class="item-name" style="font-size:13px">${m.sender_name||m.sender_num||'—'}</div><div class="item-meta">📱 ${m.bridge_name} · ${m.is_group?'Grupo':'DM'}</div><div class="item-meta" style="margin-top:4px;font-style:italic">"${(m.body||'').substring(0,80)}"</div></div></div></div>`;}
 
