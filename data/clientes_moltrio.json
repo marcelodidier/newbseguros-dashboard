@@ -408,7 +408,7 @@
       "email": "",
       "apolices_count": 30,
       "apolices_ativas": 30,
-      "proxima_renovacao": "14/11/2026"
+      "proxima_renovacao": "15/07/2027"
     },
     {
       "id": 2082,
@@ -1761,5 +1761,5 @@
       "proxima_renovacao": "17/07/2027"
     }
   ],
-  "updated_at": "2026-11-13T23:49:13Z"
+  "updated_at": "2026-11-14T09:01:00Z"
 }
