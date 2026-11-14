@@ -2206,17 +2206,38 @@ function _finCard(icon,label,val,sub,color){
 function rFinCards(){
   const el=document.getElementById('fin-cards');if(!el)return;
   const now=new Date();
-  const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  const comMes=_com.find(c=>c.mes===mesAtual)||{total:0,recebido:0,pendente:0,pct_medio:0,count:0};
+
+  // Dados de comissão — dinâmicos conforme período selecionado
+  let comLabel='', comData={total:0,recebido:0,pendente:0,pct_medio:0,count:0};
+  if(_finPeriod==='mensal'){
+    const idx=Math.max(0,Math.min(_finMesOffset,(_com.length||1)-1));
+    const m=_com[idx]||comData;
+    comData=m;
+    comLabel=_mesLabel(m.mes||`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`);
+  } else {
+    // Anual: soma todos os meses do ano selecionado
+    const year=now.getFullYear()-_finAnoOffset;
+    const mesesAno=_com.filter(c=>c.mes&&c.mes.startsWith(year+'-'));
+    comData={
+      total:  mesesAno.reduce((s,m)=>s+(m.total||0),0),
+      recebido: mesesAno.reduce((s,m)=>s+(m.recebido||0),0),
+      pendente: mesesAno.reduce((s,m)=>s+(m.pendente||0),0),
+      count:  mesesAno.reduce((s,m)=>s+(m.count||0),0),
+      pct_medio: mesesAno.length?Math.round(mesesAno.reduce((s,m)=>s+(m.pct_medio||0),0)/mesesAno.length*10)/10:0,
+    };
+    comLabel=String(year);
+  }
+
   const ativas=_ap.filter(a=>!a.cancelled&&a.urgency!=='vencida');
   const carteira=ativas.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0);
   const urgente=_ap.filter(a=>!a.cancelled&&a.urgency==='urgente');
   const pipeCot=_c.filter(c=>c.status==='aguardando'||c.status==='em_cotacao');
   const totalPipe=pipeCot.reduce((s,c)=>s+(Number(c.valor_estimado)||0),0);
+
   el.innerHTML=
-    _finCard('💰','Comissão do Mês',_brl(comMes.total),comMes.count+' registros · '+(comMes.pct_medio||0)+'% médio','var(--brand)')
-   +_finCard('✅','Recebida',_brl(comMes.recebido),'Já liquidada pela seguradora','var(--success)')
-   +_finCard('⏳','A Receber',_brl(comMes.pendente),'Pendente de liquidação','var(--warning)')
+    _finCard('💰',(_finPeriod==='anual'?'Comissão '+comLabel:'Comissão — '+comLabel),_brl(comData.total),comData.count+' registros · '+(comData.pct_medio||0)+'% médio','var(--brand)')
+   +_finCard('✅','Recebida',_brl(comData.recebido),'Já liquidada pela seguradora','var(--success)')
+   +_finCard('⏳','A Receber',_brl(comData.pendente),'Pendente de liquidação','var(--warning)')
    +_finCard('💼','Carteira Ativa',_brl(carteira),ativas.length+' apólices (prêmio gerenciado)','var(--info)')
    +_finCard('🔴','Renovar ≤30 dias',urgente.length+' apólices',_brl(urgente.reduce((s,a)=>s+(Number(a.liquid_premium)||0),0))+' em prêmio','var(--danger)')
    +_finCard('📋','Pipeline Cotações',_brl(totalPipe),pipeCot.length+' cotações em aberto','var(--muted)');
