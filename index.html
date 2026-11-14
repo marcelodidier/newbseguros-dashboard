@@ -2151,14 +2151,14 @@ function rFinDetPage(){
   const page=det.slice(start,end);
   const statusLbl=s=>s==='paid_off'?'<span style="color:var(--success);font-weight:700">✅ Recebido</span>':'<span style="color:var(--warning);font-weight:700">⏳ Pendente</span>';
   const rows=page.map(d=>`<tr>
-    <td><strong>${esc(d.cliente||'—')}</strong></td>
-    <td>${esc(d.produto||'—')}</td>
-    <td>${esc(d.insurer||'—')}</td>
-    <td style="text-align:center;font-size:12px">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
-    <td style="text-align:right;color:var(--muted-2)">${_brl(d.premium)}</td>
+    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(d.cliente||'')}"><strong>${esc(d.cliente||'—')}</strong></td>
+    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.produto||'—')}</td>
+    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px" title="${esc(d.insurer||'')}">${esc(d.insurer||'—')}</td>
+    <td style="text-align:center;font-size:12px;white-space:nowrap">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
+    <td style="text-align:right;white-space:nowrap">${_brl(d.premium)}</td>
     <td style="text-align:center">${d.pct||'—'}%</td>
-    <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(d.valor)}</td>
-    <td>${statusLbl(d.status)}</td>
+    <td style="text-align:right;font-weight:700;color:var(--brand);white-space:nowrap">${_brl(d.valor)}</td>
+    <td style="white-space:nowrap">${statusLbl(d.status)}</td>
   </tr>`).join('');
   const pag=`<div class="pagination">
     <div style="display:flex;align-items:center;gap:8px">
@@ -2174,14 +2174,14 @@ function rFinDetPage(){
       <button class="pag-btn" onclick="finDetGoPage(${_finDetPage+1})" ${_finDetPage>=totalPages-1?'disabled':''}>›</button>
     </div>
   </div>`;
-  el.innerHTML=`<table class="data-table"><thead><tr>
+  el.innerHTML=`<div style="overflow-x:auto"><table class="data-table" style="min-width:820px"><thead><tr>
       <th>Cliente</th><th>Produto</th><th>Seguradora</th>
       <th style="text-align:center">Apólice/Parc.</th>
       <th style="text-align:right">Prêmio</th>
       <th style="text-align:center">%</th>
       <th style="text-align:right">Comissão</th>
       <th>Status</th>
-    </tr></thead><tbody>${rows}</tbody></table>${pag}`;
+    </tr></thead><tbody>${rows}</tbody></table></div>${pag}`;
 }
 function _navBtn(label,onclick,disabled){return`<button onclick="${onclick}" ${disabled?'disabled':''} style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:4px 12px;cursor:${disabled?'default':'pointer'};color:${disabled?'var(--muted)':'var(--ink-2)'};font-size:18px;line-height:1;transition:all var(--ease)" ${!disabled?`onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='none'"`:''}>${label}</button>`;}
 function _mesLabel(mes){
@@ -2415,22 +2415,22 @@ function showFinMesModal(mes){
     :'<span style="color:var(--warning);font-weight:700">⏳ Pendente</span>';
 
   const rows=det.sort((a,b)=>b.valor-a.valor).map(d=>`<tr>
-    <td><strong>${esc(d.cliente||'—')}</strong></td>
-    <td>${esc(d.produto||'—')}</td>
-    <td>${esc(d.insurer||'—')}</td>
-    <td style="text-align:center;font-size:12px">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
-    <td style="text-align:right;color:var(--muted-2)">${_brl(d.premium)}</td>
+    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(d.cliente||'')}"><strong>${esc(d.cliente||'—')}</strong></td>
+    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.produto||'—')}</td>
+    <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px" title="${esc(d.insurer||'')}">${esc(d.insurer||'—')}</td>
+    <td style="text-align:center;font-size:12px;white-space:nowrap">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
+    <td style="text-align:right;white-space:nowrap">${_brl(d.premium)}</td>
     <td style="text-align:center">${d.pct||'—'}%</td>
-    <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(d.valor)}</td>
-    <td>${statusLbl(d.status)}</td>
+    <td style="text-align:right;font-weight:700;color:var(--brand);white-space:nowrap">${_brl(d.valor)}</td>
+    <td style="white-space:nowrap">${statusLbl(d.status)}</td>
   </tr>`).join('');
 
   document.getElementById('fmm-body').innerHTML=det.length
-    ?`<table class="data-table"><thead><tr>
+    ?`<div style="overflow-x:auto"><table class="data-table" style="min-width:820px"><thead><tr>
         <th>Cliente</th><th>Produto</th><th>Seguradora</th><th style="text-align:center">Apólice/Parc.</th>
         <th style="text-align:right">Prêmio</th><th style="text-align:center">%</th>
         <th style="text-align:right">Comissão</th><th>Status</th>
-      </tr></thead><tbody>${rows}</tbody></table>`
+      </tr></thead><tbody>${rows}</tbody></table></div>`
     :emp('Detalhes não disponíveis para este mês (somente últimos 6 meses têm registros individuais)');
 
   modal.style.display='flex';
