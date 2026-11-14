@@ -2433,11 +2433,12 @@ function showFinMesModal(mes){
       </tr></thead><tbody>${rows}</tbody></table>`
     :emp('Detalhes não disponíveis para este mês (somente últimos 6 meses têm registros individuais)');
 
-  modal.classList.add('open');
+  modal.style.display='flex';
   document.body.style.overflow='hidden';
 }
 function closeFinMesModal(){
-  document.getElementById('fin-mes-modal')?.classList.remove('open');
+  const m=document.getElementById('fin-mes-modal');
+  if(m) m.style.display='none';
   document.body.style.overflow='';
 }
 
