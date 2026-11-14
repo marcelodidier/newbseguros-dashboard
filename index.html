@@ -2100,6 +2100,7 @@ function fWA(v,c){chip(c);rWA(v==='all'?_w:_w.filter(m=>m.bridge_name===v));}
 let _finPeriod='mensal';
 let _finMesOffset=0;   // 0 = mês atual, 1 = mês anterior, etc.
 let _finAnoOffset=0;   // 0 = ano atual, 1 = ano anterior, etc.
+let _finDetPage=0, _finDetPageSize=50, _finDetFilter='all', _finDetSearch='';
 function setFinPeriod(p){
   _finPeriod=p;
   _finMesOffset=0;_finAnoOffset=0;
@@ -2107,8 +2108,81 @@ function setFinPeriod(p){
   document.getElementById('fin-btn-a').className='btn btn-sm '+(p==='anual'?'btn-primary':'btn-ghost');
   rFinanceiro();
 }
-function finNavMonth(dir){_finMesOffset=Math.max(0,Math.min(_finMesOffset+dir,(_com.length||1)-1));rFinAgenda();}
+function finNavMonth(dir){
+  _finMesOffset=Math.max(0,Math.min(_finMesOffset+dir,(_com.length||1)-1));
+  _finDetPage=0;_finDetFilter='all';_finDetSearch='';
+  rFinAgenda();
+}
 function finNavYear(dir){_finAnoOffset+=dir;rFinAgenda();}
+function fFinDet(v,c){
+  _finDetFilter=v;_finDetPage=0;
+  document.querySelectorAll('#fin-det-chips .filter-chip').forEach(x=>x.classList.remove('active'));
+  if(c)c.classList.add('active');
+  rFinDetPage();
+}
+function sFinDet(q){_finDetSearch=q;_finDetPage=0;rFinDetPage();}
+function setFinDetPageSize(n){_finDetPageSize=n;_finDetPage=0;rFinDetPage();}
+function finDetGoPage(p){
+  const det=_finDetFiltered();
+  const total=Math.max(1,Math.ceil(det.length/_finDetPageSize));
+  _finDetPage=Math.max(0,Math.min(p,total-1));
+  rFinDetPage();
+  document.getElementById('fin-det-area')?.scrollIntoView({behavior:'smooth'});
+}
+function _finDetFiltered(){
+  const idx=Math.max(0,Math.min(_finMesOffset,(_com.length||1)-1));
+  const det=(_com[idx]?.detalhes||[]);
+  const q=_finDetSearch.toLowerCase();
+  return det.filter(d=>{
+    if(_finDetFilter==='recebido'&&d.status!=='paid_off') return false;
+    if(_finDetFilter==='pendente'&&d.status==='paid_off') return false;
+    if(q&&!(d.cliente||'').toLowerCase().includes(q)&&!(d.produto||'').toLowerCase().includes(q)&&!(d.insurer||'').toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a,b)=>b.valor-a.valor);
+}
+function rFinDetPage(){
+  const el=document.getElementById('fin-det-area');if(!el)return;
+  const det=_finDetFiltered();
+  const total=det.length;
+  if(!total){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:12px 0">Nenhum registro encontrado.</div>';return;}
+  const totalPages=Math.max(1,Math.ceil(total/_finDetPageSize));
+  const start=_finDetPage*_finDetPageSize;
+  const end=Math.min(start+_finDetPageSize,total);
+  const page=det.slice(start,end);
+  const statusLbl=s=>s==='paid_off'?'<span style="color:var(--success);font-weight:700">✅ Recebido</span>':'<span style="color:var(--warning);font-weight:700">⏳ Pendente</span>';
+  const rows=page.map(d=>`<tr>
+    <td><strong>${esc(d.cliente||'—')}</strong></td>
+    <td>${esc(d.produto||'—')}</td>
+    <td>${esc(d.insurer||'—')}</td>
+    <td style="text-align:center;font-size:12px">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
+    <td style="text-align:right;color:var(--muted-2)">${_brl(d.premium)}</td>
+    <td style="text-align:center">${d.pct||'—'}%</td>
+    <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(d.valor)}</td>
+    <td>${statusLbl(d.status)}</td>
+  </tr>`).join('');
+  const pag=`<div class="pagination">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="pag-size">
+        <button class="pag-size-btn${_finDetPageSize===50?' active':''}" onclick="setFinDetPageSize(50)">50</button>
+        <button class="pag-size-btn${_finDetPageSize===100?' active':''}" onclick="setFinDetPageSize(100)">100</button>
+        <button class="pag-size-btn${_finDetPageSize===200?' active':''}" onclick="setFinDetPageSize(200)">200</button>
+      </div><span class="pag-info">por pág.</span>
+    </div>
+    <div class="pag-controls">
+      <span class="pag-info">${start+1}–${end} de ${total}</span>
+      <button class="pag-btn" onclick="finDetGoPage(${_finDetPage-1})" ${_finDetPage===0?'disabled':''}>‹</button>
+      <button class="pag-btn" onclick="finDetGoPage(${_finDetPage+1})" ${_finDetPage>=totalPages-1?'disabled':''}>›</button>
+    </div>
+  </div>`;
+  el.innerHTML=`<table class="data-table"><thead><tr>
+      <th>Cliente</th><th>Produto</th><th>Seguradora</th>
+      <th style="text-align:center">Apólice/Parc.</th>
+      <th style="text-align:right">Prêmio</th>
+      <th style="text-align:center">%</th>
+      <th style="text-align:right">Comissão</th>
+      <th>Status</th>
+    </tr></thead><tbody>${rows}</tbody></table>${pag}`;
+}
 function _navBtn(label,onclick,disabled){return`<button onclick="${onclick}" ${disabled?'disabled':''} style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:4px 12px;cursor:${disabled?'default':'pointer'};color:${disabled?'var(--muted)':'var(--ink-2)'};font-size:18px;line-height:1;transition:all var(--ease)" ${!disabled?`onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='none'"`:''}>${label}</button>`;}
 function _mesLabel(mes){
   const [y,m]=mes.split('-');
@@ -2161,27 +2235,22 @@ function rFinAgenda(){
     const pct=m.pct_medio?`${m.pct_medio}%`:'—';
     const pctReceb=m.total>0?Math.round(m.recebido/m.total*100)+'%':'0%';
     const det=m.detalhes||[];
-    const statusLbl=s=>s==='paid_off'?'<span style="color:var(--success);font-weight:700">✅ Recebido</span>':'<span style="color:var(--warning);font-weight:700">⏳ Pendente</span>';
-    const detTable=det.length
-      ?`<table class="data-table" style="margin-top:14px"><thead><tr>
-          <th>Cliente</th><th>Produto</th><th>Seguradora</th>
-          <th style="text-align:center">Apólice/Parc.</th>
-          <th style="text-align:right">Prêmio</th>
-          <th style="text-align:center">%</th>
-          <th style="text-align:right">Comissão</th>
-          <th>Status</th>
-        </tr></thead><tbody>`
-        +det.sort((a,b)=>b.valor-a.valor).map(d=>`<tr>
-          <td><strong>${esc(d.cliente||'—')}</strong></td>
-          <td>${esc(d.produto||'—')}</td>
-          <td>${esc(d.insurer||'—')}</td>
-          <td style="text-align:center;font-size:12px">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
-          <td style="text-align:right;color:var(--muted-2)">${_brl(d.premium)}</td>
-          <td style="text-align:center">${d.pct||'—'}%</td>
-          <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(d.valor)}</td>
-          <td>${statusLbl(d.status)}</td>
-        </tr>`).join('')
-        +'</tbody></table>'
+    const hasDetail=det.length>0;
+    const detArea=hasDetail
+      ?`<div style="margin-top:16px">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+            <div class="filter-row" id="fin-det-chips" style="flex:1;min-width:0">
+              <span class="filter-chip active" onclick="fFinDet('all',this)">Todos (${det.length})</span>
+              <span class="filter-chip" onclick="fFinDet('recebido',this)">✅ Recebido (${det.filter(d=>d.status==='paid_off').length})</span>
+              <span class="filter-chip" onclick="fFinDet('pendente',this)">⏳ Pendente (${det.filter(d=>d.status!=='paid_off').length})</span>
+            </div>
+          </div>
+          <div class="search-bar" style="margin-bottom:10px">
+            <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+            <input type="search" placeholder="Buscar cliente, produto, seguradora..." oninput="sFinDet(this.value)" style="font-family:inherit">
+          </div>
+          <div id="fin-det-area"></div>
+        </div>`
       :'<div style="font-size:12px;color:var(--muted);margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px">🔍 Detalhes individuais disponíveis apenas nos últimos 6 meses.</div>';
 
     el.innerHTML=`
@@ -2208,7 +2277,9 @@ function rFinAgenda(){
           <div style="font-size:17px;font-weight:800;color:var(--warning)">${_brl(m.pendente)}</div>
         </div>
       </div>
-      ${detTable}`;
+      ${detArea}`;
+
+    if(hasDetail) rFinDetPage();
 
   } else {
     // ── ANUAL: 12 meses de um ano com setas ──────────────────────
