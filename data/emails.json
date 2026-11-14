@@ -1,6 +1,30 @@
 {
   "items": [
     {
+      "id": 3456,
+      "logged_at": "2026-11-14T12:01:03.998409",
+      "account": "barbara",
+      "email_addr": "barbara@newbseguros.com.br",
+      "display": "Barbara Vieira Coelho De Araujo",
+      "msg_id": "21792",
+      "subject": "Looks para o fim de semana",
+      "from_name": "LE LIS",
+      "from_addr": "news@news.lelis.com.br",
+      "date_str": "2026-11-14T13:00:50+01:00",
+      "tags": "[\"geral\"]",
+      "priority": "🟢",
+      "unread": 1,
+      "body": "",
+      "attachments": "[]",
+      "message_id": "",
+      "in_reply_to": "",
+      "summary": "",
+      "resolved": false,
+      "sent_reply": null,
+      "thread_reply": false,
+      "thread_reply_to": ""
+    },
+    {
       "id": 3455,
       "logged_at": "2026-11-14T10:31:03.585798",
       "account": "barbara",
