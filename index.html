@@ -2098,11 +2098,22 @@ function fWA(v,c){chip(c);rWA(v==='all'?_w:_w.filter(m=>m.bridge_name===v));}
 
 // ── Financeiro (admin only) ───────────────────────────────────────
 let _finPeriod='mensal';
+let _finMesOffset=0;   // 0 = mês atual, 1 = mês anterior, etc.
+let _finAnoOffset=0;   // 0 = ano atual, 1 = ano anterior, etc.
 function setFinPeriod(p){
   _finPeriod=p;
+  _finMesOffset=0;_finAnoOffset=0;
   document.getElementById('fin-btn-m').className='btn btn-sm '+(p==='mensal'?'btn-primary':'btn-ghost');
   document.getElementById('fin-btn-a').className='btn btn-sm '+(p==='anual'?'btn-primary':'btn-ghost');
   rFinanceiro();
+}
+function finNavMonth(dir){_finMesOffset=Math.max(0,Math.min(_finMesOffset+dir,(_com.length||1)-1));rFinAgenda();}
+function finNavYear(dir){_finAnoOffset+=dir;rFinAgenda();}
+function _navBtn(label,onclick,disabled){return`<button onclick="${onclick}" ${disabled?'disabled':''} style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:4px 12px;cursor:${disabled?'default':'pointer'};color:${disabled?'var(--muted)':'var(--ink-2)'};font-size:18px;line-height:1;transition:all var(--ease)" ${!disabled?`onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='none'"`:''}>${label}</button>`;}
+function _mesLabel(mes){
+  const [y,m]=mes.split('-');
+  const d=new Date(y,parseInt(m)-1,1);
+  return d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
 }
 function rFinanceiro(){
   if(!document.getElementById('page-financeiro')?.classList.contains('active'))return;
@@ -2138,55 +2149,124 @@ function rFinCards(){
 }
 function rFinAgenda(){
   const el=document.getElementById('fin-agenda');if(!el)return;
-  const count=_finPeriod==='anual'?24:6;
-  const data=_com.slice(0,count);
-  if(!data.length){el.innerHTML=emp('Dados de comissão não disponíveis');return;}
-  const now=new Date();
-  const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  const rows=data.map(m=>{
+  if(!_com.length){el.innerHTML=emp('Dados de comissão não disponíveis');return;}
+
+  if(_finPeriod==='mensal'){
+    // ── MENSAL: um mês por vez com setas ─────────────────────────
+    const idx=Math.max(0,Math.min(_finMesOffset,_com.length-1));
+    const m=_com[idx];
+    const now=new Date();
+    const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
     const isNow=m.mes===mesAtual;
     const pct=m.pct_medio?`${m.pct_medio}%`:'—';
     const pctReceb=m.total>0?Math.round(m.recebido/m.total*100)+'%':'0%';
-    const temDetalhe=(m.detalhes||[]).length>0;
-    const cursor=temDetalhe?'cursor:pointer':'';
-    const hover=temDetalhe?` title="Clique para ver os ${m.count} registros"`:''
-    return`<tr style="${isNow?'background:var(--brand-light);font-weight:600':''};${cursor}" ${temDetalhe?`onclick="showFinMesModal('${m.mes}')"`:''}${hover}>
-      <td>${m.mes}${isNow?' <span style="font-size:10px;color:var(--brand)">▶</span>':''}${temDetalhe?' <span style="font-size:10px;color:var(--brand);opacity:.7">🔍</span>':''}</td>
-      <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(m.total)}</td>
-      <td style="text-align:right;color:var(--success)">${_brl(m.recebido)}</td>
-      <td style="text-align:right;color:var(--warning)">${_brl(m.pendente)}</td>
-      <td style="text-align:center;color:var(--muted-2)">${pctReceb}</td>
-      <td style="text-align:center">${pct}</td>
-      <td style="text-align:right;color:var(--muted-2);font-size:12px">${m.premium_total>0?_brl(m.premium_total):'—'}</td>
-    </tr>`;
-  });
-  const totalComm=data.reduce((s,m)=>s+(m.total||0),0);
-  const totalReceb=data.reduce((s,m)=>s+(m.recebido||0),0);
-  const totalPend=data.reduce((s,m)=>s+(m.pendente||0),0);
-  el.innerHTML=`
-    <div style="font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:10px">
-      💰 Histórico de Comissões — ${_finPeriod==='anual'?'últimos 24 meses':'últimos 6 meses'}
-      <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:8px">receita NewB (comissão das seguradoras)</span>
-    </div>
-    <table class="data-table">
-      <thead><tr>
-        <th>Mês</th>
-        <th style="text-align:right">Comissão Total</th>
-        <th style="text-align:right">✅ Recebida</th>
-        <th style="text-align:right">⏳ Pendente</th>
-        <th style="text-align:center">% Recebido</th>
-        <th style="text-align:center">% Comissão</th>
-        <th style="text-align:right">Prêmio (base)</th>
-      </tr></thead>
-      <tbody>${rows.join('')}</tbody>
-      <tfoot><tr style="border-top:2px solid var(--border);font-weight:700">
-        <td>Total período</td>
-        <td style="text-align:right;color:var(--brand)">${_brl(totalComm)}</td>
-        <td style="text-align:right;color:var(--success)">${_brl(totalReceb)}</td>
-        <td style="text-align:right;color:var(--warning)">${_brl(totalPend)}</td>
-        <td colspan="3"></td>
-      </tr></tfoot>
-    </table>`;
+    const det=m.detalhes||[];
+    const statusLbl=s=>s==='paid_off'?'<span style="color:var(--success);font-weight:700">✅ Recebido</span>':'<span style="color:var(--warning);font-weight:700">⏳ Pendente</span>';
+    const detTable=det.length
+      ?`<table class="data-table" style="margin-top:14px"><thead><tr>
+          <th>Cliente</th><th>Produto</th><th>Seguradora</th>
+          <th style="text-align:center">Apólice/Parc.</th>
+          <th style="text-align:right">Prêmio</th>
+          <th style="text-align:center">%</th>
+          <th style="text-align:right">Comissão</th>
+          <th>Status</th>
+        </tr></thead><tbody>`
+        +det.sort((a,b)=>b.valor-a.valor).map(d=>`<tr>
+          <td><strong>${esc(d.cliente||'—')}</strong></td>
+          <td>${esc(d.produto||'—')}</td>
+          <td>${esc(d.insurer||'—')}</td>
+          <td style="text-align:center;font-size:12px">${d.policy_number||'—'}${d.parcela?' / p.'+d.parcela:''}</td>
+          <td style="text-align:right;color:var(--muted-2)">${_brl(d.premium)}</td>
+          <td style="text-align:center">${d.pct||'—'}%</td>
+          <td style="text-align:right;font-weight:700;color:var(--brand)">${_brl(d.valor)}</td>
+          <td>${statusLbl(d.status)}</td>
+        </tr>`).join('')
+        +'</tbody></table>'
+      :'<div style="font-size:12px;color:var(--muted);margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px">🔍 Detalhes individuais disponíveis apenas nos últimos 6 meses.</div>';
+
+    el.innerHTML=`
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        ${_navBtn('‹','finNavMonth(1)',idx>=_com.length-1)}
+        <div style="text-align:center">
+          <div style="font-size:17px;font-weight:700;color:var(--ink-2)">${_mesLabel(m.mes)}${isNow?' <span style="font-size:11px;color:var(--brand);font-weight:400">▶ atual</span>':''}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${m.count} registros · ${pct} comissão</div>
+        </div>
+        ${_navBtn('›','finNavMonth(-1)',idx<=0)}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+        <div style="background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:12px;border-top:3px solid var(--brand);text-align:center">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Comissão Total</div>
+          <div style="font-size:17px;font-weight:800;color:var(--brand)">${_brl(m.total)}</div>
+        </div>
+        <div style="background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:12px;border-top:3px solid var(--success);text-align:center">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">✅ Recebida</div>
+          <div style="font-size:17px;font-weight:800;color:var(--success)">${_brl(m.recebido)}</div>
+          <div style="font-size:11px;color:var(--muted-2)">${pctReceb} do total</div>
+        </div>
+        <div style="background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:12px;border-top:3px solid var(--warning);text-align:center">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">⏳ A Receber</div>
+          <div style="font-size:17px;font-weight:800;color:var(--warning)">${_brl(m.pendente)}</div>
+        </div>
+      </div>
+      ${detTable}`;
+
+  } else {
+    // ── ANUAL: 12 meses de um ano com setas ──────────────────────
+    const now=new Date();
+    const year=now.getFullYear()-_finAnoOffset;
+    const mesAtual=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    // Montar 12 meses do ano (Jan→Dez)
+    const meses=Array.from({length:12},(_,i)=>{
+      const mes=`${year}-${String(i+1).padStart(2,'0')}`;
+      return _com.find(c=>c.mes===mes)||{mes,total:0,recebido:0,pendente:0,count:0,premium_total:0,pct_medio:0,detalhes:[]};
+    });
+    const totalAno=meses.reduce((s,m)=>s+(m.total||0),0);
+    const recebAno=meses.reduce((s,m)=>s+(m.recebido||0),0);
+    const pendAno=meses.reduce((s,m)=>s+(m.pendente||0),0);
+    const minYear=_com.length?parseInt(_com[_com.length-1].mes.split('-')[0]):2024;
+    const rows=meses.map(m=>{
+      const isNow=m.mes===mesAtual;
+      const temDetalhe=(m.detalhes||[]).length>0;
+      const pctReceb=m.total>0?Math.round(m.recebido/m.total*100)+'%':'—';
+      const pct=m.pct_medio?`${m.pct_medio}%`:'—';
+      const mesName=new Date(m.mes+'-15').toLocaleDateString('pt-BR',{month:'short'}).replace('.','');
+      return`<tr style="${isNow?'background:var(--brand-light);font-weight:600':!m.total?'opacity:.4':''};${temDetalhe?'cursor:pointer':''}" ${temDetalhe?`onclick="showFinMesModal('${m.mes}')" title="Ver detalhes"`:''}>
+        <td>${mesName.charAt(0).toUpperCase()+mesName.slice(1)}${isNow?' <span style="font-size:10px;color:var(--brand)">▶</span>':''}${temDetalhe?' <span style="font-size:10px;color:var(--brand);opacity:.6">🔍</span>':''}</td>
+        <td style="text-align:right;font-weight:700;color:var(--brand)">${m.total?_brl(m.total):'—'}</td>
+        <td style="text-align:right;color:var(--success)">${m.recebido?_brl(m.recebido):'—'}</td>
+        <td style="text-align:right;color:var(--warning)">${m.pendente?_brl(m.pendente):'—'}</td>
+        <td style="text-align:center;color:var(--muted-2)">${pctReceb}</td>
+        <td style="text-align:center">${pct}</td>
+      </tr>`;
+    });
+    el.innerHTML=`
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        ${_navBtn('‹','finNavYear(1)',year<=minYear)}
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--ink-2)">${year}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:1px">comissão anual: <strong style="color:var(--brand)">${_brl(totalAno)}</strong></div>
+        </div>
+        ${_navBtn('›','finNavYear(-1)',year>=now.getFullYear())}
+      </div>
+      <table class="data-table">
+        <thead><tr>
+          <th>Mês</th>
+          <th style="text-align:right">Comissão</th>
+          <th style="text-align:right">✅ Recebida</th>
+          <th style="text-align:right">⏳ Pendente</th>
+          <th style="text-align:center">% Recebido</th>
+          <th style="text-align:center">% Comissão</th>
+        </tr></thead>
+        <tbody>${rows.join('')}</tbody>
+        <tfoot><tr style="border-top:2px solid var(--border);font-weight:700">
+          <td>Total ${year}</td>
+          <td style="text-align:right;color:var(--brand)">${_brl(totalAno)}</td>
+          <td style="text-align:right;color:var(--success)">${_brl(recebAno)}</td>
+          <td style="text-align:right;color:var(--warning)">${_brl(pendAno)}</td>
+          <td colspan="2"></td>
+        </tr></tfoot>
+      </table>`;
+  }
 }
 
 // ── Item Detail Modal (Renovação / Retomada / Cotação) ─────────── 
