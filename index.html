@@ -1082,6 +1082,7 @@ async function loadAll(){
   if(w){_w=w.items||[];rWA(_w);}
   if(apo){_ap=apo.items||[];rApolices(_ap);rStatsAp(_ap);}
   if(cli){_cl=cli.items||[];rClientes(_cl);}
+  if(com){_com=com.items||[];if(document.getElementById('page-financeiro')?.classList.contains('active'))rFinanceiro();}
 }
 
 function rStats(s){
