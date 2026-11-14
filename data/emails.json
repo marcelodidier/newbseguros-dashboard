@@ -193,8 +193,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3304,
-      "logged_at": "2026-11-14T00:01:04.235822",
+      "id": 3427,
+      "logged_at": "2026-11-14T01:31:03.705079",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -241,12 +241,12 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3302,
-      "logged_at": "2026-11-13T23:46:13.529637",
-      "account": "faturamento",
-      "email_addr": "faturamento@newbseguros.com.br",
-      "display": "Faturamento NewB",
-      "msg_id": "3051",
+      "id": 3440,
+      "logged_at": "2026-11-14T01:31:04.775515",
+      "account": "comercial",
+      "email_addr": "comercial@newbseguros.com.br",
+      "display": "Comercial",
+      "msg_id": "8097",
       "subject": "ENC: CANCELAMENTO UNIMED SC",
       "from_name": "Angélica Pécora",
       "from_addr": "maria.santos@abilitytecnologia.com.br",
@@ -265,12 +265,12 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3287,
-      "logged_at": "2026-11-13T23:46:04.809609",
-      "account": "comercial",
-      "email_addr": "comercial@newbseguros.com.br",
-      "display": "Comercial",
-      "msg_id": "8097",
+      "id": 3302,
+      "logged_at": "2026-11-13T23:46:13.529637",
+      "account": "faturamento",
+      "email_addr": "faturamento@newbseguros.com.br",
+      "display": "Faturamento NewB",
+      "msg_id": "3051",
       "subject": "ENC: CANCELAMENTO UNIMED SC",
       "from_name": "Angélica Pécora",
       "from_addr": "maria.santos@abilitytecnologia.com.br",
@@ -433,12 +433,12 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3414,
-      "logged_at": "2026-11-14T01:16:03.258565",
-      "account": "barbara",
-      "email_addr": "barbara@newbseguros.com.br",
-      "display": "Barbara Vieira Coelho De Araujo",
-      "msg_id": "21777",
+      "id": 3442,
+      "logged_at": "2026-11-14T01:31:04.781984",
+      "account": "comercial",
+      "email_addr": "comercial@newbseguros.com.br",
+      "display": "Comercial",
+      "msg_id": "8092",
       "subject": "RE: MODELO DE CARTA NOMEAÇÃO",
       "from_name": "Atendimento Corretora",
       "from_addr": "atendimento.corretora@pottencial.com.br",
@@ -457,12 +457,12 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3290,
-      "logged_at": "2026-11-13T23:46:04.827848",
-      "account": "comercial",
-      "email_addr": "comercial@newbseguros.com.br",
-      "display": "Comercial",
-      "msg_id": "8092",
+      "id": 3414,
+      "logged_at": "2026-11-14T01:16:03.258565",
+      "account": "barbara",
+      "email_addr": "barbara@newbseguros.com.br",
+      "display": "Barbara Vieira Coelho De Araujo",
+      "msg_id": "21777",
       "subject": "RE: MODELO DE CARTA NOMEAÇÃO",
       "from_name": "Atendimento Corretora",
       "from_addr": "atendimento.corretora@pottencial.com.br",
@@ -505,8 +505,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3291,
-      "logged_at": "2026-11-13T23:46:04.832840",
+      "id": 3443,
+      "logged_at": "2026-11-14T01:31:04.784691",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -529,8 +529,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3292,
-      "logged_at": "2026-11-13T23:46:04.838198",
+      "id": 3444,
+      "logged_at": "2026-11-14T01:31:04.787050",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -577,8 +577,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3293,
-      "logged_at": "2026-11-13T23:46:04.842802",
+      "id": 3445,
+      "logged_at": "2026-11-14T01:31:04.789783",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -649,8 +649,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3256,
-      "logged_at": "2026-11-13T23:46:03.492432",
+      "id": 3431,
+      "logged_at": "2026-11-14T01:31:03.719127",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -697,8 +697,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3245,
-      "logged_at": "2026-11-13T23:46:03.400893",
+      "id": 3429,
+      "logged_at": "2026-11-14T01:31:03.712656",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -745,8 +745,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3261,
-      "logged_at": "2026-11-13T23:46:03.525399",
+      "id": 3432,
+      "logged_at": "2026-11-14T01:31:03.723518",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -757,7 +757,7 @@
       "date_str": "2026-11-13T17:54:48Z",
       "tags": "[\"geral\"]",
       "priority": "🟢",
-      "unread": 1,
+      "unread": 0,
       "body": "",
       "attachments": "[]",
       "message_id": "",
@@ -769,8 +769,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3294,
-      "logged_at": "2026-11-13T23:46:04.846481",
+      "id": 3446,
+      "logged_at": "2026-11-14T01:31:04.792023",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -817,12 +817,12 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3310,
-      "logged_at": "2026-11-14T00:46:03.219265",
-      "account": "barbara",
-      "email_addr": "barbara@newbseguros.com.br",
-      "display": "Barbara Vieira Coelho De Araujo",
-      "msg_id": "21780",
+      "id": 3441,
+      "logged_at": "2026-11-14T01:31:04.778924",
+      "account": "comercial",
+      "email_addr": "comercial@newbseguros.com.br",
+      "display": "Comercial",
+      "msg_id": "8094",
       "subject": "PROPOSTA RESIDENCIAL - ALFREDO",
       "from_name": "",
       "from_addr": "suporte@newbseguros.com.br",
@@ -841,12 +841,12 @@
       "thread_reply_to": ""
     },
     {
-      "id": 796,
-      "logged_at": "2026-11-13T20:46:04.476159",
-      "account": "comercial",
-      "email_addr": "comercial@newbseguros.com.br",
-      "display": "Comercial",
-      "msg_id": "8094",
+      "id": 3310,
+      "logged_at": "2026-11-14T00:46:03.219265",
+      "account": "barbara",
+      "email_addr": "barbara@newbseguros.com.br",
+      "display": "Barbara Vieira Coelho De Araujo",
+      "msg_id": "21780",
       "subject": "PROPOSTA RESIDENCIAL - ALFREDO",
       "from_name": "",
       "from_addr": "suporte@newbseguros.com.br",
@@ -913,8 +913,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3263,
-      "logged_at": "2026-11-13T23:46:03.545738",
+      "id": 3433,
+      "logged_at": "2026-11-14T01:31:03.726616",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -1225,8 +1225,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3252,
-      "logged_at": "2026-11-13T23:46:03.462224",
+      "id": 3430,
+      "logged_at": "2026-11-14T01:31:03.716185",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -1249,8 +1249,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3243,
-      "logged_at": "2026-11-13T23:46:03.380713",
+      "id": 3428,
+      "logged_at": "2026-11-14T01:31:03.709827",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -1261,7 +1261,7 @@
       "date_str": "2026-11-13T16:56:24-03:00",
       "tags": "[\"geral\"]",
       "priority": "🟢",
-      "unread": 1,
+      "unread": 0,
       "body": "",
       "attachments": "[]",
       "message_id": "",
@@ -1297,8 +1297,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3266,
-      "logged_at": "2026-11-13T23:46:03.566413",
+      "id": 3434,
+      "logged_at": "2026-11-14T01:31:03.729634",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -1537,8 +1537,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3271,
-      "logged_at": "2026-11-13T23:46:03.596009",
+      "id": 3435,
+      "logged_at": "2026-11-14T01:31:03.732984",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -2881,8 +2881,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 297,
-      "logged_at": "2026-11-13T14:49:18.010616",
+      "id": 3447,
+      "logged_at": "2026-11-14T01:31:04.794290",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -2896,7 +2896,7 @@
       "unread": 0,
       "body": "",
       "attachments": "[]",
-      "message_id": "6af7224b37d73_2ab12ad5716b311092d@ip-10-81-11-89.ec2.internal.mail",
+      "message_id": "",
       "in_reply_to": "",
       "summary": "",
       "resolved": false,
@@ -3697,8 +3697,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3275,
-      "logged_at": "2026-11-13T23:46:03.622427",
+      "id": 3437,
+      "logged_at": "2026-11-14T01:31:03.740127",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -6145,8 +6145,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3283,
-      "logged_at": "2026-11-13T23:46:03.677101",
+      "id": 3438,
+      "logged_at": "2026-11-14T01:31:03.744220",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -8137,8 +8137,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3306,
-      "logged_at": "2026-11-14T00:16:03.212172",
+      "id": 3439,
+      "logged_at": "2026-11-14T01:31:03.747508",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
@@ -8761,8 +8761,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3298,
-      "logged_at": "2026-11-13T23:46:04.864710",
+      "id": 3448,
+      "logged_at": "2026-11-14T01:31:04.796095",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -12365,8 +12365,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3299,
-      "logged_at": "2026-11-13T23:46:04.869607",
+      "id": 3449,
+      "logged_at": "2026-11-14T01:31:04.798333",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -21965,8 +21965,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 92,
-      "logged_at": "2026-11-11T20:01:06.462245",
+      "id": 3450,
+      "logged_at": "2026-11-14T01:31:04.800716",
       "account": "comercial",
       "email_addr": "comercial@newbseguros.com.br",
       "display": "Comercial",
@@ -21980,8 +21980,8 @@
       "unread": 0,
       "body": "",
       "attachments": "[]",
-      "message_id": null,
-      "in_reply_to": null,
+      "message_id": "",
+      "in_reply_to": "",
       "summary": "",
       "resolved": false,
       "sent_reply": null,
@@ -23621,8 +23621,8 @@
       "thread_reply_to": ""
     },
     {
-      "id": 3273,
-      "logged_at": "2026-11-13T23:46:03.608897",
+      "id": 3436,
+      "logged_at": "2026-11-14T01:31:03.737414",
       "account": "barbara",
       "email_addr": "barbara@newbseguros.com.br",
       "display": "Barbara Vieira Coelho De Araujo",
