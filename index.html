@@ -408,6 +408,11 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
       <p>Central de Acompanhamento</p>
     </div>
     <nav class="sidebar-nav">
+      <button class="snav-item" onclick="go('agenda',this)" id="snav-agenda">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+        <span class="snav-label">Minha Agenda</span>
+        <span class="snav-badge" id="sb-agenda" style="display:none">0</span>
+      </button>
       <button class="snav-item active" onclick="go('home',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span class="snav-label">Dashboard</span>
@@ -489,6 +494,89 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
     <main class="app-main">
 
       <!-- DASHBOARD -->
+      <!-- MINHA AGENDA -->
+      <div class="page" id="page-agenda">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div>
+            <h2 style="font-size:16px;font-weight:700">📅 Minha Agenda</h2>
+            <div id="agenda-user-name" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openTaskModal()">+ Nova Tarefa</button>
+        </div>
+        <!-- Mini-cards resumo -->
+        <div id="agenda-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:20px"></div>
+        <!-- Renovações urgentes do usuário -->
+        <div class="section-head" style="margin-bottom:10px">
+          <h2><span class="sh-icon danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>Renovações (minha responsabilidade)</h2>
+          <div style="display:flex;gap:6px">
+            <button id="agf-30" class="btn btn-sm btn-primary" onclick="setAgendaRenFilter(30)">30d</button>
+            <button id="agf-60" class="btn btn-sm btn-ghost" onclick="setAgendaRenFilter(60)">60d</button>
+            <button id="agf-90" class="btn btn-sm btn-ghost" onclick="setAgendaRenFilter(90)">90d</button>
+            <button id="agf-all" class="btn btn-sm btn-ghost" onclick="setAgendaRenFilter(0)">Todas</button>
+          </div>
+        </div>
+        <div id="agenda-ren" style="margin-bottom:20px"></div>
+        <!-- Emails pendentes -->
+        <div class="section-head" style="margin-bottom:10px">
+          <h2><span class="sh-icon brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>Emails Pendentes (minhas caixas)</h2>
+          <a onclick="go('emails')">Ver todos →</a>
+        </div>
+        <div id="agenda-emails" style="margin-bottom:20px"></div>
+        <!-- Tarefas -->
+        <div class="section-head" style="margin-bottom:10px">
+          <h2><span class="sh-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Tarefas</h2>
+        </div>
+        <div id="agenda-tasks"></div>
+      </div>
+
+      <!-- MODAL TAREFA -->
+      <div id="task-modal" onclick="if(event.target===this)closeTaskModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;align-items:center;justify-content:center;padding:16px">
+        <div style="background:white;border-radius:16px;padding:24px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+          <h3 id="task-modal-title" style="font-size:15px;font-weight:700;margin-bottom:16px">Nova Tarefa</h3>
+          <input type="hidden" id="task-id" value="">
+          <div style="margin-bottom:12px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Título</label>
+            <input id="task-title" type="text" placeholder="Ex: Contatar cliente sobre renovação" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Cliente</label>
+              <input id="task-client" type="text" placeholder="Nome do cliente" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;outline:none">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Para</label>
+              <input id="task-due" type="date" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;outline:none">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Prioridade</label>
+              <select id="task-priority" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;outline:none;background:white">
+                <option value="alta">🔴 Alta</option>
+                <option value="media" selected>🟡 Média</option>
+                <option value="baixa">🟢 Baixa</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Tipo</label>
+              <select id="task-type" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;outline:none;background:white">
+                <option value="manual">📝 Manual</option>
+                <option value="renovacao">♻️ Renovação</option>
+                <option value="cotacao">📋 Cotação</option>
+                <option value="email">✉️ Email</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom:16px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Observação</label>
+            <textarea id="task-note" rows="2" placeholder="Detalhes opcionais..." style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;outline:none;resize:vertical"></textarea>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-ghost" style="flex:1" onclick="closeTaskModal()">Cancelar</button>
+            <button class="btn btn-primary" style="flex:1" onclick="saveTask()">Salvar</button>
+          </div>
+        </div>
+      </div>
       <div class="page active" id="page-home">
         <div class="stats-grid">
           <div class="stat-card" onclick="go('cotacoes')">
@@ -703,6 +791,20 @@ body{font-family:'Alexandria',system-ui,-apple-system,sans-serif;background:var(
           <div style="margin-bottom:14px">
             <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Senha <span id="pwd-hint" style="font-weight:400;text-transform:none">(deixe em branco para manter)</span></label>
             <input id="u-pwd" type="password" placeholder="••••••••" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+          </div>
+          <div style="margin-bottom:12px">
+            <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Responsável no CRM <span style="font-weight:400;text-transform:none">(como aparece nas renovações/cotações)</span></label>
+            <input id="u-responsavel" type="text" placeholder="Ex: Barbara, Newton" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Caixas de Email</label>
+              <input id="u-email-accounts" type="text" placeholder="barbara,suporte" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">WhatsApp</label>
+              <input id="u-whatsapp" type="text" placeholder="+55 11 9xxxx-xxxx" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;outline:none">
+            </div>
           </div>
           <div style="margin-bottom:20px">
             <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:5px">Nível de acesso</label>
@@ -953,7 +1055,7 @@ let TK=localStorage.getItem('newb_token')||'';
 let _r=[],_ret=[],_c=[],_e=[],_w=[];
 let _ap=[],_cl=[];
 let _apPage=0,_apPageSize=50,_apFiltered=[];
-const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes',financeiro:'Financeiro'};
+const PT={home:'Dashboard',renovacoes:'Renovações',retomadas:'Retomadas',cotacoes:'Cotações',emails:'Emails',whatsapp:'WhatsApp',apolices:'Apolices',clientes:'Clientes',financeiro:'Financeiro',agenda:'Minha Agenda'};
 
 async function doLogin(){
   const u=document.getElementById('lu').value.trim().toLowerCase(),
@@ -964,7 +1066,13 @@ async function doLogin(){
   const hash = await sha256(p);
   const user = USERS[u];
   if(user && user.hash === hash){
-    CURRENT_USER = { username: u, name: user.name, role: user.role, perms: PERMS[user.role] };
+    CURRENT_USER = {
+      username: u, name: user.name, role: user.role, perms: PERMS[user.role],
+      email: user.email||'',
+      responsavel_key: user.responsavel_key||user.name||'',
+      email_accounts: user.email_accounts||[],
+      whatsapp: user.whatsapp||'',
+    };
     localStorage.setItem('newb_user', JSON.stringify(CURRENT_USER));
     applyPermissions();
     setUser(user.name, user.role);
@@ -1053,13 +1161,14 @@ function go(name,btn){
   // Inicialização por página
   if(name==='usuarios') renderUserList();
   if(name==='financeiro') rFinanceiro();
+  if(name==='agenda') rAgenda();
 }
 
 async function loadAll(){
-  const[st,r,ret,c,e,w,apo,cli,com]=await Promise.all([
+  const[st,r,ret,c,e,w,apo,cli,com,tsk]=await Promise.all([
     ap('data/stats.json'), ap('data/renovacoes.json'), ap('data/retomadas.json'),
     ap('data/cotacoes.json'), ap('data/emails.json'), ap('data/whatsapp.json'),
-    ap('data/apolices.json'), ap('data/clientes_moltrio.json'), ap('data/comissoes.json')
+    ap('data/apolices.json'), ap('data/clientes_moltrio.json'), ap('data/comissoes.json'), ap('data/tasks.json')
   ]);
   await loadHandledRemote();
   if(st)rStats(st);
@@ -1083,6 +1192,7 @@ async function loadAll(){
   if(apo){_ap=apo.items||[];rApolices(_ap);rStatsAp(_ap);}
   if(cli){_cl=cli.items||[];rClientes(_cl);}
   if(com){_com=com.items||[];if(document.getElementById('page-financeiro')?.classList.contains('active'))rFinanceiro();}
+  if(tsk){_tasks=tsk.tasks||[];if(document.getElementById('page-agenda')?.classList.contains('active'))rAgenda();}
 }
 
 function rStats(s){
@@ -2180,6 +2290,133 @@ function closeFinMesModal(){
   document.body.style.overflow='';
 }
 
+// ── Minha Agenda ─────────────────────────────────────────────────
+let _agendaRenFilter=30;
+function setAgendaRenFilter(d){
+  _agendaRenFilter=d;
+  ['30','60','90','all'].forEach(v=>{
+    const btn=document.getElementById('agf-'+v);
+    if(btn)btn.className='btn btn-sm '+(String(d)===v||(!d&&v==='all')?'btn-primary':'btn-ghost');
+  });
+  rAgendaRen();
+}
+function _myKey(){return(CURRENT_USER?.responsavel_key||CURRENT_USER?.name||'').toLowerCase();}
+function _myAccounts(){
+  const acc=CURRENT_USER?.email_accounts;
+  if(Array.isArray(acc))return acc;
+  if(typeof acc==='string'&&acc)return acc.split(',').map(s=>s.trim()).filter(Boolean);
+  return[];
+}
+function _myRens(){
+  const key=_myKey();if(!key)return _r;
+  return _r.filter(r=>(r.responsavel||'').toLowerCase().includes(key));
+}
+function _myEmails(){
+  const accs=_myAccounts();if(!accs.length)return _e.filter(e=>needsReply(e));
+  return _e.filter(e=>accs.includes(e.account)&&needsReply(e));
+}
+function _myTasks(){return _tasks.filter(t=>t.user===CURRENT_USER?.username);}
+function rAgenda(){
+  if(!CURRENT_USER)return;
+  const nameEl=document.getElementById('agenda-user-name');
+  if(nameEl)nameEl.textContent=CURRENT_USER.email||'';
+  rAgendaCards();rAgendaRen();rAgendaEmails();rAgendaTasks();
+}
+function rAgendaCards(){
+  const el=document.getElementById('agenda-cards');if(!el)return;
+  const rens=_myRens().filter(r=>r.urgencia==='urgente').length;
+  const emails=_myEmails().length;
+  const myT=_myTasks();
+  const today=new Date().toISOString().slice(0,10);
+  const tasksTodayPend=myT.filter(t=>!t.done&&(!t.due_date||t.due_date<=today)).length;
+  const tasksDone=myT.filter(t=>t.done).length;
+  const badge=document.getElementById('sb-agenda');
+  if(badge){badge.textContent=rens+emails+tasksTodayPend;badge.style.display=(rens+emails+tasksTodayPend>0)?'inline':'none';}
+  const c=(icon,val,label,color)=>`<div style="background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:12px;border-left:3px solid ${color}"><div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">${label}</div><div style="font-size:22px;font-weight:800;color:${color}">${val}</div><div style="font-size:11px;color:var(--muted-2);margin-top:2px">${icon}</div></div>`;
+  el.innerHTML=c('renovações urgentes',rens,'Renovações','var(--danger)')+c('emails não respondidos',emails,'Emails Pendentes','var(--warning)')+c('a fazer hoje / atrasadas',tasksTodayPend,'Tarefas Hoje','var(--brand)')+c('concluídas',tasksDone,'Concluídas','var(--success)');
+}
+function rAgendaRen(){
+  const el=document.getElementById('agenda-ren');if(!el)return;
+  let rens=_myRens();
+  if(_agendaRenFilter>0){
+    const now=new Date();now.setHours(0,0,0,0);
+    rens=rens.filter(r=>{
+      if(!r.vencimento)return false;
+      const p=r.vencimento.split('/');if(p.length!==3)return false;
+      const d=new Date(p[2],p[1]-1,p[0]);
+      const days=Math.ceil((d-now)/86400000);
+      return days>=0&&days<=_agendaRenFilter;
+    });
+  }
+  if(!rens.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:12px 0">✓ Nenhuma renovação no período.</div>';return;}
+  const rows=rens.map(r=>{
+    const dot=r.urgencia==='urgente'?'red':r.urgencia==='breve'?'yellow':'green';
+    const bg=r.urgencia==='urgente'?'<span class="badge badge-danger">Urgente</span>':r.urgencia==='breve'?'<span class="badge badge-warning">Em breve</span>':'<span class="badge badge-success">Em dia</span>';
+    const v=r.premio_anual?`R$ ${r.premio_anual.toLocaleString('pt-BR')}`:'-';
+    const rdata=JSON.stringify({id:r.id,cliente_nome:r.cliente_nome,tipo_seguro:r.tipo_seguro,vencimento:r.vencimento});
+    if(isMobile()){
+      return`<div style="background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:12px;margin-bottom:8px;border-left:3px solid var(--${dot==='red'?'danger':dot==='yellow'?'warning':'success'})"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="priority-dot ${dot}"></div><strong style="font-size:13px">${esc(r.cliente_nome)}</strong></div><div style="font-size:12px;color:var(--muted)">${esc(r.tipo_seguro||'—')} · ${esc(r.seguradora||'—')} · 📅 ${r.vencimento||'—'} · ${v}</div><button class="btn btn-sm btn-ghost" style="margin-top:8px;width:100%" onclick='openTaskFromRen(${rdata})'>📋 Criar Tarefa</button></div>`;
+    }
+    return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div><strong>${esc(r.cliente_nome)}</strong></div></td><td>${esc(r.tipo_seguro||'—')}</td><td>${r.vencimento||'—'}</td><td class="col-financeiro">${v}</td><td>${bg}</td><td><button class="btn btn-sm btn-ghost" title="Criar tarefa" onclick='openTaskFromRen(${rdata})'>📋</button></td></tr>`;
+  });
+  el.innerHTML=isMobile()?`<div>${rows.join('')}</div>`:`<table class="data-table"><thead><tr><th>Cliente</th><th>Seguro</th><th>Vencimento</th><th class="col-financeiro">Prêmio</th><th>Status</th><th></th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+}
+function rAgendaEmails(){
+  const el=document.getElementById('agenda-emails');if(!el)return;
+  const emails=_myEmails().slice(0,10);
+  if(!emails.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:12px 0">✓ Nenhum email pendente nas suas caixas.</div>';return;}
+  el.innerHTML=`<table class="data-table"><thead><tr><th>Assunto</th><th>De</th><th>Conta</th><th>Data</th><th></th></tr></thead><tbody>`+emails.map(e=>{const dot=e.priority==='🔴'?'red':e.priority==='🟡'?'yellow':'green';return`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="priority-dot ${dot}"></div>${esc(e.subject||'(sem assunto)')}</div></td><td style="font-size:12px">${esc(e.from_name||e.from_addr||'—')}</td><td style="font-size:12px">${esc(e.account||'—')}</td><td style="font-size:12px">${fmtEmailDate(e.date_str||e.logged_at)}</td><td><button class="btn btn-sm btn-ghost" onclick="showEmailModal(${_e.indexOf(e)})">Ver</button></td></tr>`;}).join('')+'</tbody></table>'+(emails.length>=10?`<div style="font-size:12px;color:var(--muted);padding:8px 0">Mostrando 10 de ${_myEmails().length}. <a onclick="go('emails')" style="cursor:pointer;color:var(--brand)">Ver todos →</a></div>`:'');
+}
+function rAgendaTasks(){
+  const el=document.getElementById('agenda-tasks');if(!el)return;
+  const myT=_myTasks();
+  const today=new Date().toISOString().slice(0,10);
+  const pend=myT.filter(t=>!t.done).sort((a,b)=>{const pa={alta:0,media:1,baixa:2}[a.priority]||1,pb={alta:0,media:1,baixa:2}[b.priority]||1;return pa!==pb?pa-pb:(a.due_date||'9999')>(b.due_date||'9999')?1:-1;});
+  const done=myT.filter(t=>t.done).slice(0,5);
+  const priIcon={alta:'🔴',media:'🟡',baixa:'🟢'};
+  const typeIcon={renovacao:'♻️',cotacao:'📋',email:'✉️',manual:'📝'};
+  const renderTask=(t,isDone)=>{
+    const overdue=!isDone&&t.due_date&&t.due_date<today;
+    const dateStr=t.due_date?new Date(t.due_date+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}):'';
+    return`<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:white;border-radius:var(--r-sm);box-shadow:var(--sh-sm);margin-bottom:6px;${isDone?'opacity:.5':''}border-left:3px solid ${overdue?'var(--danger)':isDone?'var(--success)':'var(--border)'}"><input type="checkbox" ${isDone?'checked':''} onchange="toggleTask('${t.id}')" style="width:16px;height:16px;cursor:pointer;flex-shrink:0"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;${isDone?'text-decoration:line-through':''};">${typeIcon[t.type]||'📝'} ${esc(t.title)}</div>${t.client||dateStr?`<div style="font-size:11px;color:var(--muted)">${t.client?esc(t.client):''}${t.client&&dateStr?' · ':' '}${dateStr?'📅 '+dateStr:''}${overdue?' <span style="color:var(--danger);font-weight:700">ATRASADA</span>':''}</div>`:''}</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span style="font-size:14px">${priIcon[t.priority]||'🟡'}</span>${!isDone?`<button class="btn btn-ghost btn-sm" onclick="openTaskModal('${t.id}')">✏️</button>`:''}<button class="btn btn-ghost btn-sm" onclick="deleteTask('${t.id}')" style="color:var(--muted)">🗑️</button></div></div>`;
+  };
+  el.innerHTML=(pend.length?pend.map(t=>renderTask(t,false)).join(''):'<div style="color:var(--muted);font-size:13px;padding:12px 0">✓ Nenhuma tarefa pendente!</div>')+(done.length?'<div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px">Concluídas</div>'+done.map(t=>renderTask(t,true)).join(''):'');
+}
+function openTaskModal(id){
+  document.getElementById('task-modal-title').textContent=id?'Editar Tarefa':'Nova Tarefa';
+  document.getElementById('task-id').value=id||'';
+  if(id){const t=_tasks.find(x=>x.id===id);if(t){document.getElementById('task-title').value=t.title||'';document.getElementById('task-client').value=t.client||'';document.getElementById('task-due').value=t.due_date||'';document.getElementById('task-priority').value=t.priority||'media';document.getElementById('task-type').value=t.type||'manual';document.getElementById('task-note').value=t.note||'';}}
+  else{document.getElementById('task-title').value='';document.getElementById('task-client').value='';document.getElementById('task-due').value=new Date().toISOString().slice(0,10);document.getElementById('task-priority').value='media';document.getElementById('task-type').value='manual';document.getElementById('task-note').value='';}
+  document.getElementById('task-modal').style.display='flex';document.body.style.overflow='hidden';
+}
+function openTaskFromRen(r){
+  openTaskModal();
+  document.getElementById('task-title').value='Contatar '+r.cliente_nome+' — '+r.tipo_seguro;
+  document.getElementById('task-client').value=r.cliente_nome||'';
+  document.getElementById('task-due').value=r.vencimento?r.vencimento.split('/').reverse().join('-'):new Date().toISOString().slice(0,10);
+  document.getElementById('task-priority').value='alta';document.getElementById('task-type').value='renovacao';
+}
+function closeTaskModal(){document.getElementById('task-modal').style.display='none';document.body.style.overflow='';}
+async function saveTask(){
+  const id=document.getElementById('task-id').value;
+  const title=document.getElementById('task-title').value.trim();
+  if(!title){alert('Informe o título');return;}
+  const task={id:id||crypto.randomUUID(),user:CURRENT_USER?.username||'',type:document.getElementById('task-type').value,title,client:document.getElementById('task-client').value.trim(),due_date:document.getElementById('task-due').value,priority:document.getElementById('task-priority').value,done:false,done_at:null,created_at:new Date().toISOString(),note:document.getElementById('task-note').value.trim()};
+  if(id){const idx=_tasks.findIndex(t=>t.id===id);if(idx>=0){task.done=_tasks[idx].done;task.done_at=_tasks[idx].done_at;_tasks[idx]=task;}}else{_tasks.push(task);}
+  closeTaskModal();rAgendaTasks();rAgendaCards();await syncTasks();
+}
+async function toggleTask(id){const t=_tasks.find(x=>x.id===id);if(!t)return;t.done=!t.done;t.done_at=t.done?new Date().toISOString():null;rAgendaTasks();rAgendaCards();await syncTasks();}
+async function deleteTask(id){if(!confirm('Excluir esta tarefa?'))return;_tasks=_tasks.filter(t=>t.id!==id);rAgendaTasks();rAgendaCards();await syncTasks();}
+async function syncTasks(){
+  if(!_ghToken)await loadConfig();if(!_ghToken)return;
+  try{
+    const r=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/data/tasks.json`,{headers:{Authorization:`Bearer ${_ghToken}`,Accept:'application/vnd.github+json'}});
+    const meta=await r.json();const sha=meta.sha||'';
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify({tasks:_tasks,updated_at:new Date().toISOString()},null,2))));
+    await fetch(`https://api.github.com/repos/${GH_REPO}/contents/data/tasks.json`,{method:'PUT',headers:{Authorization:`Bearer ${_ghToken}`,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({message:'tasks: atualiza',content,sha})});
+  }catch{}
+}
+
 function emp(m){return`<div class="empty"><div class="empty-icon">📭</div><p>${m}</p></div>`;}
 function chip(c){if(!c)return;c.closest('.filter-row')?.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');}
 
@@ -2249,11 +2486,17 @@ function openUserModal(editIdx = -1) {
     document.getElementById('u-username').value = u.username || '';
     document.getElementById('u-role').value = u.role || 'operador';
     document.getElementById('u-pwd').value = '';
+    document.getElementById('u-responsavel').value = u.responsavel_key || '';
+    document.getElementById('u-email-accounts').value = Array.isArray(u.email_accounts)?u.email_accounts.join(','):(u.email_accounts||'');
+    document.getElementById('u-whatsapp').value = u.whatsapp || '';
   } else {
     document.getElementById('u-name').value = '';
     document.getElementById('u-username').value = '';
     document.getElementById('u-role').value = 'operador';
     document.getElementById('u-pwd').value = '';
+    document.getElementById('u-responsavel').value = '';
+    document.getElementById('u-email-accounts').value = '';
+    document.getElementById('u-whatsapp').value = '';
   }
   document.getElementById('user-modal').style.display = 'flex';
 }
@@ -2278,7 +2521,13 @@ async function saveUser() {
   let hash = idx >= 0 ? _users[idx].hash : '';
   if(pwd) hash = await sha256(pwd);
 
-  const user = { username: uname, hash, role, name };
+  const user = {
+    username: uname, hash, role, name,
+    email: document.getElementById('u-email-accounts').value.split(',')[0]?.trim()+'@newbseguros.com.br'||'',
+    responsavel_key: document.getElementById('u-responsavel').value.trim(),
+    email_accounts: document.getElementById('u-email-accounts').value.split(',').map(s=>s.trim()).filter(Boolean),
+    whatsapp: document.getElementById('u-whatsapp').value.trim(),
+  };
 
   if(idx >= 0) {
     _users[idx] = user;
